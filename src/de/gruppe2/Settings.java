@@ -1,4 +1,4 @@
-package de.gruppe2
+package de.gruppe2;
 
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
