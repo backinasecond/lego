@@ -1,3 +1,5 @@
-.classpath
+/bin
 .project
-bin/
+.classpath
+*.nxj
+*.nxd

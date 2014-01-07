@@ -1,4 +1,4 @@
-package Barcode;
+package de.gruppe2.barcode;
 
 import lejos.nxt.LightSensor;
 import lejos.nxt.SensorPort;
