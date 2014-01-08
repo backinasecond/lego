@@ -10,7 +10,7 @@ import de.gruppe2.Settings;
 public class LineFollowMain {
 
 	static DifferentialPilot pilot = Settings.PILOT;
-	static LightSensor light = Settings.LIGHT;
+	static LightSensor light = Settings.LIGHT_SENSOR;
 
 	/**
 	 * @param args
@@ -43,7 +43,7 @@ public class LineFollowMain {
 		double speed = pilot.getMaxTravelSpeed() * Settings.tapeFollowSpeed;
 		pilot.setTravelSpeed(speed);
 		// pilot.setTravelSpeed(pilot.getMaxTravelSpeed() * 0.4);
-		pilot.setRotateSpeed(pilot.getRotateMaxSpeed());
+		pilot.setRotateSpeed(pilot.getRotateMaxSpeed() * Settings.tapeRotateSpeed);
 
 //		Settings.motorAAngle = 0;
 

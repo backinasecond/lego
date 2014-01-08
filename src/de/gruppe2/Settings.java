@@ -116,7 +116,9 @@ public class Settings {
 	public static boolean parkCompleted = false;
 	public static boolean bluetooth = false;
 	public static boolean atStartOfTurntable = true;
-
-	public final static double tapeFollowSpeed = 0.15;*/
+	*/
+	
+	public final static double tapeFollowSpeed = 0.20;
+	public final static double tapeRotateSpeed = 0.25;
 
 }
