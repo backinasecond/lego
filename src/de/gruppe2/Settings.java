@@ -40,18 +40,18 @@ public class Settings {
 	/**
 	 * Defining ports for sensors.
 	 */
-	public final static SensorPort SONIC_SENSOR_PORT = SensorPort.S1;
+	public final static SensorPort SONIC_SENSOR_PORT = SensorPort.S3;
 	public final static SensorPort LIGHT_SENSOR_PORT = SensorPort.S2;
-	public final static SensorPort TOUCH_R_SENSOR_PORT = SensorPort.S3;
-	public final static SensorPort TOUCH_L_SENSOR_PORT = SensorPort.S4;
+	public final static SensorPort TOUCH_R_SENSOR_PORT = SensorPort.S4;
+	//public final static SensorPort TOUCH_L_SENSOR_PORT = SensorPort.S4;
 
 	/**
 	 * Initialization of sensors.
 	 */
-	public static final UltrasonicSensor SONIC = new UltrasonicSensor(SONIC_SENSOR_PORT);
-	public static final LightSensor LIGHT = new LightSensor(LIGHT_SENSOR_PORT);
+	public static final UltrasonicSensor SONIC_SENSOR = new UltrasonicSensor(SONIC_SENSOR_PORT);
+	public static final LightSensor LIGHT_SENSOR = new LightSensor(LIGHT_SENSOR_PORT);
 	public static final TouchSensor TOUCH_R = new TouchSensor(TOUCH_R_SENSOR_PORT);
-	public static final TouchSensor TOUCH_L = new TouchSensor(TOUCH_L_SENSOR_PORT);
+	//public static final TouchSensor TOUCH_L = new TouchSensor(TOUCH_L_SENSOR_PORT);
 
 	/**
 	 * Different angle settings.
@@ -62,6 +62,7 @@ public class Settings {
 	/**
 	 * Miscellaneous.
 	 */
+	/*
 	public static boolean atStartOfMaze = true;
 	public static boolean endOfMaze = false;
 	public static boolean inSwamp = false;
@@ -73,31 +74,35 @@ public class Settings {
 	public static boolean colorFound = false;
 	public static boolean reachedBridge = false;
 	public static boolean motorStalled = false;
-	public static boolean readState = true;
+	public static boolean readState = true;*/
 
 	/**
 	 * boolean if in obstacle found mode
 	 */
-	public static boolean obstacle = false;
+	/*public static boolean obstacle = false;
 	public static boolean gap = false;
 	public static boolean beforeWhip = true;
-	public static boolean afterWhip = false;
+	public static boolean afterWhip = false;*/
 
 	/**
 	 * Saved light sensor settings with sample settings
 	 */
-	public static int light_black = 300;
+	public static int LIGHT_BLACK_DEFAULT = 385;
+	public static int LIGHT_LINE_DEFAULT = 650;
+	public static int LIGHT_BRIDGE_DEFAULT = 434;	
+	/*public static int light_black = 300;
 	public static int light_bridge = 434;
 	public static int light_line = 500;
 	public static int light_yellow = 480;
 	public static int light_red = 460;
 	public static int light_green = 415;
 	public static int searchedColor;
-	public static int color1;
+	public static int color1;*/
 
 	/**
 	 * Relative light percents.
 	 */
+	/*
 	public final static int light_bridge_rel = 66;
 	public final static int light_yellow_rel = 90;
 	public final static int light_red_rel = 80;
@@ -112,6 +117,6 @@ public class Settings {
 	public static boolean bluetooth = false;
 	public static boolean atStartOfTurntable = true;
 
-	public final static double tapeFollowSpeed = 0.15;
+	public final static double tapeFollowSpeed = 0.15;*/
 
 }
