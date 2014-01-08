@@ -2,6 +2,7 @@ package de.gruppe2;
 
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
+import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.TouchSensor;
 import lejos.nxt.UltrasonicSensor;
@@ -29,10 +30,12 @@ public class Settings {
 	 */
 	public final static double DRIVE_SPEED = 40;
 	public final static double ROTATION_SPEED = 40;
-	public final static double TRACK_WIDTH = 120;
+	public final static double TRACK_WIDTH = 140;
 	public final static double WHEEL_WIDTH = 56;
+	public final static NXTRegulatedMotor MOTOR_LEFT = Motor.C;
+	public final static NXTRegulatedMotor MOTOR_RIGHT = Motor.A;
 
-	public static DifferentialPilot PILOT = new DifferentialPilot(WHEEL_WIDTH, TRACK_WIDTH, Motor.C, Motor.A);
+	public static DifferentialPilot PILOT = new DifferentialPilot(WHEEL_WIDTH, TRACK_WIDTH, MOTOR_LEFT, MOTOR_RIGHT);
 
 	/**
 	 * Defining ports for sensors.
