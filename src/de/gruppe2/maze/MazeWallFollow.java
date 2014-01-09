@@ -53,11 +53,11 @@ public class MazeWallFollow implements Behavior {
 			} else if (lastDistance <= distanceToWall) {
 				pilot.steer(-20, -20, true);
 			} else if (lastDistance > distanceToWall && lastDistance < 40) {
-				pilot.steer(6, 5, true);
+				pilot.steer(8, 5, true);
 			} else if (lastDistance >= 40) { 
 				pilot.stop();
 				pilot.travel(100, false);
-	            pilot.rotate(40, true);
+	            pilot.rotate(50, true);
 	            while( pilot.isMoving() && !suppressed );
 			} else {
 				pilot.steer(-8, -8, true);
