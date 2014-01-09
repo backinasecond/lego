@@ -1,5 +1,6 @@
 package de.gruppe2;
 
+import de.gruppe2.motor.AllWheelPilot;
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
@@ -31,11 +32,11 @@ public class Settings {
 	public final static double DRIVE_SPEED = 40;
 	public final static double ROTATION_SPEED = 40;
 	public final static double TRACK_WIDTH = 140;
-	public final static double WHEEL_WIDTH = 56;
+	public final static double WHEEL_DIAMETER = 56;
 	public final static NXTRegulatedMotor MOTOR_LEFT = Motor.C;
 	public final static NXTRegulatedMotor MOTOR_RIGHT = Motor.A;
 
-	public static DifferentialPilot PILOT = new DifferentialPilot(WHEEL_WIDTH, TRACK_WIDTH, MOTOR_LEFT, MOTOR_RIGHT);
+	public static AllWheelPilot PILOT = new AllWheelPilot(WHEEL_DIAMETER, TRACK_WIDTH, MOTOR_LEFT, MOTOR_RIGHT);
 
 	/**
 	 * Defining ports for sensors.
