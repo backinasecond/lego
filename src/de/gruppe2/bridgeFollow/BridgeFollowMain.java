@@ -1,4 +1,4 @@
-package de.gruppe2.maze;
+package de.gruppe2.bridgeFollow;
 
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;
@@ -6,28 +6,27 @@ import lejos.robotics.subsumption.Arbitrator;
 import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.Settings;
 
-public class MazeSolverMain implements ButtonListener {
+public class BridgeFollowMain implements ButtonListener {
 
 
-        public MazeSolverMain() {
+        public BridgeFollowMain() {
                 Button.ESCAPE.addButtonListener(this);
         }
 
         public static void main(String[] args) throws Exception {
-                new MazeSolverMain();
+                new BridgeFollowMain();
                 
                 
                 // MAZE
                 Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
                 Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
                 
-                Behavior b1 = new MazeWallHit();
-                Behavior b2 = new MazeWallFollow(10);
                 
-                Behavior[] bArray = { b2, b1 };
+                
+//                Behavior[] bArray = { b2, b1 };
 
-                Arbitrator arbitrator = new Arbitrator(bArray);                
-                arbitrator.start();
+//                Arbitrator arbitrator = new Arbitrator(bArray);                
+//                arbitrator.start();
         }
 
         @Override

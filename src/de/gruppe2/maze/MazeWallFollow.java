@@ -31,8 +31,7 @@ public class MazeWallFollow implements Behavior {
 	 */
 	@Override
 	public boolean takeControl() {
-		// return (!Settings.atStartOfMaze);
-		return true;
+		 return Settings.atStartOfMaze;
 	}
 
 	/**
@@ -50,16 +49,15 @@ public class MazeWallFollow implements Behavior {
 			lastDistance = sonic.getDistance();
 
 			if (lastDistance < 7) {
-				pilot.rotate(-8, true);
-			} else if (lastDistance < distanceToWall) {
-				pilot.steer(-1, -2, true);
+				pilot.steer(-20, -20, true);
+			} else if (lastDistance <= distanceToWall) {
+				pilot.steer(-20, -20, true);
 			} else if (lastDistance > distanceToWall && lastDistance < 40) {
-				pilot.steer(5, 5, true);
+				pilot.steer(8, 5, true);
 			} else if (lastDistance >= 40) { 
 				pilot.stop();
-//				pilot.steer(5, 10, false);
-				pilot.travel(80); // TODO change to left curve
-	            pilot.rotate(40);
+				pilot.travel(100, false);
+	            pilot.rotate(50, true);
 	            while( pilot.isMoving() && !suppressed );
 			} else {
 				pilot.steer(-8, -8, true);
