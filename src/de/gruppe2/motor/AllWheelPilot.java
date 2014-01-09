@@ -20,7 +20,7 @@ public class AllWheelPilot extends DifferentialPilot {
 		this.leftMotor.setSpeed(20);
 		this.rightMotor.setSpeed(20);
 		
-		super.rotate(angle * 2.0);
+		super.rotate(angle * 1.5);
 		/*if (angle > 0) {
 			super.rotate(angle * 2.4);
 		} else {
