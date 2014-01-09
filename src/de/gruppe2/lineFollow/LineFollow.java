@@ -1,47 +1,27 @@
 package de.gruppe2.lineFollow;
 
-import de.gruppe2.Settings;
 import lejos.nxt.LightSensor;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.subsumption.Behavior;
 import lejos.util.Delay;
+import de.gruppe2.Settings;
 
 public class LineFollow implements Behavior {
 
 	static DifferentialPilot pilot = Settings.PILOT;
-	static LightSensor light = Settings.LIGHT;
+	static LightSensor light = Settings.LIGHT_SENSOR;
 
 	private boolean suppressed = false;
 
 	/**
 	 * Light threshold.
 	 */
-	static final int blackWhiteThreshold = 500;
+	static final int blackWhiteThreshold = 450;
 
 	/**
 	 * Thread sleep time.
 	 */
 	static final int sleep = 10;
-
-	/**
-	 * Number of steps before making turn steeper.
-	 */
-	static final int out = 150;
-
-	/**
-	 * Number of steps.
-	 */
-	private static int i = 0;
-
-	/**
-	 * Number of consecutive left turns.
-	 */
-	private static int l = 0;
-
-	/**
-	 * Number of consecutive right turns.
-	 */
-	private static int r = 0;
 
 	/**
 	 * Turn rate.
@@ -65,78 +45,58 @@ public class LineFollow implements Behavior {
 		boolean startAngleCount = false;
 
 		while (!suppressed) {
-			System.out.println(light.getNormalizedLightValue());
 			if (light.getNormalizedLightValue() > blackWhiteThreshold) {
 				// On white, turn right
-				System.out.println("right ");
+				
 				pilot.steer(-tr, -10, true);
 				rotateLeft = true;
 				rotateRight = true;
 				startAngleCount = false;
 			} else if(rotateLeft){
+				// On black, turn left
 				if(!startAngleCount) {
+					pilot.travel(50, false);
 					startAngleCount = true;
+					pilot.rotate(170, true);
 					rotatedAngle = pilot.getAngleIncrement();
 				}
-				// On black, turn left
-				 System.out.println("left ");
-				pilot.steer(tr, 10, true);
-				
-				if (getDifferenceAngle(pilot.getAngleIncrement()) > 90) {
-					pilot.rotate(-90);
+						
+				if (getDifferenceAngle(rotatedAngle) > 160) {
+					pilot.rotate(-160);
+					startAngleCount = false;
 					rotateLeft = false;
 				}
 			} else if(rotateRight) {
 				if(!startAngleCount) {
 					startAngleCount = true;
+					pilot.rotate(-170, true);
 					rotatedAngle = pilot.getAngleIncrement();
 				}
 				// Nothing found left for 90 degrees and still on black, turn right
-				 System.out.println("right ");
-				pilot.steer(-tr, -10, true);
 				
-				if (getDifferenceAngle(pilot.getAngleIncrement()) > 90) {
-					pilot.rotate(90);
+				if (getDifferenceAngle(rotatedAngle) > 160) {
+					pilot.rotate(160);
 					rotateRight = false;
 				}
 			} else {
 				// Nothing found left or right. Drive straight on.
-//				if(movementIncrement)
-//				pilot.forward();
-//				if(pilot.)
+				
+				if(movementIncrement < 0) {
+					movementIncrement = pilot.getMovementIncrement();
+				}
+				pilot.forward();
+				if(pilot.getMovementIncrement() - movementIncrement > 100) {
+					// Line has ended. Exit.
+					System.exit(0);
+				}
 			}
-			
-			
-//			// between out and 2 * out
-//			if (i > out && i <= 2 * out) {
-//				// last out turns were in same direction
-//				if (r > out || l > out) {
-//					// make turn steeper
-//					tr = 120;
-//				}
-//			} else if (i > 2 * out) { // more than 2 * out
-//				if (r > 2 * out || l > 2 * out) {
-//
-//					// travel back until line found
-//					// TODO
-//					pilot.rotate(180);
-//					pilot.travel(25);
-//				}
-//				// Set values to defaults.
-//				i = 0;
-//				l = 0;
-//				r = 0;
-//				tr = 90;
-//			}
-			i++;
 			Delay.msDelay(sleep);
 		}
 		pilot.stop();
 	}
 	
 	private int getDifferenceAngle(float currentRotatedAngle) {
-//		return (int) pilot.getAngleIncrement() - currentRotatedAngle;
-		return 0;
+		return (int) Math.abs((int) pilot.getAngleIncrement() - currentRotatedAngle);
 	}
 
 	@Override

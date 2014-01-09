@@ -43,16 +43,16 @@ public class Settings {
 	 */
 	public final static SensorPort SONIC_SENSOR_PORT = SensorPort.S3;
 	public final static SensorPort LIGHT_SENSOR_PORT = SensorPort.S2;
-	public final static SensorPort TOUCH_R_SENSOR_PORT = SensorPort.S4;
-	//public final static SensorPort TOUCH_L_SENSOR_PORT = SensorPort.S4;
+	public final static SensorPort TOUCH_L_SENSOR_PORT = SensorPort.S4;
+	//public final static SensorPort TOUCH_R_SENSOR_PORT = SensorPort.S4;
 
 	/**
 	 * Initialization of sensors.
 	 */
 	public static final UltrasonicSensor SONIC_SENSOR = new UltrasonicSensor(SONIC_SENSOR_PORT);
 	public static final LightSensor LIGHT_SENSOR = new LightSensor(LIGHT_SENSOR_PORT);
-	public static final TouchSensor TOUCH_R = new TouchSensor(TOUCH_R_SENSOR_PORT);
-	//public static final TouchSensor TOUCH_L = new TouchSensor(TOUCH_L_SENSOR_PORT);
+	public static final TouchSensor TOUCH_L = new TouchSensor(TOUCH_L_SENSOR_PORT);
+	//public static final TouchSensor TOUCH_R = new TouchSensor(TOUCH_R_SENSOR_PORT);
 
 	/**
 	 * Different angle settings.
@@ -63,19 +63,19 @@ public class Settings {
 	/**
 	 * Miscellaneous.
 	 */
-	/*
+	
 	public static boolean atStartOfMaze = true;
-	public static boolean endOfMaze = false;
-	public static boolean inSwamp = false;
-	public static boolean afterSwamp = false;
-	public static boolean fromLeft;
-	public static boolean inFirstRow = true;
-	public static boolean atStart = true;
-	public static boolean onColors = false;;
-	public static boolean colorFound = false;
-	public static boolean reachedBridge = false;
-	public static boolean motorStalled = false;
-	public static boolean readState = true;*/
+//	public static boolean endOfMaze = false;
+//	public static boolean inSwamp = false;
+//	public static boolean afterSwamp = false;
+//	public static boolean fromLeft;
+//	public static boolean inFirstRow = true;
+//	public static boolean atStart = true;
+//	public static boolean onColors = false;;
+//	public static boolean colorFound = false;
+//	public static boolean reachedBridge = false;
+//	public static boolean motorStalled = false;
+	public static boolean readState = true;
 
 	/**
 	 * boolean if in obstacle found mode
@@ -117,7 +117,9 @@ public class Settings {
 	public static boolean parkCompleted = false;
 	public static boolean bluetooth = false;
 	public static boolean atStartOfTurntable = true;
-
-	public final static double tapeFollowSpeed = 0.15;*/
+	*/
+	
+	public final static double tapeFollowSpeed = 0.20;
+	public final static double tapeRotateSpeed = 0.25;
 
 }
