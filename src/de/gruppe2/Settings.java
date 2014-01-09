@@ -63,8 +63,7 @@ public class Settings {
 	/**
 	 * Miscellaneous.
 	 */
-	
-	public static boolean atStartOfMaze = true;
+	public static boolean atStartOfMaze = true; // TODO should be set by barcode reader?
 //	public static boolean endOfMaze = false;
 //	public static boolean inSwamp = false;
 //	public static boolean afterSwamp = false;
