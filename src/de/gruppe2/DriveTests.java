@@ -13,33 +13,34 @@ import lejos.robotics.objectdetection.FeatureDetector;
 import lejos.robotics.objectdetection.FeatureListener;
 import lejos.robotics.objectdetection.RangeFeatureDetector;
 
-public class Vehicle implements FeatureListener, MoveListener {
+public class DriveTests implements FeatureListener, MoveListener {
 
-	DifferentialPilot pilot;
+	static DifferentialPilot pilot;
 	int MAX_DETECT = 10;
 
-	public void start() {
-		System.out.println("Starting Rage!");
+	public static void main(String[] args) {
+		System.out.println("Starting Wrath!");
 
 		pilot = Settings.PILOT;
 
-		pilot.setRotateSpeed(45);
-		pilot.rotateLeft();
-		while (Button.ENTER.isUp()) {
-			if (Button.LEFT.isDown()) {
-				System.out.println("l " + pilot.getAngleIncrement());
-				break;
-			}
-		}
-		pilot.setRotateSpeed(45);
-		pilot.rotateRight();
-		while (Button.ENTER.isUp()) {
-			if (Button.RIGHT.isDown()) {
-				System.out.println("r " + pilot.getAngleIncrement());
-				break;
-			}
-		}
-		pilot.stop();
+		pilot.setRotateSpeed(60);
+//		pilot.rotateLeft();
+		pilot.rotate(180);
+//		while (Button.ENTER.isUp()) {
+//			if (Button.LEFT.isDown()) {
+//				System.out.println("l " + pilot.getAngleIncrement());
+//				break;
+//			}
+//		}
+//		pilot.setRotateSpeed(45);
+//		pilot.rotateRight();
+//		while (Button.ENTER.isUp()) {
+//			if (Button.RIGHT.isDown()) {
+//				System.out.println("r " + pilot.getAngleIncrement());
+//				break;
+//			}
+//		}
+//		pilot.stop();
 		Button.waitForAnyPress();
 		// pilot.addMoveListener(this);
 
