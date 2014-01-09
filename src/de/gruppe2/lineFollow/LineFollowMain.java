@@ -17,28 +17,35 @@ public class LineFollowMain {
 	 */
 	public static void main(String[] args) {
 		Button.ENTER.waitForPressAndRelease();
+		
         int lights[] = new int[300];
 
         for (int j = 0; j < lights.length; j++) {
                 Settings.PILOT.travel(1, true);
                 lights[j] = light.getNormalizedLightValue();
         }
+        
         java.util.Arrays.sort(lights);
+        
         int min = 0;
         int max = 100;
         int tempSum = 0;
+        
         for (int j = 0; j < 10; j++) {
                 tempSum += lights[j];
         }
+        
         min = tempSum / 10;
         tempSum = 0;
+        
         for (int j = lights.length - 10; j < lights.length; j++) {
                 tempSum += lights[j];
         }
+        
         max = tempSum / 10;
         System.out.println("min: " + min + ", max: " + max);
         light.setLow(min);
-        light.setHigh(max);
+		light.setHigh(max);
 
 		double speed = pilot.getMaxTravelSpeed() * Settings.tapeFollowSpeed;
 		pilot.setTravelSpeed(speed);
@@ -51,8 +58,7 @@ public class LineFollowMain {
 
 		Behavior[] tapeFollowArray = { t1 };
 
-		Arbitrator lineFollowArbitrator = new Arbitrator(
-				tapeFollowArray);
+		Arbitrator lineFollowArbitrator = new Arbitrator(tapeFollowArray);
 		lineFollowArbitrator.start();
 	}
 
