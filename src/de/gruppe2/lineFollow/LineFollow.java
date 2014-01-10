@@ -57,25 +57,25 @@ public class LineFollow implements Behavior {
 				if(!startAngleCount) {
 					pilot.travel(50, false);
 					startAngleCount = true;
-					pilot.rotate(170, true);
+					pilot.rotate(80, true);
 					rotatedAngle = pilot.getAngleIncrement();
 				}
 						
 				if (getDifferenceAngle(rotatedAngle) > 160) {
-					pilot.rotate(-160);
+					pilot.rotate(-90);
 					startAngleCount = false;
 					rotateLeft = false;
 				}
 			} else if(rotateRight) {
 				if(!startAngleCount) {
 					startAngleCount = true;
-					pilot.rotate(-170, true);
+					pilot.rotate(-85, true);
 					rotatedAngle = pilot.getAngleIncrement();
 				}
 				// Nothing found left for 90 degrees and still on black, turn right
 				
 				if (getDifferenceAngle(rotatedAngle) > 160) {
-					pilot.rotate(160);
+					pilot.rotate(80);
 					rotateRight = false;
 				}
 			} else {
