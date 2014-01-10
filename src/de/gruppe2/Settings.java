@@ -73,7 +73,7 @@ public class Settings {
 //	public static boolean atStart = true;
 //	public static boolean onColors = false;;
 //	public static boolean colorFound = false;
-//	public static boolean reachedBridge = false;
+	public static boolean reachedBridge = true; // TODO should be set
 //	public static boolean motorStalled = false;
 	public static boolean readState = true;
 
