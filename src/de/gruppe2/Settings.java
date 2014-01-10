@@ -13,6 +13,10 @@ import lejos.robotics.navigation.DifferentialPilot;
  * This class is responsible for all the settings needed to run the robot.
  */
 public class Settings {
+	
+	public enum BridgeState { START, FOLLOW_LINE };
+	
+	public static BridgeState bridgeState = BridgeState.START;
 
 	/**
 	 * ArbitratorManager to change arbitrators depending on the current level.
@@ -122,4 +126,5 @@ public class Settings {
 	public final static double tapeFollowSpeed = 0.20;
 	public final static double tapeRotateSpeed = 0.25;
 
+	public final static int bridgeHeightThreshold = 18;
 }
