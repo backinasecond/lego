@@ -35,6 +35,7 @@ public class Settings {
 	public final static double WHEEL_DIAMETER = 56;
 	public final static NXTRegulatedMotor MOTOR_LEFT = Motor.C;
 	public final static NXTRegulatedMotor MOTOR_RIGHT = Motor.A;
+	public final static NXTRegulatedMotor MOTOR_SONIC = Motor.B;
 
 	public static AllWheelPilot PILOT = new AllWheelPilot(WHEEL_DIAMETER, TRACK_WIDTH, MOTOR_LEFT, MOTOR_RIGHT);
 
@@ -72,7 +73,7 @@ public class Settings {
 //	public static boolean atStart = true;
 //	public static boolean onColors = false;;
 //	public static boolean colorFound = false;
-//	public static boolean reachedBridge = false;
+	public static boolean reachedBridge = true; // TODO should be set
 //	public static boolean motorStalled = false;
 	public static boolean readState = true;
 
