@@ -1,7 +1,8 @@
-package de.gruppe2.motor;
+package de.gruppe2.tests;
 
 import lejos.nxt.Button;
 import de.gruppe2.Settings;
+import de.gruppe2.motor.AllWheelPilot;
 
 public class MovementTest {
 
