@@ -22,7 +22,7 @@ public class MazeSolverMain implements ButtonListener {
                 Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
                 
                 Behavior b1 = new MazeWallHit();
-                Behavior b2 = new MazeWallFollow(13);
+                Behavior b2 = new MazeWallFollow(9);
                 
                 Behavior[] bArray = { b2, b1 };
 

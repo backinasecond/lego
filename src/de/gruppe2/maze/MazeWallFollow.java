@@ -1,5 +1,6 @@
 package de.gruppe2.maze;
 
+import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.UltrasonicSensor;
 import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.CalibrateSonic;
@@ -10,11 +11,13 @@ public class MazeWallFollow implements Behavior {
 
 	private boolean suppressed = false;
 
-	private UltrasonicSensor sonic;
-	private AllWheelPilot pilot;
+	private final UltrasonicSensor sonic;
+	private final AllWheelPilot pilot;
+	private final NXTRegulatedMotor MOTOR_SONIC = Settings.MOTOR_SONIC;
 
 	private int distanceToWall;
 	private int curDisIdx = 0;
+	private int sonicTachoCount;
 	private int[] lastDistances = new int[5];
 
 	/**
@@ -28,6 +31,8 @@ public class MazeWallFollow implements Behavior {
 		pilot = Settings.PILOT;
 		sonic = Settings.SONIC_SENSOR;
 		CalibrateSonic.calibrateHorizontally();
+		sonicTachoCount = MOTOR_SONIC.getTachoCount();
+		MOTOR_SONIC.flt();
 	}
 
 	/**
@@ -46,37 +51,28 @@ public class MazeWallFollow implements Behavior {
 	public void action() {
 		suppressed = false;
 
-		for (int i = 0; i < lastDistances.length; i++) {
-			lastDistances[i] = sonic.getDistance();
-		}
-
-//		boolean isScratchingAtWall = false;
-
 		while (!suppressed && !Settings.TOUCH_L.isPressed()) {
-
 			lastDistances[curDisIdx] = sonic.getDistance();
-//			isScratchingAtWall = isScratchingWall();
 
-			if (lastDistances[curDisIdx] == 255) {
-				// pilot.rotate(-30, false);
-//				pilot.steer(-90, -45, true);
-				pilot.rotate(-45, true);
+			if (lastDistances[curDisIdx] == 255 || Math.abs(MOTOR_SONIC.getTachoCount() - sonicTachoCount) > 0) {
+				pilot.rotate(-35, true);
+				MOTOR_SONIC.rotateTo(0, true);
 			} else if (lastDistances[curDisIdx] < 7) {
-				pilot.steer(-100, -30, true);
+				pilot.steer(-90, -15, true);
 			} else if (lastDistances[curDisIdx] <= distanceToWall) {
-				pilot.steer(-100, -10, true);
-			} else if (lastDistances[curDisIdx] > distanceToWall && lastDistances[curDisIdx] < 40) {
-				pilot.steer(30, 10, true);
-			} else if (lastDistances[curDisIdx] >= 40) {
+				pilot.steer(-20, -10, true);
+			} else if (lastDistances[curDisIdx] > distanceToWall && lastDistances[curDisIdx] < 35) {
+				pilot.steer(20, 15, true);
+			} else if (lastDistances[curDisIdx] >= 35) {
 				pilot.stop();
 				// pilot.travel(100, false);
 				// pilot.rotate(60, true);
-				pilot.steer(60, 90, true);
+				pilot.steer(70, 90, true);
 				while (pilot.isMoving() && !suppressed)
 					;
-//				if ()
 			}
 			curDisIdx = (curDisIdx + 1) % lastDistances.length;
+			sonicTachoCount = MOTOR_SONIC.getTachoCount();
 		}
 		pilot.stop();
 	}
