@@ -13,7 +13,7 @@ public class CalibrateSonic {
 	public static void calibrateHorizontally()
 	{
 		rotateSensorUntilBlocked();
-		Settings.MOTOR_SONIC.rotate(-120, true);
+		Settings.MOTOR_SONIC.rotate(-140, true);
 	}
 	
 	/**
@@ -22,7 +22,7 @@ public class CalibrateSonic {
 	public static void calibrateVertically()
 	{
 		rotateSensorUntilBlocked();
-		Settings.MOTOR_SONIC.rotate(-50, true);
+		Settings.MOTOR_SONIC.rotate(-80, true);
 	}
 	
 	/**
@@ -31,17 +31,18 @@ public class CalibrateSonic {
 	public static void rotateSensorUntilBlocked()
 	{
 		int speed = Settings.MOTOR_SONIC.getSpeed();
-		Settings.MOTOR_SONIC.setSpeed(20);
+		Settings.MOTOR_SONIC.setSpeed(40);
 		Settings.MOTOR_SONIC.rotate(200, true);
 		int lastTachoCount = Settings.MOTOR_SONIC.getTachoCount();
 		
 		Delay.msDelay(200);
 		while(Math.abs(lastTachoCount - Settings.MOTOR_SONIC.getTachoCount()) > 3)
 		{
+			System.out.println("rotate");
 			lastTachoCount = Settings.MOTOR_SONIC.getTachoCount();
 			Delay.msDelay(200);
 		}
-		
+		System.out.println("done");
 		Settings.MOTOR_SONIC.stop();
 		Settings.MOTOR_SONIC.setSpeed(speed);
 	}
