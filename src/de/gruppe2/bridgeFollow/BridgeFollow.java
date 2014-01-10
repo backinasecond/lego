@@ -35,7 +35,7 @@ public class BridgeFollow implements Behavior {
 				pilot.steer(-50, -4, true);
 			} else {
 				// Robot is too far away from ground
-				pilot.steer(18, 4, true);
+				pilot.steer(25, 3, true);
 			}
 
 			Thread.yield();
