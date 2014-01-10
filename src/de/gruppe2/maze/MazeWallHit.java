@@ -39,8 +39,8 @@ public class MazeWallHit implements Behavior {
             Settings.readState = true;
 //            Settings.atStartOfMaze = false;
             
-            pilot.travel(-80);
-            pilot.rotate(-90);
+            pilot.travel(-90);
+            pilot.rotate(-80);
             while( pilot.isMoving() && !suppressed );
             pilot.stop();
     }

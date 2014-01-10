@@ -14,8 +14,8 @@ public class MazeWallFollow implements Behavior {
 	private AllWheelPilot pilot;
 
 	private int distanceToWall;
-	private int lastDistanceIndex = 4;
-	private int[] lastDistances = new int[lastDistanceIndex + 1];
+	private int curDisIdx = 0;
+	private int[] lastDistances = new int[5];
 
 	/**
 	 * Constructs a new MazeWallFollow Behavior.
@@ -27,6 +27,7 @@ public class MazeWallFollow implements Behavior {
 		distanceToWall = distance;
 		pilot = Settings.PILOT;
 		sonic = Settings.SONIC_SENSOR;
+		CalibrateSonic.calibrateHorizontally();
 	}
 
 	/**
@@ -43,50 +44,63 @@ public class MazeWallFollow implements Behavior {
 	 */
 	@Override
 	public void action() {
-		CalibrateSonic.calibrateHorizontally();
 		suppressed = false;
 
 		for (int i = 0; i < lastDistances.length; i++) {
 			lastDistances[i] = sonic.getDistance();
 		}
 
-		boolean isDrivingToWall = false;
-		boolean isScratchingAtWall = false;
+//		boolean isScratchingAtWall = false;
 
 		while (!suppressed && !Settings.TOUCH_L.isPressed()) {
-			System.out.println("- " + lastDistances[0] + " " + lastDistances[1]
-					+ " " + lastDistances[2] + " " + lastDistances[3] + " "
-					+ lastDistances[4] + " " + "\n");
 
-			addElement(sonic.getDistance());
+			lastDistances[curDisIdx] = sonic.getDistance();
+//			isScratchingAtWall = isScratchingWall();
 
-			isDrivingToWall = isDrivingToWall();
-			isScratchingAtWall = isScratchingAtWall();
-
-			if (isScratchingAtWall) {
-				pilot.rotate(-10, false);
-				pilot.travel(10, true);
-			} else {
-				if (lastDistances[lastDistanceIndex] < 6) {
-					pilot.steer(-10, -10, true);
-				} else if (lastDistances[lastDistanceIndex] <= distanceToWall) {
-					pilot.steer(-10, -10, true);
-				} else if (lastDistances[lastDistanceIndex] > distanceToWall
-						&& lastDistances[lastDistanceIndex] < 40) {
-					if (isDrivingToWall) {
-						pilot.steer(-20, -20, true);
-					} else {
-						pilot.steer(10, 10, true);
-					}
-				} else if (lastDistances[lastDistanceIndex] >= 40) {
-					pilot.stop();
-					pilot.travel(100, false);
-					pilot.rotate(45, true);
-					while (pilot.isMoving() && !suppressed);
-				}
+			if (lastDistances[curDisIdx] == 255) {
+				// pilot.rotate(-30, false);
+//				pilot.steer(-90, -45, true);
+				pilot.rotate(-45, true);
+			} else if (lastDistances[curDisIdx] < 7) {
+				pilot.steer(-100, -30, true);
+			} else if (lastDistances[curDisIdx] <= distanceToWall) {
+				pilot.steer(-100, -10, true);
+			} else if (lastDistances[curDisIdx] > distanceToWall && lastDistances[curDisIdx] < 40) {
+				pilot.steer(30, 10, true);
+			} else if (lastDistances[curDisIdx] >= 40) {
+				pilot.stop();
+				// pilot.travel(100, false);
+				// pilot.rotate(60, true);
+				pilot.steer(60, 90, true);
+				while (pilot.isMoving() && !suppressed)
+					;
+//				if ()
 			}
+			curDisIdx = (curDisIdx + 1) % lastDistances.length;
 		}
 		pilot.stop();
+	}
+
+	private boolean isScratchingWall() {
+		boolean scratchingAtWall = false;
+		int cnt = 0;
+		int i = 0;
+		int k = (curDisIdx + 1) % lastDistances.length;
+		while (i < lastDistances.length) {
+
+			if (lastDistances[k] == 255) {
+				scratchingAtWall = true;
+				if (cnt == 0) {
+					cnt = lastDistances.length - 1 - i;
+				} else {
+					cnt--;
+				}
+			}
+
+			k = (k + 1) % lastDistances.length;
+			i++;
+		}
+		return scratchingAtWall && (cnt > 0);
 	}
 
 	/**
@@ -95,43 +109,5 @@ public class MazeWallFollow implements Behavior {
 	@Override
 	public void suppress() {
 		suppressed = true;
-	}
-
-	private boolean isDrivingToWall() {
-		int j = 0;
-		for (int i = 0; i < lastDistances.length - 1; i++) {
-			if (lastDistances[i] > lastDistances[i + 1]) {
-				j++;
-			} else if (lastDistances[i] < lastDistances[i + 1]) {
-				j--;
-			}
-		}
-		return (j > 0);
-	}
-
-	private void addElement(int distance) {
-		
-		for (int i = 0; i < lastDistances.length - 1; i++) {
-			lastDistances[i] = lastDistances[i + 1];
-		}
-		lastDistances[lastDistances.length - 1] = distance;
-	}
-
-	private boolean isScratchingAtWall() {
-		boolean scratchingAtWall = false;
-		int cnt = 0;
-		
-		for (int i = 0; i < lastDistances.length; i++) {
-			if (lastDistances[i] == 255) {
-				scratchingAtWall = true;
-				if (cnt == 0) {
-					cnt = lastDistances.length - 1 - i;
-				} else {
-					cnt--;
-				}
-			}
-		}
-		
-		return (scratchingAtWall && (cnt > 0));
 	}
 }
