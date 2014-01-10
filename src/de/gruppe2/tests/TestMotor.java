@@ -9,13 +9,13 @@ public class TestMotor {
 	{
 		System.out.println("Calibrate horizontal");
 		
+		CalibrateSonic.calibrateHorizontally();
 		
-		CalibrateSonic.calibrateVertically();
 		
 		while(Button.ENTER.isUp())
 			Thread.yield();
 		
-		CalibrateSonic.calibrateHorizontally();
+		CalibrateSonic.calibrateVertically();
 		while(Button.ENTER.isUp())
 			Thread.yield();
 	}

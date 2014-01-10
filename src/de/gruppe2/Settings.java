@@ -13,6 +13,10 @@ import lejos.nxt.UltrasonicSensor;
  * This class is responsible for all the settings needed to run the robot.
  */
 public class Settings {
+	
+	public enum BridgeState { START, FOLLOW_LINE, END };
+	
+	public static BridgeState bridgeState = BridgeState.START;
 
 	/**
 	 * ArbitratorManager to change arbitrators depending on the current level.
@@ -90,7 +94,7 @@ public class Settings {
 	/**
 	 * Saved light sensor settings with sample settings
 	 */
-	public static int LIGHT_BLACK_DEFAULT = 385;
+	public static int LIGHT_BLACK_DEFAULT = 350;
 	public static int LIGHT_LINE_DEFAULT = 650;
 	public static int LIGHT_BRIDGE_DEFAULT = 434;	
 	/*public static int light_black = 300;
@@ -126,4 +130,5 @@ public class Settings {
 	public final static double tapeFollowSpeed = 0.20;
 	public final static double tapeRotateSpeed = 0.25;
 
+	public final static int bridgeHeightThreshold = 18;
 }
