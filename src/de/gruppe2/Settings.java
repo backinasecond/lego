@@ -7,14 +7,13 @@ import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.TouchSensor;
 import lejos.nxt.UltrasonicSensor;
-import lejos.robotics.navigation.DifferentialPilot;
 
 /**
  * This class is responsible for all the settings needed to run the robot.
  */
 public class Settings {
 	
-	public enum BridgeState { START, FOLLOW_LINE };
+	public enum BridgeState { START, FOLLOW_LINE, END };
 	
 	public static BridgeState bridgeState = BridgeState.START;
 
@@ -92,7 +91,7 @@ public class Settings {
 	/**
 	 * Saved light sensor settings with sample settings
 	 */
-	public static int LIGHT_BLACK_DEFAULT = 385;
+	public static int LIGHT_BLACK_DEFAULT = 350;
 	public static int LIGHT_LINE_DEFAULT = 650;
 	public static int LIGHT_BRIDGE_DEFAULT = 434;	
 	/*public static int light_black = 300;

@@ -3,6 +3,7 @@ package de.gruppe2.bridgeFollow;
 import lejos.nxt.UltrasonicSensor;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.subsumption.Behavior;
+import lejos.util.Delay;
 import de.gruppe2.Settings;
 import de.gruppe2.Settings.BridgeState;
 
@@ -22,18 +23,19 @@ public class BridgeFollow implements Behavior {
 	public void action() {
 
 		suppressed = false;
+
 		Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed());
-        Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed());
+		
 		while (!suppressed) {
 			System.out.println(sonic.getDistance());
 
 			if(sonic.getDistance() > Settings.bridgeHeightThreshold)
 			{
 				// Robot is near ground
-				pilot.steer(-50, -3, true);
+				pilot.steer(-50, -4, true);
 			} else {
 				// Robot is too far away from ground
-				pilot.steer(50, 3, true);
+				pilot.steer(18, 4, true);
 			}
 
 			Thread.yield();

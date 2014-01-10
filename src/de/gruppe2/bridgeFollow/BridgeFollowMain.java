@@ -25,7 +25,8 @@ public class BridgeFollowMain implements ButtonListener {
                 
                 Behavior b1 = new BridgeFollow();
                 Behavior b2 = new BridgeStart();
-                Behavior[] behaviors = { b1, b2 };
+                Behavior b3 = new BridgeEnd();
+                Behavior[] behaviors = { b1, b2, b3 };
 
                 Arbitrator arbitrator = new Arbitrator(behaviors);                
                 arbitrator.start();
