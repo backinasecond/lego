@@ -8,9 +8,25 @@ public class AllWheelPilot extends DifferentialPilot {
 	private  RegulatedMotor leftMotor;
 	private  RegulatedMotor rightMotor;
 	
-	public AllWheelPilot(double wheelDiameter, double trackWidth,
-			RegulatedMotor leftMotor, RegulatedMotor rightMotor) {
+	public AllWheelPilot(final double wheelDiameter, final double trackWidth, final RegulatedMotor leftMotor,
+			final RegulatedMotor rightMotor) {
 		super(wheelDiameter, trackWidth, leftMotor, rightMotor);
+		
+		this.leftMotor = leftMotor;
+		this.rightMotor = rightMotor;
+	}
+
+	public AllWheelPilot(final double wheelDiameter, final double trackWidth, final RegulatedMotor leftMotor,
+			final RegulatedMotor rightMotor, final boolean reverse) {
+		super(wheelDiameter, trackWidth, leftMotor, rightMotor, reverse);
+		
+		this.leftMotor = leftMotor;
+		this.rightMotor = rightMotor;
+	}
+
+	public AllWheelPilot(double leftWheelDiameter, double rightWheelDiameter, double trackWidth,
+			RegulatedMotor leftMotor, RegulatedMotor rightMotor, boolean reverse) {
+		super(leftWheelDiameter, rightWheelDiameter, trackWidth, leftMotor, rightMotor, reverse);
 		
 		this.leftMotor = leftMotor;
 		this.rightMotor = rightMotor;
