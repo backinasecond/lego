@@ -1,16 +1,16 @@
 package de.gruppe2.maze;
 
 import lejos.nxt.TouchSensor;
-import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.Settings;
+import de.gruppe2.motor.AllWheelPilot;
 
 public class MazeWallHit implements Behavior {
 
     private boolean suppressed = false;
     
     private TouchSensor touch_r;
-    private DifferentialPilot pilot;
+    private AllWheelPilot pilot;
     
     
     /**
@@ -40,7 +40,7 @@ public class MazeWallHit implements Behavior {
 //            Settings.atStartOfMaze = false;
             
             pilot.travel(-80);
-            pilot.rotate(-120);
+            pilot.rotate(-90);
             while( pilot.isMoving() && !suppressed );
             pilot.stop();
     }
