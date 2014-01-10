@@ -110,6 +110,7 @@ public class MazeWallFollow implements Behavior {
 	}
 
 	private void addElement(int distance) {
+		
 		for (int i = 0; i < lastDistances.length - 1; i++) {
 			lastDistances[i] = lastDistances[i + 1];
 		}
@@ -119,15 +120,18 @@ public class MazeWallFollow implements Behavior {
 	private boolean isScratchingAtWall() {
 		boolean scratchingAtWall = false;
 		int cnt = 0;
-		for (int i = 0; i < lastDistances.length-1; i++) {
+		
+		for (int i = 0; i < lastDistances.length; i++) {
 			if (lastDistances[i] == 255) {
-				cnt++;
+				scratchingAtWall = true;
+				if (cnt == 0) {
+					cnt = lastDistances.length - 1 - i;
+				} else {
+					cnt--;
+				}
 			}
 		}
-		if (cnt > 0 && cnt < lastDistances.length) {
-			scratchingAtWall = true;
-		} 
-		return scratchingAtWall;
+		
+		return (scratchingAtWall && (cnt > 0));
 	}
-
 }
