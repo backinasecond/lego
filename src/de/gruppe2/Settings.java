@@ -1,6 +1,7 @@
 package de.gruppe2;
 
 import de.gruppe2.motor.AllWheelPilot;
+import de.gruppe2.race.ArbitratorManager;
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
@@ -20,8 +21,10 @@ public class Settings {
 	/**
 	 * ArbitratorManager to change arbitrators depending on the current level.
 	 */
-	/*public static ArbitratorManager arbiMgr;
-	public final static RobotState FIRST_LEVEL = RobotState.RACE;
+	public final static RobotState FIRST_LEVEL = RobotState.START;
+	public static ArbitratorManager arbiMgr;
+	public static boolean isRunning = false;
+	/*
 	// defines if the robot is being relocated
 	//public static boolean relocate = false;
 	public static boolean raceStarted = false;
@@ -119,8 +122,10 @@ public class Settings {
 	public static boolean afterSlider = false;
 	public static boolean parkCompleted = false;
 	public static boolean bluetooth = false;
-	public static boolean atStartOfTurntable = true;
-	*/
+	public static boolean atStartOfTurntable = true;*/
+	
+	public static boolean readCode = true;
+	
 	
 	public final static double tapeFollowSpeed = 0.20;
 	public final static double tapeRotateSpeed = 0.25;

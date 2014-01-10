@@ -13,7 +13,8 @@ public class CalibrateSonic {
 	public static void calibrateHorizontally()
 	{
 		rotateSensorUntilBlocked();
-		Settings.MOTOR_SONIC.rotate(-140, true);
+		Settings.MOTOR_SONIC.rotate(-145, false);
+		Settings.MOTOR_SONIC.resetTachoCount();
 	}
 	
 	/**
@@ -22,7 +23,8 @@ public class CalibrateSonic {
 	public static void calibrateVertically()
 	{
 		rotateSensorUntilBlocked();
-		Settings.MOTOR_SONIC.rotate(-80, true);
+		Settings.MOTOR_SONIC.rotate(-80, false);
+		Settings.MOTOR_SONIC.resetTachoCount();
 	}
 	
 	/**

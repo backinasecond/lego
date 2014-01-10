@@ -1,4 +1,4 @@
-package de.gruppe2.Tests;
+package de.gruppe2.tests;
 
 import de.gruppe2.Settings;
 import lejos.nxt.Button;
