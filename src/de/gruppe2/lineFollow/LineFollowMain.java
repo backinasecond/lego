@@ -47,10 +47,10 @@ public class LineFollowMain {
         light.setLow(min);
 		light.setHigh(max);
 
-		double speed = pilot.getMaxTravelSpeed() * Settings.tapeFollowSpeed;
+		double speed = pilot.getMaxTravelSpeed() * Settings.TAPE_FOLLOW_SPEED;
 		pilot.setTravelSpeed(speed);
 		// pilot.setTravelSpeed(pilot.getMaxTravelSpeed() * 0.4);
-		pilot.setRotateSpeed(pilot.getRotateMaxSpeed() * Settings.tapeRotateSpeed);
+		pilot.setRotateSpeed(pilot.getRotateMaxSpeed() * Settings.TAPE_ROTATE_SPEED);
 
 //		Settings.motorAAngle = 0;
 

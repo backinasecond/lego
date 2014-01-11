@@ -1,7 +1,7 @@
 package de.gruppe2.race;
 
-import de.gruppe2.CalibrateSonic;
 import de.gruppe2.Settings;
+import de.gruppe2.util.CalibrateSonic;
 /**
  * This is the main class. It initializes stuff and starts the main arbitrator
  * 

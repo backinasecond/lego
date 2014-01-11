@@ -1,6 +1,6 @@
 package de.gruppe2.tests;
 
-import de.gruppe2.CalibrateSonic;
+import de.gruppe2.util.CalibrateSonic;
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
 

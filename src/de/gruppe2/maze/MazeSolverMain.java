@@ -5,6 +5,7 @@ import lejos.nxt.ButtonListener;
 import lejos.robotics.subsumption.Arbitrator;
 import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.Settings;
+import de.gruppe2.util.LightDetectionBehaviour;
 
 public class MazeSolverMain implements ButtonListener {
 
@@ -21,10 +22,11 @@ public class MazeSolverMain implements ButtonListener {
                 Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
                 Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
                 
-                Behavior b1 = new MazeWallHit();
-                Behavior b2 = new MazeWallFollow(9);
+                Behavior wallHit = new MazeWallHitBehaviour();
+                Behavior wallFollow = new MazeWallFollowBehaviour();
+                Behavior lineDetection = new LightDetectionBehaviour(Settings.LIGHT_LINE_DEFAULT);
                 
-                Behavior[] bArray = { b2, b1 };
+                Behavior[] bArray = { wallFollow, wallHit, lineDetection };
 
                 Arbitrator arbitrator = new Arbitrator(bArray);                
                 arbitrator.start();

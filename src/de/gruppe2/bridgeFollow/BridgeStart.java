@@ -22,7 +22,7 @@ public class BridgeStart implements Behavior {
 		suppressed = false;
 		
 		while (!suppressed) {
-			if(sonic.getDistance() > Settings.bridgeHeightThreshold)
+			if(sonic.getDistance() > Settings.BRIDGE_HEIGHT_THRESHOLD)
 			{
 				// Robot is near ground
 				pilot.steer(-160, -30, false);

@@ -31,7 +31,7 @@ public class BridgeFollow implements Behavior {
 			System.out.println(sonic.getDistance());
 			RConsole.println("" + sonic.getDistance());
 
-			if(sonic.getDistance() > Settings.bridgeHeightThreshold)
+			if(sonic.getDistance() > Settings.BRIDGE_HEIGHT_THRESHOLD)
 			{
 				// Robot is near ground
 				pilot.steer(-50, -4, true);

@@ -1,5 +1,6 @@
-package de.gruppe2;
+package de.gruppe2.util;
 
+import de.gruppe2.Settings;
 import lejos.util.Delay;
 
 /**
