@@ -29,13 +29,14 @@ public class LightDetectionBehaviour implements Behavior {
 		
 		switch (wantedLightValue) {
 		case Settings.LIGHT_LINE_DEFAULT:
+			System.out.println("Section finished!");
 			Settings.ARBITRATOR_MANAGER.changeState(RobotState.BARCODE);
 		}
 	}
 
 	@Override
 	public void suppress() {
-		// TODO Auto-generated method stub
+		// There is nothing to suppress
 	}
 
 }

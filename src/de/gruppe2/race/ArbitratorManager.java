@@ -10,6 +10,7 @@ import de.gruppe2.bridgeFollow.BridgeFollow;
 import de.gruppe2.bridgeFollow.BridgeStart;
 import de.gruppe2.maze.MazeWallFollowBehaviour;
 import de.gruppe2.maze.MazeWallHitBehaviour;
+import de.gruppe2.util.CalibrateSonic;
 import de.gruppe2.util.LightDetectionBehaviour;
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
@@ -110,12 +111,11 @@ public class ArbitratorManager {
 	public void changeState(RobotState state) {
 		if (state == null) {
 			System.out.println("null state was passed");
-
 			return;
 		}
 		
 		System.out.println(state.toString() + " mode selected");
-
+		
 		switch (state) {
 		case START:
 			System.out.println("Race start.");

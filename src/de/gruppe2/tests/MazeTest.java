@@ -20,10 +20,6 @@ public class MazeTest implements ButtonListener {
                 new MazeTest();
                 Settings.AT_MAZE = true;
                 
-                // MAZE
-                Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
-                Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
-                
                 Behavior wallHit = new MazeWallHitBehaviour();
                 Behavior wallFollow = new MazeWallFollowBehaviour();
                 Behavior lineDetection = new LightDetectionBehaviour(Settings.LIGHT_LINE_DEFAULT);
