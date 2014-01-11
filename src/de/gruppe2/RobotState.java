@@ -7,7 +7,7 @@ public enum RobotState {
 	// TODO: Add additional states, when needed
 	START,
 	RELOCATE,
-	READ_CODE,
+	BARCODE,
 	MAZE,
 	BRIDGE,
 	//END_OPPONENT,

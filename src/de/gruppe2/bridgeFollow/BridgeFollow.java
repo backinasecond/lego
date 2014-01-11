@@ -17,7 +17,7 @@ public class BridgeFollow implements Behavior {
 
 	@Override
 	public boolean takeControl() {
-		return Settings.bridgeState == BridgeState.FOLLOW_LINE;
+		return Settings.BRIDGE_STATE == BridgeState.FOLLOW_LINE;
 	}
 
 	@Override

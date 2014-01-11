@@ -1,22 +1,23 @@
-package de.gruppe2.maze;
+package de.gruppe2.tests;
 
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;
 import lejos.robotics.subsumption.Arbitrator;
 import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.Settings;
+import de.gruppe2.maze.MazeWallFollowBehaviour;
+import de.gruppe2.maze.MazeWallHitBehaviour;
 import de.gruppe2.util.LightDetectionBehaviour;
 
-public class MazeSolverMain implements ButtonListener {
+public class MazeTest implements ButtonListener {
 
 
-        public MazeSolverMain() {
+        public MazeTest() {
                 Button.ESCAPE.addButtonListener(this);
         }
 
         public static void main(String[] args) throws Exception {
-                new MazeSolverMain();
-                
+                new MazeTest();
                 
                 // MAZE
                 Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);

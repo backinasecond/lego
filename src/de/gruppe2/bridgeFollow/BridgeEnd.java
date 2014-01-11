@@ -11,7 +11,7 @@ public class BridgeEnd implements Behavior{
 		int lightValue = Settings.LIGHT_SENSOR.getNormalizedLightValue();
 		if(lightValue < Settings.LIGHT_BLACK_DEFAULT)
 		{
-			Settings.bridgeState = BridgeState.END;
+			Settings.BRIDGE_STATE = BridgeState.END;
 			System.out.println("Value Black: " + lightValue);
 			return true;
 		}

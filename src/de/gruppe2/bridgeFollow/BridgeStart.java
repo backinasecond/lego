@@ -14,7 +14,7 @@ public class BridgeStart implements Behavior {
 
 	@Override
 	public boolean takeControl() {
-		return Settings.bridgeState == BridgeState.START;
+		return Settings.BRIDGE_STATE == BridgeState.START;
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class BridgeStart implements Behavior {
 			{
 				// Robot is near ground
 				pilot.steer(-160, -30, false);
-				Settings.bridgeState = BridgeState.FOLLOW_LINE;
+				Settings.BRIDGE_STATE = BridgeState.FOLLOW_LINE;
 				break;
 			} else {
 				// Robot is too far away from ground

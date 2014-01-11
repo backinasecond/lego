@@ -16,13 +16,13 @@ public class Settings {
 	
 	public enum BridgeState { START, FOLLOW_LINE, END };
 	
-	public static BridgeState bridgeState = BridgeState.START;
+	public static BridgeState BRIDGE_STATE = BridgeState.START;
 
 	/**
 	 * ArbitratorManager to change arbitrators depending on the current level.
 	 */
 	public final static RobotState FIRST_LEVEL = RobotState.START;
-	public static ArbitratorManager arbiMgr;
+	public final static ArbitratorManager ARBITRATOR_MANAGER = new ArbitratorManager();
 	public static boolean isRunning = false;
 	/*
 	// defines if the robot is being relocated
@@ -70,7 +70,7 @@ public class Settings {
 	/**
 	 * Miscellaneous.
 	 */
-	public static boolean atStartOfMaze = true; // TODO should be set by barcode reader?
+	public static boolean AT_MAZE = true;
 //	public static boolean endOfMaze = false;
 //	public static boolean inSwamp = false;
 //	public static boolean afterSwamp = false;
@@ -79,7 +79,7 @@ public class Settings {
 //	public static boolean atStart = true;
 //	public static boolean onColors = false;;
 //	public static boolean colorFound = false;
-	public static boolean reachedBridge = true; // TODO should be set
+	public static boolean reachedBridge = true;
 //	public static boolean motorStalled = false;
 	public static boolean readState = true;
 
@@ -94,9 +94,9 @@ public class Settings {
 	/**
 	 * Saved light sensor settings with sample settings
 	 */
-	public static int LIGHT_BLACK_DEFAULT = 350;
-	public static int LIGHT_LINE_DEFAULT = 650;
-	public static int LIGHT_BRIDGE_DEFAULT = 434;	
+	public final static int LIGHT_BLACK_DEFAULT = 350;
+	public final static int LIGHT_LINE_DEFAULT = 650;
+	public final static int LIGHT_BRIDGE_DEFAULT = 434;	
 	/*public static int light_black = 300;
 	public static int light_bridge = 434;
 	public static int light_line = 500;

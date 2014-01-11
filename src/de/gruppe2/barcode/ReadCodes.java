@@ -90,7 +90,7 @@ public class ReadCodes implements Behavior {
 
 		switch (lineCount) {
 		case 13:
-			Settings.arbiMgr.changeState(RobotState.MAZE);
+			Settings.ARBITRATOR_MANAGER.changeState(RobotState.MAZE);
 			break;
 
 		default:
