@@ -22,7 +22,7 @@ public class Settings {
 	 * ArbitratorManager to change arbitrators depending on the current level.
 	 */
 	public final static RobotState FIRST_LEVEL = RobotState.START;
-	public final static ArbitratorManager ARBITRATOR_MANAGER = new ArbitratorManager();
+	public static ArbitratorManager ARBITRATOR_MANAGER;
 	public static boolean isRunning = false;
 	/*
 	// defines if the robot is being relocated
@@ -48,8 +48,8 @@ public class Settings {
 	/**
 	 * Defining ports for sensors.
 	 */
-	public final static SensorPort SONIC_SENSOR_PORT = SensorPort.S3;
 	public final static SensorPort LIGHT_SENSOR_PORT = SensorPort.S2;
+	public final static SensorPort SONIC_SENSOR_PORT = SensorPort.S3;
 	public final static SensorPort TOUCH_L_SENSOR_PORT = SensorPort.S4;
 	//public final static SensorPort TOUCH_R_SENSOR_PORT = SensorPort.S4;
 
