@@ -143,6 +143,7 @@ public class ArbitratorManager {
 		case MAZE:
 			System.out.println("Solve Maze");
 			Settings.AT_MAZE = true;
+			CalibrateSonic.calibrateHorizontally();
 			this.arbitrator = new Arbitrator(MAZE_SOLVER_BEHAVIOURS);
 			break;
 /*

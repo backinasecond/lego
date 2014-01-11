@@ -3,7 +3,6 @@ package de.gruppe2.maze;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.Settings;
-import de.gruppe2.util.CalibrateSonic;
 
 public class MazeWallFollowBehaviour implements Behavior {
 
@@ -38,7 +37,6 @@ public class MazeWallFollowBehaviour implements Behavior {
 	 */
 	@Override
 	public void action() {
-		CalibrateSonic.calibrateHorizontally();
 		sonicTachoCount = MOTOR_SONIC.getTachoCount();
 		MOTOR_SONIC.flt();
 
