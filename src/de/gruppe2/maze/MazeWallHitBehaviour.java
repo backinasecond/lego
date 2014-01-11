@@ -5,20 +5,14 @@ import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.Settings;
 import de.gruppe2.motor.AllWheelPilot;
 
-public class MazeWallHit implements Behavior {
+public class MazeWallHitBehaviour implements Behavior {
 
-    private boolean suppressed = false;
-    
-    private TouchSensor touch_r;
-    private AllWheelPilot pilot;
-    
+    private boolean suppressed = false;    
     
     /**
      * Constructs a new HitWall Behavior
      */
-    public MazeWallHit() {
-            touch_r = Settings.TOUCH_L;
-            pilot = Settings.PILOT;
+    public MazeWallHitBehaviour() {
     }
     
     /**
@@ -26,7 +20,7 @@ public class MazeWallHit implements Behavior {
      */
     @Override
     public boolean takeControl() {
-            return (touch_r.isPressed());
+            return (Settings.TOUCH_L.isPressed());
     }
 
     /**
@@ -39,10 +33,10 @@ public class MazeWallHit implements Behavior {
             Settings.readState = true;
 //            Settings.atStartOfMaze = false;
             
-            pilot.travel(-90);
-            pilot.rotate(-80);
-            while( pilot.isMoving() && !suppressed );
-            pilot.stop();
+            Settings.PILOT.travel(-90);
+            Settings.PILOT.rotate(-80);
+            while( Settings.PILOT.isMoving() && !suppressed );
+            Settings.PILOT.stop();
     }
 
     /**

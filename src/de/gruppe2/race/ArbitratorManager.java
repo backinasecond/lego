@@ -8,6 +8,9 @@ import de.gruppe2.barcode.ReadCodes;
 import de.gruppe2.bridgeFollow.BridgeEnd;
 import de.gruppe2.bridgeFollow.BridgeFollow;
 import de.gruppe2.bridgeFollow.BridgeStart;
+import de.gruppe2.maze.MazeWallFollowBehaviour;
+import de.gruppe2.maze.MazeWallHitBehaviour;
+import de.gruppe2.util.LightDetectionBehaviour;
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
 import lejos.robotics.subsumption.Arbitrator;
@@ -22,9 +25,9 @@ public class ArbitratorManager {
 	/**
 	 * Read barcode behavior (also at start)
 	 */
-	private Behavior s1 = new DriveForward();
-	private Behavior s2 = new ReadCodes();
-	private Behavior[] readBarcodeBehavior = { s1, s2 };
+	private final static Behavior BARCODE_DRIVE_FORWARD = new DriveForward();
+	private final static Behavior BARCODE_READ_CODE = new ReadCodes();
+	private final static Behavior[] BARDCODE_READ_BEHAVIOURS = { BARCODE_DRIVE_FORWARD, BARCODE_READ_CODE };
 
 	/**
 	 * Bridge behavior.
@@ -47,15 +50,10 @@ public class ArbitratorManager {
 	/**
 	 * Maze behavior.
 	 */
-	/*
-	 * private Behavior m1 = new DriveForward();
-	 * private Behavior m2 = new FollowWall(12);
-	 * private Behavior m3 = new BeginMaze();
-	 * private Behavior m4 = new HitWall();
-	 * private Behavior m9 = new ReadCodes();
-	 * private Behavior m5 = new SensorHeadPosition();
-	 * private Behavior[] mazeBehavior = { m1, m2, m3, m4, m9, m5 };
-	 */
+    private final static Behavior MAZE_WALL_FOLLOW = new MazeWallFollowBehaviour();
+	private final static Behavior MAZE_WALL_HIT = new MazeWallHitBehaviour();
+    private final static Behavior MAZE_LINE_DETECTION = new LightDetectionBehaviour(Settings.LIGHT_LINE_DEFAULT);
+    private final static Behavior[] MAZE_SOLVER_BEHAVIOURS = { MAZE_WALL_FOLLOW, MAZE_WALL_HIT, MAZE_LINE_DETECTION };
 
 	/**
 	 * Bluetooth Gate behavior.
@@ -132,7 +130,7 @@ public class ArbitratorManager {
 			Settings.PILOT.stop();
 			System.out.println("Race start.");
 
-			this.arbitrator = new Arbitrator(this.readBarcodeBehavior);
+			this.arbitrator = new Arbitrator(this.BARDCODE_READ_BEHAVIOURS);
 			break;
 		case RELOCATE:
 			Motor.A.removeListener();
@@ -141,7 +139,7 @@ public class ArbitratorManager {
 			Settings.PILOT.stop();
 			System.out.println("Relocating. Press ENTER to continue.");
 			Button.waitForAnyPress();
-			this.arbitrator = new Arbitrator(this.readBarcodeBehavior);
+			this.arbitrator = new Arbitrator(this.BARDCODE_READ_BEHAVIOURS);
 			break;
 		case BRIDGE:
 			Settings.bridgeState = BridgeState.START;
@@ -150,16 +148,12 @@ public class ArbitratorManager {
 
 			this.arbitrator = new Arbitrator(this.bridgeBehavior);
 			break;
-/*
 		case MAZE:
-			pilot.setTravelSpeed(pilot.getMaxTravelSpeed() / 0.5);
-			pilot.setRotateSpeed(pilot.getMaxRotateSpeed() / 4);
-			Motor.A.setSpeed(Motor.A.getMaxSpeed() / 5);
-			Settings.motorAAngle = Settings.SENSOR_RIGHT;
-			Motor.A.setStallThreshold(10, 1000);
-
-			this.arbitrator = new CustomArbitrator(this.mazeBehavior);
+			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
+            Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
+			this.arbitrator = new Arbitrator(this.MAZE_SOLVER_BEHAVIOURS);
 			break;
+/*
 		case BT_GATE:
 			pilot.setTravelSpeed(pilot.getMaxTravelSpeed() / 2);
 			pilot.setRotateSpeed(pilot.getMaxRotateSpeed() / 4);
