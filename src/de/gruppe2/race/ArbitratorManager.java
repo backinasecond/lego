@@ -2,8 +2,12 @@ package de.gruppe2.race;
 
 import de.gruppe2.RobotState;
 import de.gruppe2.Settings;
+import de.gruppe2.Settings.BridgeState;
 import de.gruppe2.barcode.DriveForward;
 import de.gruppe2.barcode.ReadCodes;
+import de.gruppe2.bridgeFollow.BridgeEnd;
+import de.gruppe2.bridgeFollow.BridgeFollow;
+import de.gruppe2.bridgeFollow.BridgeStart;
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
 import lejos.robotics.subsumption.Arbitrator;
@@ -35,6 +39,10 @@ public class ArbitratorManager {
 	 * private Behavior b6 = new SensorHeadPosition();
 	 * private Behavior[] bridgeBehavior = { b0, b1, b2, b3, b4, b5, b6 };
 	 */
+	private Behavior b0 = new BridgeStart();
+	private Behavior b1 = new BridgeFollow();
+	private Behavior b2 = new BridgeEnd();
+	private Behavior[] bridgeBehavior = { b0, b1, b2 };
 
 	/**
 	 * Maze behavior.
@@ -135,18 +143,14 @@ public class ArbitratorManager {
 			Button.waitForAnyPress();
 			this.arbitrator = new Arbitrator(this.readBarcodeBehavior);
 			break;
-/*
 		case BRIDGE:
-			Settings.readState = false;
-			Settings.LIGHT.setHigh(Settings.light_bridge);
-			Settings.LIGHT.setLow(Settings.light_black);
-			Motor.A.setSpeed(Motor.A.getMaxSpeed() / 5);
-			pilot.setRotateSpeed(pilot.getMaxRotateSpeed() / 5);
-			pilot.setTravelSpeed(30);
-			Settings.motorAAngle = Settings.SENSOR_RIGHT;
+			Settings.bridgeState = BridgeState.START;
+			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
+            Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
 
-			this.arbitrator = new CustomArbitrator(this.bridgeBehavior);
+			this.arbitrator = new Arbitrator(this.bridgeBehavior);
 			break;
+/*
 		case MAZE:
 			pilot.setTravelSpeed(pilot.getMaxTravelSpeed() / 0.5);
 			pilot.setRotateSpeed(pilot.getMaxRotateSpeed() / 4);

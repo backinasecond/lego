@@ -1,6 +1,7 @@
 package de.gruppe2.bridgeFollow;
 
 import lejos.nxt.UltrasonicSensor;
+import lejos.nxt.comm.RConsole;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.subsumption.Behavior;
 import lejos.util.Delay;
@@ -21,13 +22,14 @@ public class BridgeFollow implements Behavior {
 
 	@Override
 	public void action() {
-
 		suppressed = false;
-
+		
+		double speed = Settings.PILOT.getTravelSpeed();
 		Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed());
 		
 		while (!suppressed) {
 			System.out.println(sonic.getDistance());
+			RConsole.println("" + sonic.getDistance());
 
 			if(sonic.getDistance() > Settings.bridgeHeightThreshold)
 			{
@@ -40,12 +42,13 @@ public class BridgeFollow implements Behavior {
 
 			Thread.yield();
 		}
+		
+		Settings.PILOT.setTravelSpeed(speed);
 		pilot.stop();
 	}
 
 	@Override
 	public void suppress() {
 		suppressed = true;
-
 	}
 }

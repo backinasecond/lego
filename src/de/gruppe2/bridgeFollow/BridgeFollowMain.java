@@ -2,6 +2,7 @@ package de.gruppe2.bridgeFollow;
 
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;
+import lejos.nxt.comm.RConsole;
 import lejos.robotics.subsumption.Arbitrator;
 import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.CalibrateSonic;
@@ -15,21 +16,25 @@ public class BridgeFollowMain implements ButtonListener {
         }
 
         public static void main(String[] args) throws Exception {
-                new BridgeFollowMain();
-                CalibrateSonic.calibrateVertically();
-                
-                // Bridge
-                Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
-                Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
-                
-                
-                Behavior b1 = new BridgeFollow();
-                Behavior b2 = new BridgeStart();
-                Behavior b3 = new BridgeEnd();
-                Behavior[] behaviors = { b1, b2, b3 };
+        	//RConsole.open();
+        	
+            new BridgeFollowMain();
+            CalibrateSonic.calibrateVertically();
+            
+            // Bridge
+            Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
+            Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
+            
+            
+            Behavior b1 = new BridgeFollow();
+            Behavior b2 = new BridgeStart();
+            Behavior b3 = new BridgeEnd();
+            Behavior[] behaviors = { b1, b2, b3 };
 
-                Arbitrator arbitrator = new Arbitrator(behaviors);                
-                arbitrator.start();
+            Arbitrator arbitrator = new Arbitrator(behaviors);                
+            arbitrator.start();
+            
+            //RConsole.close();
         }
 
         @Override
