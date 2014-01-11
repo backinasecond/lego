@@ -50,23 +50,28 @@ public class MazeWallFollow implements Behavior {
 	@Override
 	public void action() {
 		suppressed = false;
-
+		
 		while (!suppressed && !Settings.TOUCH_L.isPressed()) {
 			lastDistances[curDisIdx] = sonic.getDistance();
 
-			if (lastDistances[curDisIdx] == 255 || Math.abs(MOTOR_SONIC.getTachoCount() - sonicTachoCount) > 0) {
-				pilot.rotate(-35, true);
+			if (Math.abs(sonicTachoCount - MOTOR_SONIC.getTachoCount()) > 1) {
+				System.out.println("SCRATCHING");
+				pilot.rotate(-30, true);
 				MOTOR_SONIC.rotateTo(0, true);
+				sonicTachoCount = MOTOR_SONIC.getTachoCount();
 			} else if (lastDistances[curDisIdx] < 7) {
 				pilot.steer(-90, -15, true);
 			} else if (lastDistances[curDisIdx] <= distanceToWall) {
 				pilot.steer(-20, -10, true);
 			} else if (lastDistances[curDisIdx] > distanceToWall && lastDistances[curDisIdx] < 35) {
 				pilot.steer(20, 15, true);
+				if (lastDistances[curDisIdx] < lastDistances[(curDisIdx + 1) % lastDistances.length]) {
+					System.out.println("TO WALL " + curDisIdx);
+					pilot.steer(-45, -30, true);
+				}
 			} else if (lastDistances[curDisIdx] >= 35) {
-				pilot.stop();
-				// pilot.travel(100, false);
-				// pilot.rotate(60, true);
+//				pilot.stop();
+				System.out.println("LEFT CURVE");
 				pilot.steer(70, 90, true);
 				while (pilot.isMoving() && !suppressed)
 					;
@@ -75,28 +80,6 @@ public class MazeWallFollow implements Behavior {
 			sonicTachoCount = MOTOR_SONIC.getTachoCount();
 		}
 		pilot.stop();
-	}
-
-	private boolean isScratchingWall() {
-		boolean scratchingAtWall = false;
-		int cnt = 0;
-		int i = 0;
-		int k = (curDisIdx + 1) % lastDistances.length;
-		while (i < lastDistances.length) {
-
-			if (lastDistances[k] == 255) {
-				scratchingAtWall = true;
-				if (cnt == 0) {
-					cnt = lastDistances.length - 1 - i;
-				} else {
-					cnt--;
-				}
-			}
-
-			k = (k + 1) % lastDistances.length;
-			i++;
-		}
-		return scratchingAtWall && (cnt > 0);
 	}
 
 	/**
