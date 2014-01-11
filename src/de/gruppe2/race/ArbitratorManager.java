@@ -1,6 +1,5 @@
 package de.gruppe2.race;
 
-import de.gruppe2.RobotState;
 import de.gruppe2.Settings;
 import de.gruppe2.Settings.BridgeState;
 import de.gruppe2.barcode.DriveForward;
@@ -130,12 +129,11 @@ public class ArbitratorManager {
 		case START:
 			System.out.println("Race start.");
 			Settings.PILOT.stop();
-			this.arbitrator = new Arbitrator(this.BARDCODE_READ_BEHAVIOURS);
+			changeState(RobotState.BARCODE);
 			break;
 		case BARCODE:
-			System.out.println("Read Barcode");
 			Settings.PILOT.stop();
-			this.arbitrator = new Arbitrator(this.BARDCODE_READ_BEHAVIOURS);
+			this.arbitrator = new Arbitrator(BARDCODE_READ_BEHAVIOURS);
 			break;
 		case RELOCATE:
 			Motor.A.removeListener();
@@ -144,7 +142,7 @@ public class ArbitratorManager {
 			Settings.PILOT.stop();
 			System.out.println("Relocating. Press ENTER to continue.");
 			Button.waitForAnyPress();
-			this.arbitrator = new Arbitrator(this.BARDCODE_READ_BEHAVIOURS);
+			changeState(RobotState.BARCODE);
 			break;
 		case BRIDGE:
 			System.out.println("Drive Bridge");
