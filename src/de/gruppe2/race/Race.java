@@ -17,8 +17,6 @@ public class Race {
 		// Set sonic sensor to correct position
 		CalibrateSonic.calibrateHorizontally();
 
-
-		Settings.arbiMgr = new ArbitratorManager();
-		Settings.arbiMgr.startManager();
+		Settings.ARBITRATOR_MANAGER.startManager();
 	}
 }

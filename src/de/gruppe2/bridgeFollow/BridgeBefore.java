@@ -9,7 +9,7 @@ public class BridgeBefore implements Behavior {
 
 	@Override
 	public boolean takeControl() {
-		return Settings.bridgeState == BridgeState.START;
+		return Settings.BRIDGE_STATE == BridgeState.START;
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class BridgeBefore implements Behavior {
 		if(Settings.LIGHT_SENSOR.getNormalizedLightValue() > Settings.LIGHT_BRIDGE_DEFAULT)
 		{
 			// We are on the bridge now
-			Settings.bridgeState = BridgeState.ON_BRIDGE;
+			Settings.BRIDGE_STATE = BridgeState.ON_BRIDGE;
 		}
 	}
 

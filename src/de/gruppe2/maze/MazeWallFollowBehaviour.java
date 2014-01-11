@@ -34,7 +34,7 @@ public class MazeWallFollowBehaviour implements Behavior {
 	 */
 	@Override
 	public boolean takeControl() {
-		return Settings.atStartOfMaze;
+		return Settings.AT_MAZE;
 	}
 
 	/**

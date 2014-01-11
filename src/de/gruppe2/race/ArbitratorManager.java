@@ -130,9 +130,13 @@ public class ArbitratorManager {
 
 		switch (state) {
 		case START:
-			Settings.PILOT.stop();
 			System.out.println("Race start.");
-
+			Settings.PILOT.stop();
+			this.arbitrator = new Arbitrator(this.BARDCODE_READ_BEHAVIOURS);
+			break;
+		case BARCODE:
+			System.out.println("Read Barcode");
+			Settings.PILOT.stop();
 			this.arbitrator = new Arbitrator(this.BARDCODE_READ_BEHAVIOURS);
 			break;
 		case RELOCATE:
@@ -145,7 +149,8 @@ public class ArbitratorManager {
 			this.arbitrator = new Arbitrator(this.BARDCODE_READ_BEHAVIOURS);
 			break;
 		case BRIDGE:
-			Settings.bridgeState = BridgeState.START;
+			System.out.println("Drive Bridge");
+			Settings.BRIDGE_STATE = BridgeState.START;
 			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
             Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
             CalibrateSonic.calibrateVertically();
@@ -153,6 +158,8 @@ public class ArbitratorManager {
 			this.arbitrator = new Arbitrator(this.bridgeBehavior);
 			break;
 		case MAZE:
+			System.out.println("Solve Maze");
+			Settings.AT_MAZE = true;
 			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
             Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
 			this.arbitrator = new Arbitrator(this.MAZE_SOLVER_BEHAVIOURS);

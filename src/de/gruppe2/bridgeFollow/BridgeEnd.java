@@ -8,13 +8,13 @@ public class BridgeEnd implements Behavior{
 
 	@Override
 	public boolean takeControl() {
-		if(Settings.bridgeState == BridgeState.START) return false;
+		if(Settings.BRIDGE_STATE == BridgeState.START) return false;
 		
 		int lightValue = Settings.LIGHT_SENSOR.getNormalizedLightValue();
 		if(lightValue < Settings.LIGHT_BLACK_DEFAULT)
 		{
-			Settings.bridgeState = BridgeState.END;
-			//System.out.println("Value Black: " + lightValue);
+			Settings.BRIDGE_STATE = BridgeState.END;
+
 			return true;
 		}
 		return false;
