@@ -17,6 +17,7 @@ public class CalibrateSonic {
 		rotateSensorUntilBlocked();
 		Settings.MOTOR_SONIC.rotate(-143, false);
 		Settings.MOTOR_SONIC.resetTachoCount();
+		
 	}
 	
 	/**

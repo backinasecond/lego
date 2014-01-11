@@ -34,21 +34,11 @@ public class ArbitratorManager {
 	/**
 	 * Bridge behavior.
 	 */
-	/*
-	 * private Behavior b0 = new DriveForward();
-	 * private Behavior b1 = new HitWallBeforeBridge();
-	 * private Behavior b2 = new DriveUntilAbyss();
-	 * private Behavior b3 = new AbyssDetected();
-	 * private Behavior b4 = new ReachedEndOfBridge();
-	 * private Behavior b5 = new ReadCodes();
-	 * private Behavior b6 = new SensorHeadPosition();
-	 * private Behavior[] bridgeBehavior = { b0, b1, b2, b3, b4, b5, b6 };
-	 */
-	private Behavior b0 = new BridgeBefore();
-	private Behavior b1 = new BridgeStart();
-	private Behavior b2 = new BridgeFollow();
-	private Behavior b3 = new LightDetectionBehaviour(Settings.LIGHT_BRIDGE_DEFAULT);
-	private Behavior[] bridgeBehavior = { b0, b1, b2, b3 };
+	private final static Behavior BRIDGE_BEFORE = new BridgeBefore();
+	private final static Behavior BRIDGE_START = new BridgeStart();
+	private final static Behavior BRIDGE_FOLLOW = new BridgeFollow();
+	private final static Behavior BRIDGE_END = new LightDetectionBehaviour(Settings.LIGHT_BRIDGE_DEFAULT);
+	private final static Behavior[] BRIDGE_BEHAVIOURS = { BRIDGE_START, BRIDGE_FOLLOW, BRIDGE_END, BRIDGE_BEFORE };
 
 	/**
 	 * Maze behavior.
@@ -133,12 +123,11 @@ public class ArbitratorManager {
 		case START:
 			System.out.println("Race start.");
 			Settings.PILOT.stop();
-			this.arbitrator = new Arbitrator(this.BARDCODE_READ_BEHAVIOURS);
+			changeState(RobotState.BARCODE);
 			break;
 		case BARCODE:
-			System.out.println("Read Barcode");
 			Settings.PILOT.stop();
-			this.arbitrator = new Arbitrator(this.BARDCODE_READ_BEHAVIOURS);
+			this.arbitrator = new Arbitrator(BARDCODE_READ_BEHAVIOURS);
 			break;
 		case RELOCATE:
 			Motor.A.removeListener();
@@ -147,23 +136,17 @@ public class ArbitratorManager {
 			Settings.PILOT.stop();
 			System.out.println("Relocating. Press ENTER to continue.");
 			Button.waitForAnyPress();
-			this.arbitrator = new Arbitrator(this.BARDCODE_READ_BEHAVIOURS);
+			changeState(RobotState.BARCODE);
 			break;
 		case BRIDGE:
 			System.out.println("Drive Bridge");
 			Settings.BRIDGE_STATE = BridgeState.START;
-			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
-            Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
-            CalibrateSonic.calibrateVertically();
-
-			this.arbitrator = new Arbitrator(this.bridgeBehavior);
+			this.arbitrator = new Arbitrator(BRIDGE_BEHAVIOURS);
 			break;
 		case MAZE:
 			System.out.println("Solve Maze");
 			Settings.AT_MAZE = true;
-			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
-            Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
-			this.arbitrator = new Arbitrator(this.MAZE_SOLVER_BEHAVIOURS);
+			this.arbitrator = new Arbitrator(MAZE_SOLVER_BEHAVIOURS);
 			break;
 /*
 		case BT_GATE:

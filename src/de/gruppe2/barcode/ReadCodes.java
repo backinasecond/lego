@@ -1,10 +1,9 @@
 package de.gruppe2.barcode;
 
+import lejos.nxt.LCD;
+import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.RobotState;
 import de.gruppe2.Settings;
-import lejos.nxt.LCD;
-import lejos.robotics.navigation.DifferentialPilot;
-import lejos.robotics.subsumption.Behavior;
 
 public class ReadCodes implements Behavior {
 
@@ -13,7 +12,7 @@ public class ReadCodes implements Behavior {
 	private boolean firstLineRecognized = false;
 
 	// Difference between color values of potential same colors
-	private final int COLOR_DIFFERENCE_THRESHOLD = 50;
+	private final int COLOR_DIFFERENCE_THRESHOLD = 60;
 
 	private boolean codeReadFinished = false;
 
@@ -38,18 +37,14 @@ public class ReadCodes implements Behavior {
 		LCD.clear();
 		System.out.println("Read Barcode");
 
+		Settings.PILOT.setTravelSpeed(20);
+		Settings.PILOT.forward();
+
 		boolean counting = true;
 		boolean onLine = false;
 		int lineCount = 0;
 
-		DifferentialPilot pilot = Settings.PILOT;
-		pilot.setTravelSpeed(20);
-		pilot.forward();
-
-		while (counting) {
-			while (!suppressed) {
-				Thread.yield();
-			}
+		while (!suppressed && counting) {
 
 			int lightValue = Settings.LIGHT_SENSOR.getNormalizedLightValue();
 
@@ -63,7 +58,7 @@ public class ReadCodes implements Behavior {
 				System.out.println("Linie: " + lineCount);
 
 				// Necessary for start a new movement and check it with getMovementIncrement()
-				pilot.forward();
+				Settings.PILOT.forward();
 			}
 			// Drive on foil until new line is detected or 10cm without a new
 			// line
@@ -74,11 +69,11 @@ public class ReadCodes implements Behavior {
 				System.out.println("Keine Linie");
 
 				// Necessary for start a new movement and check it with getMovementIncrement()
-				pilot.forward();
+				Settings.PILOT.forward();
 			}
 			// If at least one line was detected and it was not on line for
 			// 10 cm, stop reading
-			else if (lineCount != 0 && !onLine && pilot.getMovementIncrement() > 100) {
+			else if (lineCount != 0 && !onLine && Settings.PILOT.getMovementIncrement() > 100) {
 				LCD.clear();
 				System.out.println("CodeNumber: " + lineCount);
 				counting = false;
@@ -86,7 +81,7 @@ public class ReadCodes implements Behavior {
 		}
 
 		// Stop roboter after code was read. Next behavior must start it again
-		pilot.stop();
+		Settings.PILOT.stop();
 
 		switch (lineCount) {
 		case 13:
@@ -94,7 +89,7 @@ public class ReadCodes implements Behavior {
 			break;
 
 		default:
-			System.out.println("No codes read!");
+			System.out.println("No known code read!");
 			break;
 		}
 

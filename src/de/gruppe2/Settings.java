@@ -21,7 +21,7 @@ public class Settings {
 	/**
 	 * ArbitratorManager to change arbitrators depending on the current level.
 	 */
-	public final static RobotState FIRST_LEVEL = RobotState.START;
+	public final static RobotState FIRST_LEVEL = RobotState.BRIDGE;
 	public static ArbitratorManager ARBITRATOR_MANAGER;
 
 	public static boolean isRunning = false;
@@ -95,7 +95,7 @@ public class Settings {
 	/**
 	 * Saved light sensor settings with sample settings
 	 */
-	public final static int LIGHT_BLACK_DEFAULT = 300; // Its black if ligt value is <= this value
+	public final static int LIGHT_BLACK_DEFAULT = 300; // Its black if light value is <= this value
 	public final static int LIGHT_LINE_DEFAULT = 650;
 	public final static int LIGHT_BRIDGE_DEFAULT = 450;	
 
