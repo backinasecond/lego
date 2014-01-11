@@ -1,10 +1,8 @@
 package de.gruppe2.maze;
 
 import lejos.nxt.NXTRegulatedMotor;
-import lejos.nxt.UltrasonicSensor;
 import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.Settings;
-import de.gruppe2.motor.AllWheelPilot;
 import de.gruppe2.util.CalibrateSonic;
 
 public class MazeWallFollowBehaviour implements Behavior {

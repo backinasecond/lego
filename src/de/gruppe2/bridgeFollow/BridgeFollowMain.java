@@ -2,12 +2,11 @@ package de.gruppe2.bridgeFollow;
 
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;
-import lejos.nxt.comm.RConsole;
 import lejos.robotics.subsumption.Arbitrator;
 import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.Settings;
-import de.gruppe2.util.LightDetectionBehaviour;
 import de.gruppe2.util.CalibrateSonic;
+import de.gruppe2.util.LightDetectionBehaviour;
 
 public class BridgeFollowMain implements ButtonListener {
 

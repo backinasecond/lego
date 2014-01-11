@@ -4,7 +4,6 @@ import lejos.nxt.UltrasonicSensor;
 import lejos.nxt.comm.RConsole;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.subsumption.Behavior;
-import lejos.util.Delay;
 import de.gruppe2.Settings;
 import de.gruppe2.Settings.BridgeState;
 
