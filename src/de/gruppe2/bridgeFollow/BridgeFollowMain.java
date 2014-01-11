@@ -22,11 +22,12 @@ public class BridgeFollowMain implements ButtonListener {
 		Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
 		Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
 
+		Behavior b0 = new BridgeBefore();
 		Behavior b1 = new BridgeFollow();
 		Behavior b2 = new BridgeStart();
 		Behavior b3 = new LightDetectionBehaviour(Settings.LIGHT_BLACK_DEFAULT);
 
-		Behavior[] behaviors = { b1, b2, b3 };
+		Behavior[] behaviors = { b1, b2, b3, b0 };
 
 		Arbitrator arbitrator = new Arbitrator(behaviors);
 		arbitrator.start();

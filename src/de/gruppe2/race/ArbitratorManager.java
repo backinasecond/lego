@@ -1,11 +1,12 @@
 package de.gruppe2.race;
 
+import de.gruppe2.util.CalibrateSonic;
 import de.gruppe2.RobotState;
 import de.gruppe2.Settings;
 import de.gruppe2.Settings.BridgeState;
 import de.gruppe2.barcode.DriveForward;
 import de.gruppe2.barcode.ReadCodes;
-import de.gruppe2.bridgeFollow.BridgeEnd;
+import de.gruppe2.bridgeFollow.BridgeBefore;
 import de.gruppe2.bridgeFollow.BridgeFollow;
 import de.gruppe2.bridgeFollow.BridgeStart;
 import de.gruppe2.maze.MazeWallFollowBehaviour;
@@ -33,10 +34,11 @@ public class ArbitratorManager {
 	/**
 	 * Bridge behavior.
 	 */
+	private final static Behavior BRIDGE_BEFORE = new BridgeBefore();
 	private final static Behavior BRIDGE_START = new BridgeStart();
 	private final static Behavior BRIDGE_FOLLOW = new BridgeFollow();
-	private final static Behavior BRIDGE_END = new BridgeEnd();
-	private final static Behavior[] BRIDGE_BEHAVIOURS = { BRIDGE_START, BRIDGE_FOLLOW, BRIDGE_END };
+	private final static Behavior BRIDGE_END = new LightDetectionBehaviour(Settings.LIGHT_BRIDGE_DEFAULT);
+	private final static Behavior[] BRIDGE_BEHAVIOURS = { BRIDGE_START, BRIDGE_FOLLOW, BRIDGE_END, BRIDGE_BEFORE };
 
 	/**
 	 * Maze behavior.
