@@ -1,6 +1,9 @@
 package de.gruppe2.race;
 
-import de.gruppe2.util.CalibrateSonic;
+import lejos.nxt.Button;
+import lejos.nxt.Motor;
+import lejos.robotics.subsumption.Arbitrator;
+import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.RobotState;
 import de.gruppe2.Settings;
 import de.gruppe2.Settings.BridgeState;
@@ -13,10 +16,6 @@ import de.gruppe2.maze.MazeWallFollowBehaviour;
 import de.gruppe2.maze.MazeWallHitBehaviour;
 import de.gruppe2.util.CalibrateSonic;
 import de.gruppe2.util.LightDetectionBehaviour;
-import lejos.nxt.Button;
-import lejos.nxt.Motor;
-import lejos.robotics.subsumption.Arbitrator;
-import lejos.robotics.subsumption.Behavior;
 
 /**
  * This class manages the different arbitrators for all the different levels.

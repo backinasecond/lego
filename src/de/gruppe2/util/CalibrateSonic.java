@@ -1,8 +1,7 @@
 package de.gruppe2.util;
 
-import de.gruppe2.Settings;
-import lejos.nxt.Button;
 import lejos.util.Delay;
+import de.gruppe2.Settings;
 
 /**
  * CalibrateSonic sensor
