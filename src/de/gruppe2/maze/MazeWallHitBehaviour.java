@@ -1,9 +1,7 @@
 package de.gruppe2.maze;
 
-import lejos.nxt.TouchSensor;
 import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.Settings;
-import de.gruppe2.motor.AllWheelPilot;
 
 public class MazeWallHitBehaviour implements Behavior {
 
