@@ -7,7 +7,6 @@ import de.gruppe2.Settings.BridgeState;
 import de.gruppe2.barcode.DriveForward;
 import de.gruppe2.barcode.ReadCodes;
 import de.gruppe2.bridgeFollow.BridgeBefore;
-import de.gruppe2.bridgeFollow.BridgeEnd;
 import de.gruppe2.bridgeFollow.BridgeFollow;
 import de.gruppe2.bridgeFollow.BridgeStart;
 import de.gruppe2.maze.MazeWallFollowBehaviour;
