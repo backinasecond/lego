@@ -2,7 +2,6 @@ package de.gruppe2.race;
 
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
-import lejos.robotics.subsumption.Arbitrator;
 import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.RobotState;
 import de.gruppe2.Settings;
@@ -22,6 +21,7 @@ import de.gruppe2.util.LightDetectionBehaviour;
  */
 public class ArbitratorManager {
 	private CustomArbitrator arbitrator;
+	private Thread thread;
 
 	/**
 	 * Read barcode behavior (also at start)
@@ -110,14 +110,19 @@ public class ArbitratorManager {
 	 * @param state Given {@code RobotState} to change arbitrator
 	 */
 	public void changeState(RobotState state) {
-		if (state != null && state != RobotState.START) {
+		if (state != null && state != RobotState.START && this.arbitrator != null) {
+			System.out.println("ARBITRATOR STOPPED");
 			this.arbitrator.stop();
 		}
 		System.out.println(state.toString() + " mode selected");
 		
+		// This variable is necessary to not start a new thread when the method is called recursivly
+		boolean startThread = true;
+		
 		switch (state) {
 		case START:
 			Settings.PILOT.stop();
+			startThread = false;
 			changeState(RobotState.BARCODE);
 			break;
 		case BARCODE:
@@ -131,6 +136,8 @@ public class ArbitratorManager {
 			Settings.PILOT.stop();
 			System.out.println("Relocating. Press ENTER to continue.");
 			Button.waitForAnyPress();
+			
+			startThread = false;
 			changeState(RobotState.BARCODE);
 			break;
 		case BRIDGE:
@@ -138,7 +145,7 @@ public class ArbitratorManager {
 			this.arbitrator = new CustomArbitrator(BRIDGE_BEHAVIOURS);
 			break;
 		case MAZE:
-			Settings.AT_MAZE = true;
+//			Settings.AT_MAZE = true;
 			CalibrateSonic.calibrateHorizontally();
 			this.arbitrator = new CustomArbitrator(MAZE_SOLVER_BEHAVIOURS);
 			break;
@@ -184,8 +191,9 @@ public class ArbitratorManager {
 
 		// update the thread to run the selected arbitrator
 		System.out.println(state);
-		if (state != RobotState.RELOCATE) {
-			Thread thread = new Thread(this.arbitrator);
+		
+		if (state != RobotState.RELOCATE && startThread) {
+			thread = new Thread(this.arbitrator);
 			thread.start();
 		}
 	}
