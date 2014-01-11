@@ -18,6 +18,7 @@ public class MazeTest implements ButtonListener {
 
         public static void main(String[] args) throws Exception {
                 new MazeTest();
+                Settings.AT_MAZE = true;
                 
                 // MAZE
                 Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
