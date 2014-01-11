@@ -33,6 +33,9 @@ public class DriveForward implements Behavior {
 	 */
 	public void action() {
 		suppressed = false;
+
+		Settings.PILOT.setTravelSpeed(20);
+		Settings.PILOT.forward();
 		
 		while (!suppressed) {
 			pilot.travel(5, true);
