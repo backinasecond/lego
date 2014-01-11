@@ -35,7 +35,7 @@ public class ReadCodes implements Behavior {
 		LCD.clear();
 		System.out.println("Read Barcode");
 
-		Settings.PILOT.setTravelSpeed(20);
+		Settings.PILOT.setTravelSpeed(40);
 		Settings.PILOT.forward();
 
 		boolean counting = true;
