@@ -11,18 +11,16 @@ import de.gruppe2.bridgeFollow.BridgeFollow;
 import de.gruppe2.bridgeFollow.BridgeStart;
 import de.gruppe2.maze.MazeWallFollowBehaviour;
 import de.gruppe2.maze.MazeWallHitBehaviour;
-import de.gruppe2.util.CalibrateSonic;
 import de.gruppe2.util.LightDetectionBehaviour;
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
-import lejos.robotics.subsumption.Arbitrator;
 import lejos.robotics.subsumption.Behavior;
 
 /**
  * This class manages the different arbitrators for all the different levels.
  */
 public class ArbitratorManager {
-	private Arbitrator arbitrator;
+	private CustomArbitrator arbitrator;
 
 	/**
 	 * Read barcode behavior (also at start)
@@ -111,22 +109,19 @@ public class ArbitratorManager {
 	 * @param state Given {@code RobotState} to change arbitrator
 	 */
 	public void changeState(RobotState state) {
-		if (state == null) {
-			System.out.println("null state was passed");
-			return;
+		if (state != null && state != RobotState.START) {
+			this.arbitrator.stop();
 		}
-		
 		System.out.println(state.toString() + " mode selected");
 		
 		switch (state) {
 		case START:
-			System.out.println("Race start.");
 			Settings.PILOT.stop();
 			changeState(RobotState.BARCODE);
 			break;
 		case BARCODE:
 			Settings.PILOT.stop();
-			this.arbitrator = new Arbitrator(BARDCODE_READ_BEHAVIOURS);
+			this.arbitrator = new CustomArbitrator(BARDCODE_READ_BEHAVIOURS);
 			break;
 		case RELOCATE:
 			Motor.A.removeListener();
@@ -138,15 +133,13 @@ public class ArbitratorManager {
 			changeState(RobotState.BARCODE);
 			break;
 		case BRIDGE:
-			System.out.println("Drive Bridge");
 			Settings.BRIDGE_STATE = BridgeState.START;
-			this.arbitrator = new Arbitrator(BRIDGE_BEHAVIOURS);
+			this.arbitrator = new CustomArbitrator(BRIDGE_BEHAVIOURS);
 			break;
 		case MAZE:
-			System.out.println("Solve Maze");
 			Settings.AT_MAZE = true;
 			CalibrateSonic.calibrateHorizontally();
-			this.arbitrator = new Arbitrator(MAZE_SOLVER_BEHAVIOURS);
+			this.arbitrator = new CustomArbitrator(MAZE_SOLVER_BEHAVIOURS);
 			break;
 /*
 		case BT_GATE:
@@ -188,6 +181,11 @@ public class ArbitratorManager {
 			break;
 		}
 
-		this.arbitrator.start();
+		// update the thread to run the selected arbitrator
+		System.out.println(state);
+		if (state != RobotState.RELOCATE) {
+			Thread thread = new Thread(this.arbitrator);
+			thread.start();
+		}
 	}
 }
