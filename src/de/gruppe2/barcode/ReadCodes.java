@@ -97,6 +97,8 @@ public class ReadCodes implements Behavior {
 			System.out.println("No codes read!");
 			break;
 		}
+
+		codeReadFinished = true;
 	}
 
 	@Override

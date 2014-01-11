@@ -126,6 +126,7 @@ public class ArbitratorManager {
 
 			return;
 		}
+		
 		System.out.println(state.toString() + " mode selected");
 
 		switch (state) {

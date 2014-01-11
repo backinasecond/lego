@@ -29,13 +29,6 @@ public class DriveForward implements Behavior {
 	}
 
 	/**
-	 * Initiates the cleanup when this Behavior is suppressed
-	 */
-	public void suppress() {
-		suppressed = true;
-	}
-
-	/**
 	 * Moves forward as long as this Behavior is active
 	 */
 	public void action() {
@@ -44,5 +37,12 @@ public class DriveForward implements Behavior {
 		while (!suppressed) {
 			pilot.travel(5, true);
 		}
+	}
+
+	/**
+	 * Initiates the cleanup when this Behavior is suppressed
+	 */
+	public void suppress() {
+		suppressed = true;
 	}
 }
