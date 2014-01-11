@@ -11,7 +11,6 @@ public class ReadCodes implements Behavior {
 	
 	private boolean firstLineRecognized = false;
 
-
 	private boolean codeReadFinished = false;
 
 	public ReadCodes() {
@@ -41,10 +40,19 @@ public class ReadCodes implements Behavior {
 		boolean counting = true;
 		boolean onLine = false;
 		int lineCount = 0;
+		
+		int[] lightValues = new int[3];
+		int lightValue;
 
 		while (!suppressed && counting) {
 
-			int lightValue = Settings.LIGHT_SENSOR.getNormalizedLightValue();
+			for (int i = 0; i < lightValues.length; i++) {
+				lightValues[i] = Settings.LIGHT_SENSOR.getNormalizedLightValue();
+			}
+			
+			java.util.Arrays.sort(lightValues);
+			
+			lightValue = (lightValues[1] + lightValues[2]) / 2;
 
 			// Count new line if not counted yet and light level is in range of
 			// the line
