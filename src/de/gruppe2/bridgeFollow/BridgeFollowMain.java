@@ -25,11 +25,11 @@ public class BridgeFollowMain implements ButtonListener {
             Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
             Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
             
-            
-            Behavior b1 = new BridgeFollow();
+            Behavior b1 = new BridgeBefore();
             Behavior b2 = new BridgeStart();
-            Behavior b3 = new BridgeEnd();
-            Behavior[] behaviors = { b1, b2, b3 };
+            Behavior b3 = new BridgeFollow();
+            Behavior b4 = new BridgeEnd();
+            Behavior[] behaviors = { b1, b2, b3, b4 };
 
             Arbitrator arbitrator = new Arbitrator(behaviors);                
             arbitrator.start();

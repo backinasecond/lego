@@ -14,14 +14,14 @@ import lejos.nxt.UltrasonicSensor;
  */
 public class Settings {
 	
-	public enum BridgeState { START, FOLLOW_LINE, END };
+	public enum BridgeState { START, ON_BRIDGE, FOLLOW_LINE, END };
 	
 	public static BridgeState bridgeState = BridgeState.START;
 
 	/**
 	 * ArbitratorManager to change arbitrators depending on the current level.
 	 */
-	public final static RobotState FIRST_LEVEL = RobotState.START;
+	public final static RobotState FIRST_LEVEL = RobotState.BRIDGE;
 	public static ArbitratorManager arbiMgr;
 	public static boolean isRunning = false;
 	/*
@@ -94,9 +94,9 @@ public class Settings {
 	/**
 	 * Saved light sensor settings with sample settings
 	 */
-	public static int LIGHT_BLACK_DEFAULT = 350;
+	public static int LIGHT_BLACK_DEFAULT = 350; // Its black if ligt value is <= this value
 	public static int LIGHT_LINE_DEFAULT = 650;
-	public static int LIGHT_BRIDGE_DEFAULT = 434;	
+	public static int LIGHT_BRIDGE_DEFAULT = 400;	
 	/*public static int light_black = 300;
 	public static int light_bridge = 434;
 	public static int light_line = 500;

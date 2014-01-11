@@ -14,7 +14,7 @@ public class BridgeStart implements Behavior {
 
 	@Override
 	public boolean takeControl() {
-		return Settings.bridgeState == BridgeState.START;
+		return Settings.bridgeState == BridgeState.ON_BRIDGE;
 	}
 
 	@Override
