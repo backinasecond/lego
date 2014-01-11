@@ -1,10 +1,9 @@
 package de.gruppe2.barcode;
 
+import lejos.nxt.LCD;
+import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.RobotState;
 import de.gruppe2.Settings;
-import lejos.nxt.LCD;
-import lejos.robotics.navigation.DifferentialPilot;
-import lejos.robotics.subsumption.Behavior;
 
 public class ReadCodes implements Behavior {
 

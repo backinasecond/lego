@@ -6,10 +6,8 @@ import java.io.IOException;
 import javax.bluetooth.RemoteDevice;
 
 import lejos.nxt.Button;
-import lejos.nxt.Motor;
 import lejos.nxt.comm.BTConnection;
 import lejos.nxt.comm.Bluetooth;
-import lejos.nxt.comm.NXTConnection;
 import lejos.util.Delay;
 
 

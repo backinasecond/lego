@@ -21,6 +21,9 @@ public class BridgeStart implements Behavior {
 	public void action() {
 		suppressed = false;
 		
+		Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
+        Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
+		
 		while (!suppressed) {
 			if(sonic.getDistance() > Settings.BRIDGE_HEIGHT_THRESHOLD)
 			{
