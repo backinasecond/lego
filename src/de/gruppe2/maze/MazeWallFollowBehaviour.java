@@ -22,9 +22,6 @@ public class MazeWallFollowBehaviour implements Behavior {
 	 *            - the distance in which the wall is followed.
 	 */
 	public MazeWallFollowBehaviour() {
-		CalibrateSonic.calibrateHorizontally();
-		sonicTachoCount = MOTOR_SONIC.getTachoCount();
-		MOTOR_SONIC.flt();
 	}
 
 	/**
@@ -41,6 +38,13 @@ public class MazeWallFollowBehaviour implements Behavior {
 	 */
 	@Override
 	public void action() {
+		CalibrateSonic.calibrateHorizontally();
+		sonicTachoCount = MOTOR_SONIC.getTachoCount();
+		MOTOR_SONIC.flt();
+
+		Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
+        Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
+		
 		suppressed = false;
 		
 		while (!suppressed && !Settings.TOUCH_L.isPressed()) {
@@ -67,6 +71,7 @@ public class MazeWallFollowBehaviour implements Behavior {
 			curDisIdx = (curDisIdx + 1) % lastDistances.length;
 			sonicTachoCount = MOTOR_SONIC.getTachoCount();
 		}
+		
 		Settings.PILOT.stop();
 	}
 
