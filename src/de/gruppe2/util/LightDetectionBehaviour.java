@@ -7,7 +7,6 @@ import de.gruppe2.Settings;
 public class LightDetectionBehaviour implements Behavior {
 
 	private int wantedLightValue;
-	private final int LIGHT_THRESHOLD = 50;
 
 	public LightDetectionBehaviour(int lightValue) {
 		this.wantedLightValue = lightValue;
@@ -17,7 +16,7 @@ public class LightDetectionBehaviour implements Behavior {
 	public boolean takeControl() {
 		int currentLightValue = Settings.LIGHT_SENSOR.getNormalizedLightValue();
 
-		if (Math.abs(currentLightValue - wantedLightValue) < LIGHT_THRESHOLD) {
+		if (Math.abs(currentLightValue - wantedLightValue) < Settings.COLOR_DIFFERENCE_THRESHOLD) {
 			System.out.println("Value light: " + currentLightValue);
 			return true;
 		}

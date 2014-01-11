@@ -97,6 +97,7 @@ public class Settings {
 	public final static int LIGHT_BLACK_DEFAULT = 350;
 	public final static int LIGHT_LINE_DEFAULT = 650;
 	public final static int LIGHT_BRIDGE_DEFAULT = 434;	
+	public final static int COLOR_DIFFERENCE_THRESHOLD = 100;
 	/*public static int light_black = 300;
 	public static int light_bridge = 434;
 	public static int light_line = 500;
