@@ -71,7 +71,7 @@ public class Settings {
 	/**
 	 * Miscellaneous.
 	 */
-	public static boolean AT_MAZE = true;
+	public static boolean AT_MAZE = false;
 //	public static boolean endOfMaze = false;
 //	public static boolean inSwamp = false;
 //	public static boolean afterSwamp = false;
@@ -98,7 +98,7 @@ public class Settings {
 	public final static int LIGHT_BLACK_DEFAULT = 300; // Its black if light value is <= this value
 	public final static int LIGHT_LINE_DEFAULT = 650;
 	public final static int LIGHT_BRIDGE_DEFAULT = 450;	
-
+	public final static int COLOR_DIFFERENCE_THRESHOLD = 100;
 	/*public static int light_black = 300;
 	public static int light_bridge = 434;
 	public static int light_line = 500;

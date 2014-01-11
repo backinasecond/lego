@@ -3,7 +3,6 @@ package de.gruppe2.maze;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.Settings;
-import de.gruppe2.util.CalibrateSonic;
 
 public class MazeWallFollowBehaviour implements Behavior {
 
@@ -38,7 +37,6 @@ public class MazeWallFollowBehaviour implements Behavior {
 	 */
 	@Override
 	public void action() {
-		CalibrateSonic.calibrateHorizontally();
 		sonicTachoCount = MOTOR_SONIC.getTachoCount();
 		MOTOR_SONIC.flt();
 
@@ -54,8 +52,8 @@ public class MazeWallFollowBehaviour implements Behavior {
 				Settings.PILOT.rotate(-30, true);
 				MOTOR_SONIC.rotateTo(0, true);
 				sonicTachoCount = MOTOR_SONIC.getTachoCount();
-			} else if (lastDistances[curDisIdx] < 7) {
-				Settings.PILOT.steer(-90, -15, true);
+			} else if (lastDistances[curDisIdx] < 6) {
+				Settings.PILOT.steer(-100, -15, true);
 			} else if (lastDistances[curDisIdx] <= Settings.MAZE_WALL_DISTANCE_THRESHOLD) {
 				Settings.PILOT.steer(-20, -10, true);
 			} else if (lastDistances[curDisIdx] > Settings.MAZE_WALL_DISTANCE_THRESHOLD && lastDistances[curDisIdx] < 35) {

@@ -18,10 +18,7 @@ public class MazeTest implements ButtonListener {
 
         public static void main(String[] args) throws Exception {
                 new MazeTest();
-                
-                // MAZE
-                Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
-                Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
+                Settings.AT_MAZE = true;
                 
                 Behavior wallHit = new MazeWallHitBehaviour();
                 Behavior wallFollow = new MazeWallFollowBehaviour();

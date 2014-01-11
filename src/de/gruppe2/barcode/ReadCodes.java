@@ -11,9 +11,6 @@ public class ReadCodes implements Behavior {
 	
 	private boolean firstLineRecognized = false;
 
-	// Difference between color values of potential same colors
-	private final int COLOR_DIFFERENCE_THRESHOLD = 60;
-
 	private boolean codeReadFinished = false;
 
 	public ReadCodes() {
@@ -24,8 +21,8 @@ public class ReadCodes implements Behavior {
 	public boolean takeControl() {
 		int lightValue = Settings.LIGHT_SENSOR.getNormalizedLightValue();
 
-		if (lightValue > Settings.LIGHT_LINE_DEFAULT - COLOR_DIFFERENCE_THRESHOLD
-				&& lightValue < Settings.LIGHT_LINE_DEFAULT + COLOR_DIFFERENCE_THRESHOLD) {
+		if (lightValue > Settings.LIGHT_LINE_DEFAULT - Settings.COLOR_DIFFERENCE_THRESHOLD
+				&& lightValue < Settings.LIGHT_LINE_DEFAULT + Settings.COLOR_DIFFERENCE_THRESHOLD) {
 			firstLineRecognized = true;
 		}
 
@@ -37,21 +34,30 @@ public class ReadCodes implements Behavior {
 		LCD.clear();
 		System.out.println("Read Barcode");
 
-		Settings.PILOT.setTravelSpeed(20);
+		Settings.PILOT.setTravelSpeed(40);
 		Settings.PILOT.forward();
 
 		boolean counting = true;
 		boolean onLine = false;
 		int lineCount = 0;
+		
+		int[] lightValues = new int[3];
+		int lightValue;
 
 		while (!suppressed && counting) {
 
-			int lightValue = Settings.LIGHT_SENSOR.getNormalizedLightValue();
+			for (int i = 0; i < lightValues.length; i++) {
+				lightValues[i] = Settings.LIGHT_SENSOR.getNormalizedLightValue();
+			}
+			
+			java.util.Arrays.sort(lightValues);
+			
+			lightValue = (lightValues[1] + lightValues[2]) / 2;
 
 			// Count new line if not counted yet and light level is in range of
 			// the line
-			if (!onLine && lightValue > Settings.LIGHT_LINE_DEFAULT - COLOR_DIFFERENCE_THRESHOLD
-					&& lightValue < Settings.LIGHT_LINE_DEFAULT + COLOR_DIFFERENCE_THRESHOLD) {
+			if (!onLine && lightValue > Settings.LIGHT_LINE_DEFAULT - Settings.COLOR_DIFFERENCE_THRESHOLD
+					&& lightValue < Settings.LIGHT_LINE_DEFAULT + Settings.COLOR_DIFFERENCE_THRESHOLD) {
 				lineCount++;
 				onLine = true;
 
@@ -62,8 +68,8 @@ public class ReadCodes implements Behavior {
 			}
 			// Drive on foil until new line is detected or 10cm without a new
 			// line
-			else if (onLine && lightValue > Settings.LIGHT_BLACK_DEFAULT - COLOR_DIFFERENCE_THRESHOLD
-					&& lightValue < Settings.LIGHT_BLACK_DEFAULT + COLOR_DIFFERENCE_THRESHOLD) {
+			else if (onLine && lightValue > Settings.LIGHT_BLACK_DEFAULT - Settings.COLOR_DIFFERENCE_THRESHOLD
+					&& lightValue < Settings.LIGHT_BLACK_DEFAULT + Settings.COLOR_DIFFERENCE_THRESHOLD) {
 				onLine = false;
 
 				System.out.println("Keine Linie");
