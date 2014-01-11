@@ -1,10 +1,12 @@
 package de.gruppe2.race;
 
+import de.gruppe2.CalibrateSonic;
 import de.gruppe2.RobotState;
 import de.gruppe2.Settings;
 import de.gruppe2.Settings.BridgeState;
 import de.gruppe2.barcode.DriveForward;
 import de.gruppe2.barcode.ReadCodes;
+import de.gruppe2.bridgeFollow.BridgeBefore;
 import de.gruppe2.bridgeFollow.BridgeEnd;
 import de.gruppe2.bridgeFollow.BridgeFollow;
 import de.gruppe2.bridgeFollow.BridgeStart;
@@ -39,10 +41,11 @@ public class ArbitratorManager {
 	 * private Behavior b6 = new SensorHeadPosition();
 	 * private Behavior[] bridgeBehavior = { b0, b1, b2, b3, b4, b5, b6 };
 	 */
-	private Behavior b0 = new BridgeStart();
-	private Behavior b1 = new BridgeFollow();
-	private Behavior b2 = new BridgeEnd();
-	private Behavior[] bridgeBehavior = { b0, b1, b2 };
+	private Behavior b0 = new BridgeBefore();
+	private Behavior b1 = new BridgeStart();
+	private Behavior b2 = new BridgeFollow();
+	private Behavior b3 = new BridgeEnd();
+	private Behavior[] bridgeBehavior = { b0, b1, b2, b3 };
 
 	/**
 	 * Maze behavior.
@@ -147,6 +150,7 @@ public class ArbitratorManager {
 			Settings.bridgeState = BridgeState.START;
 			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
             Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
+            CalibrateSonic.calibrateVertically();
 
 			this.arbitrator = new Arbitrator(this.bridgeBehavior);
 			break;
