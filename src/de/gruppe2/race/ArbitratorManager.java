@@ -1,5 +1,6 @@
 package de.gruppe2.race;
 
+import de.gruppe2.RobotState;
 import de.gruppe2.Settings;
 import de.gruppe2.Settings.BridgeState;
 import de.gruppe2.barcode.DriveForward;
@@ -41,10 +42,10 @@ public class ArbitratorManager {
 	 * private Behavior b6 = new SensorHeadPosition();
 	 * private Behavior[] bridgeBehavior = { b0, b1, b2, b3, b4, b5, b6 };
 	 */
-	private Behavior b0 = new BridgeStart();
-	private Behavior b1 = new BridgeFollow();
-	private Behavior b2 = new BridgeEnd();
-	private Behavior[] bridgeBehavior = { b0, b1, b2 };
+	private final static Behavior b0 = new BridgeStart();
+	private final static Behavior b1 = new BridgeFollow();
+	private final static Behavior b2 = new BridgeEnd();
+	private final static Behavior[] BRIDGE_BEHAVIOURS = { b0, b1, b2 };
 
 	/**
 	 * Maze behavior.
@@ -149,14 +150,14 @@ public class ArbitratorManager {
 			Settings.BRIDGE_STATE = BridgeState.START;
 			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
             Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
-			this.arbitrator = new Arbitrator(this.bridgeBehavior);
+			this.arbitrator = new Arbitrator(BRIDGE_BEHAVIOURS);
 			break;
 		case MAZE:
 			System.out.println("Solve Maze");
 			Settings.AT_MAZE = true;
 			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
             Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
-			this.arbitrator = new Arbitrator(this.MAZE_SOLVER_BEHAVIOURS);
+			this.arbitrator = new Arbitrator(MAZE_SOLVER_BEHAVIOURS);
 			break;
 /*
 		case BT_GATE:
