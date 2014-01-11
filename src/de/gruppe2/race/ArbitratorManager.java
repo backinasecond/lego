@@ -155,8 +155,6 @@ public class ArbitratorManager {
 		case MAZE:
 			System.out.println("Solve Maze");
 			Settings.AT_MAZE = true;
-			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
-            Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
 			this.arbitrator = new Arbitrator(MAZE_SOLVER_BEHAVIOURS);
 			break;
 /*
