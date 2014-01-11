@@ -13,7 +13,7 @@ public class CalibrateSonic {
 	public static void calibrateHorizontally()
 	{
 		rotateSensorUntilBlocked();
-		Settings.MOTOR_SONIC.rotate(-145, false);
+		Settings.MOTOR_SONIC.rotate(-142, false);
 		Settings.MOTOR_SONIC.resetTachoCount();
 	}
 	
@@ -40,7 +40,7 @@ public class CalibrateSonic {
 		Delay.msDelay(200);
 		while(Math.abs(lastTachoCount - Settings.MOTOR_SONIC.getTachoCount()) > 3)
 		{
-			System.out.println("rotate");
+//			System.out.println("rotate");
 			lastTachoCount = Settings.MOTOR_SONIC.getTachoCount();
 			Delay.msDelay(200);
 		}
