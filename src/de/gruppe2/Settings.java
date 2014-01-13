@@ -71,7 +71,6 @@ public class Settings {
 	/**
 	 * Miscellaneous.
 	 */
-	public static boolean MAZE_FINISHED = false;
 //	public static boolean fromLeft;
 //	public static boolean inFirstRow = true;
 //	public static boolean atStart = true;

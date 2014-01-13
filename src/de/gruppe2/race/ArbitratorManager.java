@@ -27,7 +27,7 @@ public class ArbitratorManager {
 	 * Read barcode behavior (also at start)
 	 */
 	private final static Behavior BARCODE_DRIVE_FORWARD = new DriveForward();
-	private final static Behavior BARCODE_READ_CODE = new ReadCodes();
+	private final static ReadCodes BARCODE_READ_CODE = new ReadCodes();
 	private final static Behavior[] BARCODE_READ_BEHAVIOURS = { BARCODE_DRIVE_FORWARD, BARCODE_READ_CODE };
 
 	/**
@@ -127,6 +127,7 @@ public class ArbitratorManager {
 			break;
 		case BARCODE:
 			Settings.PILOT.stop();
+			BARCODE_READ_CODE.reset();
 			arbitrator = new CustomArbitrator(BARCODE_READ_BEHAVIOURS);
 			break;
 		case RELOCATE:
@@ -193,5 +194,6 @@ public class ArbitratorManager {
 			thread = new Thread(arbitrator);
 			thread.start();
 		}
+		System.out.println(state.toString() + " finished.");
 	}
 }

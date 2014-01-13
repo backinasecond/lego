@@ -16,14 +16,18 @@ public class LightDetectionBehaviour implements Behavior {
 
 	@Override
 	public boolean takeControl() {
-		int currentLightValue = Settings.LIGHT_SENSOR.getNormalizedLightValue();
+		if (!suppressed) {
 
-		if (Math.abs(currentLightValue - wantedLightValue) < Settings.COLOR_DIFFERENCE_THRESHOLD) {
-			System.out.println("Value light: " + currentLightValue);
-			if (Settings.CURRENT_LEVEL == RobotState.MAZE && !Settings.MAZE_FINISHED) Settings.MAZE_FINISHED = true;
+			int currentLightValue = Settings.LIGHT_SENSOR.getNormalizedLightValue();
+
+			if (Math.abs(currentLightValue - wantedLightValue) < Settings.COLOR_DIFFERENCE_THRESHOLD) {
+				suppressed = true;
+				return true;
+			} 
+			return false;
+		} else {
 			return true;
 		}
-		return false;
 	}
 
 	@Override
