@@ -35,16 +35,12 @@ public class AllWheelPilot extends DifferentialPilot {
 		this.rightMotor = rightMotor;
 	}
 	
-	public void rotate(double angle) {
-		this.leftMotor.setSpeed(20);
-		this.rightMotor.setSpeed(20);
-		
-		super.rotate(angle * ROTATE_FIX);
-		/*if (angle > 0) {
-			super.rotate(angle * 2.4);
-		} else {
-			super.rotate(angle * 2.6);
-		}*/
+	public void rotate(double angle) {		
+		rotate(angle, false);
+	}
+	
+	public void rotate(double angle, boolean immediateReturn) {		
+		super.rotate(angle * ROTATE_FIX, immediateReturn);
 	}
 	
 	public void steer(final double turnRate, double angle) {
