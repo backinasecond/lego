@@ -28,8 +28,6 @@ public class MazeWallHitBehaviour implements Behavior {
     @Override
     public void action() {
             suppressed = false;
-            Settings.readState = true;
-//            Settings.atStartOfMaze = false;
             
             Settings.PILOT.travel(-90);
             Settings.PILOT.rotate(-80);
