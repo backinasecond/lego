@@ -5,7 +5,7 @@ import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.RobotState;
 import de.gruppe2.Settings;
 
-public class ReadCodes implements Behavior {
+public class BarcodeReader implements Behavior {
 
 	private boolean suppressed = false;
 
@@ -13,7 +13,7 @@ public class ReadCodes implements Behavior {
 
 	private boolean codeReadFinished = false;
 
-	public ReadCodes() {
+	public BarcodeReader() {
 		Settings.LIGHT_SENSOR.setFloodlight(true);
 	}
 
