@@ -49,8 +49,9 @@ public class MazeWallFollowBehaviour implements Behavior {
 		while (!suppressed && !Settings.TOUCH_L.isPressed()) {
 			lastDistances[curDisIdx] = Settings.SONIC_SENSOR.getDistance();
 
-			if (Math.abs(sonicTachoCount - MOTOR_SONIC.getTachoCount()) > 1) {
-				Settings.PILOT.rotate(-30, true);
+			
+			if (lastDistances[curDisIdx] == 255 || Math.abs(sonicTachoCount - MOTOR_SONIC.getTachoCount()) > 1) {
+				Settings.PILOT.rotate(-20, true);
 				MOTOR_SONIC.rotateTo(0, true);
 				sonicTachoCount = MOTOR_SONIC.getTachoCount();
 			} else if (lastDistances[curDisIdx] < 6) {
