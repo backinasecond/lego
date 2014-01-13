@@ -20,6 +20,7 @@ public class LightDetectionBehaviour implements Behavior {
 
 		if (Math.abs(currentLightValue - wantedLightValue) < Settings.COLOR_DIFFERENCE_THRESHOLD) {
 			System.out.println("Value light: " + currentLightValue);
+			if (Settings.CURRENT_LEVEL == RobotState.MAZE && !Settings.MAZE_FINISHED) Settings.MAZE_FINISHED = true;
 			return true;
 		}
 		return false;

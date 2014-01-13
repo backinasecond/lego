@@ -18,7 +18,7 @@ public class MazeTest implements ButtonListener {
 
         public static void main(String[] args) throws Exception {
                 new MazeTest();
-                Settings.AT_MAZE = true;
+                Settings.MAZE_FINISHED = false;
                 
                 Behavior wallHit = new MazeWallHitBehaviour();
                 Behavior wallFollow = new MazeWallFollowBehaviour();

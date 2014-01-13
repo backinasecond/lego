@@ -71,7 +71,7 @@ public class Settings {
 	/**
 	 * Miscellaneous.
 	 */
-	public static boolean AT_MAZE = false;
+	public static boolean MAZE_FINISHED = false;
 //	public static boolean endOfMaze = false;
 //	public static boolean inSwamp = false;
 //	public static boolean afterSwamp = false;

@@ -8,7 +8,7 @@ import de.gruppe2.Settings;
 public class ReadCodes implements Behavior {
 
 	private boolean suppressed = false;
-	
+
 	private boolean firstLineRecognized = false;
 
 	private boolean codeReadFinished = false;
@@ -92,9 +92,9 @@ public class ReadCodes implements Behavior {
 
 		switch (lineCount) {
 		case 13:
-			Settings.ARBITRATOR_MANAGER.changeState(RobotState.MAZE);
+			Settings.CURRENT_LEVEL = RobotState.MAZE;
+			Settings.ARBITRATOR_MANAGER.changeState(Settings.CURRENT_LEVEL);
 			break;
-
 		default:
 			System.out.println("No known code read!");
 			break;
