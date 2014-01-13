@@ -20,15 +20,15 @@ import de.gruppe2.util.LightDetectionBehaviour;
  * This class manages the different arbitrators for all the different levels.
  */
 public class ArbitratorManager {
-	private CustomArbitrator arbitrator;
-	private Thread thread;
+	private static CustomArbitrator arbitrator;
+	private static Thread thread;
 
 	/**
 	 * Read barcode behavior (also at start)
 	 */
 	private final static Behavior BARCODE_DRIVE_FORWARD = new DriveForward();
 	private final static Behavior BARCODE_READ_CODE = new ReadCodes();
-	private final static Behavior[] BARDCODE_READ_BEHAVIOURS = { BARCODE_DRIVE_FORWARD, BARCODE_READ_CODE };
+	private final static Behavior[] BARCODE_READ_BEHAVIOURS = { BARCODE_DRIVE_FORWARD, BARCODE_READ_CODE };
 
 	/**
 	 * Bridge behavior.
@@ -45,7 +45,7 @@ public class ArbitratorManager {
     private final static Behavior MAZE_WALL_FOLLOW = new MazeWallFollowBehaviour();
 	private final static Behavior MAZE_WALL_HIT = new MazeWallHitBehaviour();
     private final static Behavior MAZE_LINE_DETECTION = new LightDetectionBehaviour(Settings.LIGHT_LINE_DEFAULT);
-    private final static Behavior[] MAZE_SOLVER_BEHAVIOURS = { MAZE_WALL_FOLLOW, MAZE_WALL_HIT, MAZE_LINE_DETECTION };
+    private final static Behavior[] MAZE_BEHAVIOURS = { MAZE_WALL_FOLLOW, MAZE_WALL_HIT, MAZE_LINE_DETECTION };
 
 	/**
 	 * Bluetooth Gate behavior.
@@ -101,7 +101,7 @@ public class ArbitratorManager {
 	}
 	
 	public void startManager() {
-		changeState(Settings.FIRST_LEVEL);
+		changeState(Settings.CURRENT_LEVEL);
 	}
 
 	/**
@@ -110,9 +110,9 @@ public class ArbitratorManager {
 	 * @param state Given {@code RobotState} to change arbitrator
 	 */
 	public void changeState(RobotState state) {
-		if (state != null && state != RobotState.START && this.arbitrator != null) {
+		if (state != null && state != RobotState.START && arbitrator != null) {
 			System.out.println("ARBITRATOR STOPPED");
-			this.arbitrator.stop();
+			arbitrator.stop();
 		}
 		System.out.println(state.toString() + " mode selected");
 		
@@ -127,7 +127,7 @@ public class ArbitratorManager {
 			break;
 		case BARCODE:
 			Settings.PILOT.stop();
-			this.arbitrator = new CustomArbitrator(BARDCODE_READ_BEHAVIOURS);
+			arbitrator = new CustomArbitrator(BARCODE_READ_BEHAVIOURS);
 			break;
 		case RELOCATE:
 			Motor.A.removeListener();
@@ -142,12 +142,11 @@ public class ArbitratorManager {
 			break;
 		case BRIDGE:
 			Settings.BRIDGE_STATE = BridgeState.START;
-			this.arbitrator = new CustomArbitrator(BRIDGE_BEHAVIOURS);
+			arbitrator = new CustomArbitrator(BRIDGE_BEHAVIOURS);
 			break;
 		case MAZE:
-//			Settings.AT_MAZE = true;
 			CalibrateSonic.calibrateHorizontally();
-			this.arbitrator = new CustomArbitrator(MAZE_SOLVER_BEHAVIOURS);
+			arbitrator = new CustomArbitrator(MAZE_BEHAVIOURS);
 			break;
 /*
 		case BT_GATE:
@@ -190,10 +189,8 @@ public class ArbitratorManager {
 		}
 
 		// update the thread to run the selected arbitrator
-		System.out.println(state);
-		
 		if (state != RobotState.RELOCATE && startThread) {
-			thread = new Thread(this.arbitrator);
+			thread = new Thread(arbitrator);
 			thread.start();
 		}
 	}

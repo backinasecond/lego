@@ -28,8 +28,7 @@ public class MazeWallFollowBehaviour implements Behavior {
 	 */
 	@Override
 	public boolean takeControl() {
-//		return Settings.AT_MAZE;
-		return true;
+		return !Settings.MAZE_FINISHED;
 	}
 
 	/**
@@ -40,6 +39,7 @@ public class MazeWallFollowBehaviour implements Behavior {
 	public void action() {
 		sonicTachoCount = MOTOR_SONIC.getTachoCount();
 		MOTOR_SONIC.flt();
+		MOTOR_SONIC.rotateTo(0, true);
 
 		Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
         Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);

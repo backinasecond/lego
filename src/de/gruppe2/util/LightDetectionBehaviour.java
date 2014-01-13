@@ -8,6 +8,8 @@ public class LightDetectionBehaviour implements Behavior {
 
 	private int wantedLightValue;
 
+	private boolean suppressed = false;
+
 	public LightDetectionBehaviour(int lightValue) {
 		this.wantedLightValue = lightValue;
 	}
@@ -18,6 +20,7 @@ public class LightDetectionBehaviour implements Behavior {
 
 		if (Math.abs(currentLightValue - wantedLightValue) < Settings.COLOR_DIFFERENCE_THRESHOLD) {
 			System.out.println("Value light: " + currentLightValue);
+			if (Settings.CURRENT_LEVEL == RobotState.MAZE && !Settings.MAZE_FINISHED) Settings.MAZE_FINISHED = true;
 			return true;
 		}
 		return false;
@@ -25,18 +28,20 @@ public class LightDetectionBehaviour implements Behavior {
 
 	@Override
 	public void action() {
-		Settings.PILOT.stop();
-		
-		switch (wantedLightValue) {
-		case Settings.LIGHT_LINE_DEFAULT:
-			System.out.println("Section finished!");
-			Settings.ARBITRATOR_MANAGER.changeState(RobotState.BARCODE);
+		suppressed = false;
+
+		if (!suppressed) {
+			System.out.println("Light action");
+			switch (wantedLightValue) {
+			case Settings.LIGHT_LINE_DEFAULT:
+				Settings.ARBITRATOR_MANAGER.changeState(RobotState.BARCODE);
+			}
 		}
 	}
 
 	@Override
 	public void suppress() {
-		// There is nothing to suppress
+		// Actually there is nothing to suppress, but for completeness
+		suppressed = true;
 	}
-
 }

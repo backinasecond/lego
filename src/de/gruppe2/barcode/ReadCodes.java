@@ -8,7 +8,7 @@ import de.gruppe2.Settings;
 public class ReadCodes implements Behavior {
 
 	private boolean suppressed = false;
-	
+
 	private boolean firstLineRecognized = false;
 
 	private boolean codeReadFinished = false;
@@ -21,8 +21,7 @@ public class ReadCodes implements Behavior {
 	public boolean takeControl() {
 		int lightValue = Settings.LIGHT_SENSOR.getNormalizedLightValue();
 
-		if (lightValue > Settings.LIGHT_LINE_DEFAULT - Settings.COLOR_DIFFERENCE_THRESHOLD
-				&& lightValue < Settings.LIGHT_LINE_DEFAULT + Settings.COLOR_DIFFERENCE_THRESHOLD) {
+		if (lightValue > Settings.LIGHT_LINE_DEFAULT - Settings.COLOR_DIFFERENCE_THRESHOLD && lightValue < Settings.LIGHT_LINE_DEFAULT + Settings.COLOR_DIFFERENCE_THRESHOLD) {
 			firstLineRecognized = true;
 		}
 
@@ -32,6 +31,8 @@ public class ReadCodes implements Behavior {
 	@Override
 	public void action() {
 		LCD.clear();
+		suppressed = false;
+
 		System.out.println("Read Barcode");
 
 		Settings.PILOT.setTravelSpeed(40);
@@ -40,8 +41,8 @@ public class ReadCodes implements Behavior {
 		boolean counting = true;
 		boolean onLine = false;
 		int lineCount = 0;
-		
-		int[] lightValues = new int[3];
+
+		int[] lightValues = new int[4];
 		int lightValue;
 
 		while (!suppressed && counting) {
@@ -49,32 +50,32 @@ public class ReadCodes implements Behavior {
 			for (int i = 0; i < lightValues.length; i++) {
 				lightValues[i] = Settings.LIGHT_SENSOR.getNormalizedLightValue();
 			}
-			
+
 			java.util.Arrays.sort(lightValues);
-			
-			lightValue = (lightValues[1] + lightValues[2]) / 2;
+
+			lightValue = (lightValues[lightValues.length / 2] + lightValues[(lightValues.length / 2) + 1]) / 2;
 
 			// Count new line if not counted yet and light level is in range of
 			// the line
-			if (!onLine && lightValue > Settings.LIGHT_LINE_DEFAULT - Settings.COLOR_DIFFERENCE_THRESHOLD
-					&& lightValue < Settings.LIGHT_LINE_DEFAULT + Settings.COLOR_DIFFERENCE_THRESHOLD) {
+			if (!onLine && lightValue > Settings.LIGHT_LINE_DEFAULT - Settings.COLOR_DIFFERENCE_THRESHOLD && lightValue < Settings.LIGHT_LINE_DEFAULT + Settings.COLOR_DIFFERENCE_THRESHOLD) {
 				lineCount++;
 				onLine = true;
 
 				System.out.println("Linie: " + lineCount);
 
-				// Necessary for start a new movement and check it with getMovementIncrement()
+				// Necessary for start a new movement and check it with
+				// getMovementIncrement()
 				Settings.PILOT.forward();
 			}
 			// Drive on foil until new line is detected or 10cm without a new
 			// line
-			else if (onLine && lightValue > Settings.LIGHT_BLACK_DEFAULT - Settings.COLOR_DIFFERENCE_THRESHOLD
-					&& lightValue < Settings.LIGHT_BLACK_DEFAULT + Settings.COLOR_DIFFERENCE_THRESHOLD) {
+			else if (onLine && lightValue > Settings.LIGHT_BLACK_DEFAULT - Settings.COLOR_DIFFERENCE_THRESHOLD && lightValue < Settings.LIGHT_BLACK_DEFAULT + Settings.COLOR_DIFFERENCE_THRESHOLD) {
 				onLine = false;
 
 				System.out.println("Keine Linie");
 
-				// Necessary for start a new movement and check it with getMovementIncrement()
+				// Necessary for start a new movement and check it with
+				// getMovementIncrement()
 				Settings.PILOT.forward();
 			}
 			// If at least one line was detected and it was not on line for
@@ -91,9 +92,9 @@ public class ReadCodes implements Behavior {
 
 		switch (lineCount) {
 		case 13:
-			Settings.ARBITRATOR_MANAGER.changeState(RobotState.MAZE);
+			Settings.CURRENT_LEVEL = RobotState.MAZE;
+			Settings.ARBITRATOR_MANAGER.changeState(Settings.CURRENT_LEVEL);
 			break;
-
 		default:
 			System.out.println("No known code read!");
 			break;
@@ -106,11 +107,4 @@ public class ReadCodes implements Behavior {
 	public void suppress() {
 		suppressed = true;
 	}
-
-	/*
-	 * public void calibrateLow() { lightSensor.calibrateLow();
-	 * System.out.println("calibrated low: " + lightSensor.getLow()); }
-	 * public void calibrateHigh() { lightSensor.calibrateHigh();
-	 * System.out.println("calibrated high: " + lightSensor.getHigh()); }
-	 */
 }
