@@ -7,7 +7,7 @@ import de.gruppe2.RobotState;
 import de.gruppe2.Settings;
 import de.gruppe2.Settings.BridgeState;
 import de.gruppe2.barcode.DriveForward;
-import de.gruppe2.barcode.ReadCodes;
+import de.gruppe2.barcode.BarcodeReader;
 import de.gruppe2.bridgeFollow.BridgeBefore;
 import de.gruppe2.bridgeFollow.BridgeFollow;
 import de.gruppe2.bridgeFollow.BridgeStart;
@@ -27,7 +27,7 @@ public class ArbitratorManager {
 	 * Read barcode behavior (also at start)
 	 */
 	private final static Behavior BARCODE_DRIVE_FORWARD = new DriveForward();
-	private final static ReadCodes BARCODE_READ_CODE = new ReadCodes();
+	private final static BarcodeReader BARCODE_READ_CODE = new BarcodeReader();
 	private final static Behavior[] BARCODE_READ_BEHAVIOURS = { BARCODE_DRIVE_FORWARD, BARCODE_READ_CODE };
 
 	/**
@@ -121,12 +121,10 @@ public class ArbitratorManager {
 		
 		switch (state) {
 		case START:
-			Settings.PILOT.stop();
 			startThread = false;
 			changeState(RobotState.BARCODE);
 			break;
 		case BARCODE:
-			Settings.PILOT.stop();
 			BARCODE_READ_CODE.reset();
 			arbitrator = new CustomArbitrator(BARCODE_READ_BEHAVIOURS);
 			break;
@@ -134,7 +132,6 @@ public class ArbitratorManager {
 			Motor.A.removeListener();
 			Motor.B.removeListener();
 			Motor.C.removeListener();
-			Settings.PILOT.stop();
 			System.out.println("Relocating. Press ENTER to continue.");
 			Button.waitForAnyPress();
 			
