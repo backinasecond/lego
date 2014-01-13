@@ -14,8 +14,9 @@ public class CalibrateSonic {
 	public static void calibrateHorizontally()
 	{
 		rotateSensorUntilBlocked();
-		Settings.MOTOR_SONIC.rotate(-143, false);
+		Settings.MOTOR_SONIC.rotate(-168, false);
 		Settings.MOTOR_SONIC.resetTachoCount();
+		System.out.println("Calib hor done");
 		
 	}
 	
@@ -25,8 +26,9 @@ public class CalibrateSonic {
 	public static void calibrateVertically()
 	{
 		rotateSensorUntilBlocked();
-		Settings.MOTOR_SONIC.rotate(-80, false);
+		Settings.MOTOR_SONIC.rotate(-100, false);
 		Settings.MOTOR_SONIC.resetTachoCount();
+		System.out.println("Calib vert done");
 	}
 	
 	/**
@@ -35,7 +37,7 @@ public class CalibrateSonic {
 	public static void rotateSensorUntilBlocked()
 	{
 		int speed = Settings.MOTOR_SONIC.getSpeed();
-		Settings.MOTOR_SONIC.setSpeed(40);
+		Settings.MOTOR_SONIC.setSpeed(100);
 		Settings.MOTOR_SONIC.rotate(200, true);
 		int lastTachoCount = Settings.MOTOR_SONIC.getTachoCount();
 		
@@ -46,7 +48,6 @@ public class CalibrateSonic {
 			lastTachoCount = Settings.MOTOR_SONIC.getTachoCount();
 			Delay.msDelay(200);
 		}
-		System.out.println("done");
 		Settings.MOTOR_SONIC.stop();
 		Settings.MOTOR_SONIC.setSpeed(speed);
 	}
