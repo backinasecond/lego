@@ -35,7 +35,7 @@ public class BarcodeReader implements Behavior {
 
 		System.out.println("Read Barcode");
 
-		Settings.PILOT.setTravelSpeed(40);
+		Settings.PILOT.setTravelSpeed(120);
 		Settings.PILOT.forward();
 
 		boolean counting = true;
