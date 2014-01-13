@@ -7,6 +7,7 @@ import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.Settings;
 import de.gruppe2.maze.MazeWallFollowBehaviour;
 import de.gruppe2.maze.MazeWallHitBehaviour;
+import de.gruppe2.util.CalibrateSonic;
 import de.gruppe2.util.LightDetectionBehaviour;
 
 public class MazeTest implements ButtonListener {
@@ -18,8 +19,7 @@ public class MazeTest implements ButtonListener {
 
         public static void main(String[] args) throws Exception {
                 new MazeTest();
-                Settings.MAZE_FINISHED = false;
-                
+                CalibrateSonic.calibrateHorizontally();
                 Behavior wallHit = new MazeWallHitBehaviour();
                 Behavior wallFollow = new MazeWallFollowBehaviour();
                 Behavior lineDetection = new LightDetectionBehaviour(Settings.LIGHT_LINE_DEFAULT);

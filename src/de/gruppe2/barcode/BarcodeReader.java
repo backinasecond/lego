@@ -5,7 +5,7 @@ import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.RobotState;
 import de.gruppe2.Settings;
 
-public class ReadCodes implements Behavior {
+public class BarcodeReader implements Behavior {
 
 	private boolean suppressed = false;
 
@@ -13,7 +13,7 @@ public class ReadCodes implements Behavior {
 
 	private boolean codeReadFinished = false;
 
-	public ReadCodes() {
+	public BarcodeReader() {
 		Settings.LIGHT_SENSOR.setFloodlight(true);
 	}
 
@@ -35,7 +35,7 @@ public class ReadCodes implements Behavior {
 
 		System.out.println("Read Barcode");
 
-		Settings.PILOT.setTravelSpeed(40);
+		Settings.PILOT.setTravelSpeed(120);
 		Settings.PILOT.forward();
 
 		boolean counting = true;
@@ -101,6 +101,15 @@ public class ReadCodes implements Behavior {
 		}
 
 		codeReadFinished = true;
+	}
+	
+	/*
+	 * Needed to start a new code reading segment.
+	 */
+	public void reset() {
+		suppressed = false;
+		firstLineRecognized = false;
+		codeReadFinished = false;
 	}
 
 	@Override

@@ -71,10 +71,6 @@ public class Settings {
 	/**
 	 * Miscellaneous.
 	 */
-	public static boolean MAZE_FINISHED = false;
-//	public static boolean endOfMaze = false;
-//	public static boolean inSwamp = false;
-//	public static boolean afterSwamp = false;
 //	public static boolean fromLeft;
 //	public static boolean inFirstRow = true;
 //	public static boolean atStart = true;
@@ -82,7 +78,6 @@ public class Settings {
 //	public static boolean colorFound = false;
 	public static boolean reachedBridge = true;
 //	public static boolean motorStalled = false;
-	public static boolean readState = true;
 
 	/**
 	 * boolean if in obstacle found mode
@@ -96,7 +91,7 @@ public class Settings {
 	 * Saved light sensor settings with sample settings
 	 */
 	public final static int LIGHT_BLACK_DEFAULT = 300; // Its black if light value is <= this value
-	public final static int LIGHT_LINE_DEFAULT = 650;
+	public final static int LIGHT_LINE_DEFAULT = 600;
 	public final static int LIGHT_BRIDGE_DEFAULT = 450;	
 	public final static int COLOR_DIFFERENCE_THRESHOLD = 100;
 	/*public static int light_black = 300;

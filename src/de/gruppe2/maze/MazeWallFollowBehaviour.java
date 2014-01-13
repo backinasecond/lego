@@ -28,7 +28,7 @@ public class MazeWallFollowBehaviour implements Behavior {
 	 */
 	@Override
 	public boolean takeControl() {
-		return !Settings.MAZE_FINISHED;
+		return true;
 	}
 
 	/**
@@ -39,7 +39,6 @@ public class MazeWallFollowBehaviour implements Behavior {
 	public void action() {
 		sonicTachoCount = MOTOR_SONIC.getTachoCount();
 		MOTOR_SONIC.flt();
-		MOTOR_SONIC.rotateTo(0, true);
 
 		Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
         Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
@@ -48,9 +47,9 @@ public class MazeWallFollowBehaviour implements Behavior {
 		
 		while (!suppressed && !Settings.TOUCH_L.isPressed()) {
 			lastDistances[curDisIdx] = Settings.SONIC_SENSOR.getDistance();
-
-			if (Math.abs(sonicTachoCount - MOTOR_SONIC.getTachoCount()) > 1) {
-				Settings.PILOT.rotate(-30, true);
+			
+			if (lastDistances[curDisIdx] == 255 || Math.abs(sonicTachoCount - MOTOR_SONIC.getTachoCount()) > 1) {
+				Settings.PILOT.rotate(-20, true);
 				MOTOR_SONIC.rotateTo(0, true);
 				sonicTachoCount = MOTOR_SONIC.getTachoCount();
 			} else if (lastDistances[curDisIdx] < 6) {
@@ -70,7 +69,6 @@ public class MazeWallFollowBehaviour implements Behavior {
 			curDisIdx = (curDisIdx + 1) % lastDistances.length;
 			sonicTachoCount = MOTOR_SONIC.getTachoCount();
 		}
-		
 		Settings.PILOT.stop();
 	}
 
