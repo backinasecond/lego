@@ -102,6 +102,15 @@ public class ReadCodes implements Behavior {
 
 		codeReadFinished = true;
 	}
+	
+	/*
+	 * Needed to start a new code reading segment.
+	 */
+	public void reset() {
+		suppressed = false;
+		firstLineRecognized = false;
+		codeReadFinished = false;
+	}
 
 	@Override
 	public void suppress() {
