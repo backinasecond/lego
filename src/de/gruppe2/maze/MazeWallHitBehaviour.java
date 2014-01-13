@@ -29,8 +29,9 @@ public class MazeWallHitBehaviour implements Behavior {
     public void action() {
             suppressed = false;
             
+            Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 1);
             Settings.PILOT.travel(-90);
-            Settings.PILOT.rotate(-80);
+            Settings.PILOT.rotate(-90);
             while( Settings.PILOT.isMoving() && !suppressed );
             Settings.PILOT.stop();
     }
