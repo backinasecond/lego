@@ -9,7 +9,6 @@ public class RaceEnd implements Behavior {
 
 	@Override
 	public boolean takeControl() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 

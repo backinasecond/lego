@@ -21,7 +21,7 @@ public class Settings {
 	/**
 	 * ArbitratorManager to change arbitrators depending on the current level.
 	 */
-	public final static RobotState FIRST_LEVEL = RobotState.START;
+	public static RobotState CURRENT_LEVEL = RobotState.START;
 	public static ArbitratorManager ARBITRATOR_MANAGER;
 
 	public static boolean isRunning = false;
