@@ -7,18 +7,18 @@ import de.gruppe2.Settings;
 
 public class LineFollow2 implements Behavior {
 
+	private static boolean DEBUG = true;
 	private boolean lineLeft = false;
 	private boolean suppressed = false;
 
 	static LightSensor lightSensor = Settings.LIGHT_SENSOR;
 
 	private static int LINE_EDGE_COLOR = (Settings.LIGHT_LINE_DEFAULT + Settings.LIGHT_BLACK_DEFAULT) / 2;
-	private static int COLOR_THRESHOLD = Math.abs(LINE_EDGE_COLOR
-			- Settings.LIGHT_LINE_DEFAULT);
+	private static int COLOR_THRESHOLD = Math.abs(LINE_EDGE_COLOR - Settings.LIGHT_LINE_DEFAULT) + 50;
 	private static int PROPORTIONAL_RANGE = COLOR_THRESHOLD - 20;
 
 	// The speed of both motors, if the turn value is 0
-	private static int TARGET_POWER = 160; // (TP)
+	private static int TARGET_POWER = 350; // (TP)
 
 	// Multiply this slope with the error and you get a value ranging from -1 to
 	// 1
@@ -44,7 +44,7 @@ public class LineFollow2 implements Behavior {
 		boolean isRotatingRight = false;
 		int error;
 		float turn;
-		
+
 		while (!suppressed && !lineLeft) {
 			// Get difference between wanted light value and current light
 			// value.
@@ -54,14 +54,21 @@ public class LineFollow2 implements Behavior {
 			// steer left to get back to the edge.
 			error = LINE_EDGE_COLOR - lightSensor.getNormalizedLightValue();
 
-			if(isRotatingLeft && lightSensor.getNormalizedLightValue() < 450) {
-				if(!isRotatingRight && Settings.PILOT.getAngleIncrement() > 150) {
+			if (isRotatingLeft && lightSensor.getNormalizedLightValue() < 450) {
+				if (!isRotatingRight && Settings.PILOT.getAngleIncrement() > 150) {
+					if (DEBUG) {
+						System.out.println("1");
+					}
+
 					Settings.PILOT.rotate(-340, true);
 					isRotatingRight = true;
-				} 
+				}
 				// Rotating right
-				else if(Settings.PILOT.getAngleIncrement() < -330)
-				{
+				else if (Settings.PILOT.getAngleIncrement() < -330) {
+					if (DEBUG) {
+						System.out.println("2");
+					}
+
 					// No line found. Adjusting robot
 					Settings.PILOT.rotate(130);
 					lineLeft = true;
@@ -71,12 +78,19 @@ public class LineFollow2 implements Behavior {
 			// If error is negative and not in the proportional range, robot is
 			// on the line and should steer right
 			else if (error < -PROPORTIONAL_RANGE) {
+				if (DEBUG) {
+					System.out.println("3");
+				}
 				Settings.PILOT.steer(-20, -20, true);
 				isRotatingLeft = false;
 			}
 			// If error is positive and not in the proportional range, robot is
 			// not on the line and should steer left
 			else if (error > PROPORTIONAL_RANGE) {
+				if (DEBUG) {
+					System.out.println("4");
+				}
+
 				integral = 0;
 				RConsole.println("2 " + error);
 				if (!isRotatingLeft) {
@@ -90,6 +104,10 @@ public class LineFollow2 implements Behavior {
 			// a little right and left according to the
 			// error
 			else {
+				if (DEBUG) {
+					System.out.println("5");
+				}
+
 				isRotatingLeft = false;
 				// Calculate the strength of the turn necessary to get back to
 				// the edge
