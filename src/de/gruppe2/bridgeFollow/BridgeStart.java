@@ -28,12 +28,12 @@ public class BridgeStart implements Behavior {
 			if(sonic.getDistance() > Settings.BRIDGE_HEIGHT_THRESHOLD)
 			{
 				// Robot is near ground
-				pilot.steer(-160, -30, false);
+				pilot.steer(-120, -30, false);
 				Settings.BRIDGE_STATE = BridgeState.FOLLOW_LINE;
 				break;
 			} else {
 				// Robot is too far away from ground
-				pilot.steer(10, 10, true);
+				pilot.steer(5, 10, true);
 			}
 
 			Thread.yield();
