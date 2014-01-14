@@ -1,8 +1,6 @@
 package de.gruppe2.lineFollow;
 
-import lejos.nxt.Button;
 import lejos.nxt.LightSensor;
-import lejos.nxt.comm.RConsole;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.subsumption.Arbitrator;
 import lejos.robotics.subsumption.Behavior;
