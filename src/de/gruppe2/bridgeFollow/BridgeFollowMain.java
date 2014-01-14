@@ -6,7 +6,7 @@ import lejos.robotics.subsumption.Arbitrator;
 import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.Settings;
 import de.gruppe2.util.CalibrateSonic;
-import de.gruppe2.util.LightDetectionBehaviour;
+import de.gruppe2.util.LightThresholdBehavior;
 
 public class BridgeFollowMain implements ButtonListener {
 
@@ -21,11 +21,12 @@ public class BridgeFollowMain implements ButtonListener {
 		// Bridge
 		Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
 		Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
+		
 
 		Behavior b0 = new BridgeBefore();
 		Behavior b1 = new BridgeFollow();
 		Behavior b2 = new BridgeStart();
-		Behavior b3 = new LightDetectionBehaviour(Settings.LIGHT_BLACK_DEFAULT);
+		Behavior b3 = new LightThresholdBehavior(Settings.LIGHT_BLACK_DEFAULT);
 
 		Behavior[] behaviors = { b1, b2, b3, b0 };
 
