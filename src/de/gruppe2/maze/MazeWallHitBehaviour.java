@@ -30,8 +30,15 @@ public class MazeWallHitBehaviour implements Behavior {
             suppressed = false;
             
             Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 1);
-            Settings.PILOT.travel(-90);
-            Settings.PILOT.rotate(-90);
+            
+            if (Settings.SONIC_SENSOR.getDistance() > 3 * Settings.MAZE_WALL_DISTANCE_THRESHOLD) {
+                Settings.PILOT.travel(50);
+                Settings.PILOT.rotate(50);
+            } else {
+                Settings.PILOT.travel(-90);
+                Settings.PILOT.rotate(-90);            	
+            }
+            
             while( Settings.PILOT.isMoving() && !suppressed );
             Settings.PILOT.stop();
     }

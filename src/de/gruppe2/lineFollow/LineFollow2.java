@@ -1,11 +1,9 @@
 package de.gruppe2.lineFollow;
 
-import de.gruppe2.Settings;
-import lejos.nxt.Button;
 import lejos.nxt.LightSensor;
 import lejos.nxt.comm.RConsole;
 import lejos.robotics.subsumption.Behavior;
-import lejos.util.Delay;
+import de.gruppe2.Settings;
 
 public class LineFollow2 implements Behavior {
 
@@ -44,6 +42,9 @@ public class LineFollow2 implements Behavior {
 		float integral = 0;
 		boolean isRotatingLeft = false;
 		boolean isRotatingRight = false;
+		int error;
+		float turn;
+		
 		while (!suppressed && !lineLeft) {
 			// Get difference between wanted light value and current light
 			// value.
@@ -51,7 +52,7 @@ public class LineFollow2 implements Behavior {
 			// right to get back to the edge.
 			// If error is negative, the robot is not on the line and should
 			// steer left to get back to the edge.
-			int error = LINE_EDGE_COLOR - lightSensor.getNormalizedLightValue();
+			error = LINE_EDGE_COLOR - lightSensor.getNormalizedLightValue();
 
 			if(isRotatingLeft && lightSensor.getNormalizedLightValue() < 450) {
 				if(!isRotatingRight && Settings.PILOT.getAngleIncrement() > 150) {
@@ -98,7 +99,7 @@ public class LineFollow2 implements Behavior {
 				// Turn is negative when the error is negative --> robot not on
 				// line --> steer right
 				integral = (2 / 3) * integral + error;
-				float turn = KP * error + KI * integral;
+				turn = KP * error + KI * integral;
 				turn *= 0.8;
 
 				// This case should never happen, but it may be good for
