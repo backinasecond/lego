@@ -15,6 +15,7 @@ import de.gruppe2.maze.MazeWallFollowBehaviour;
 import de.gruppe2.maze.MazeWallHitBehaviour;
 import de.gruppe2.util.CalibrateSonic;
 import de.gruppe2.util.LightDetectionBehaviour;
+import de.gruppe2.util.LightThresholdBehavior;
 
 /**
  * This class manages the different arbitrators for all the different levels.
@@ -36,7 +37,7 @@ public class ArbitratorManager {
 	private final static Behavior BRIDGE_BEFORE = new BridgeBefore();
 	private final static Behavior BRIDGE_START = new BridgeStart();
 	private final static Behavior BRIDGE_FOLLOW = new BridgeFollow();
-	private final static Behavior BRIDGE_END = new LightDetectionBehaviour(Settings.LIGHT_BRIDGE_DEFAULT);
+	private final static Behavior BRIDGE_END = new LightThresholdBehavior(Settings.LIGHT_BLACK_DEFAULT);
 	private final static Behavior[] BRIDGE_BEHAVIOURS = { BRIDGE_START, BRIDGE_FOLLOW, BRIDGE_END, BRIDGE_BEFORE };
 
 	/**
