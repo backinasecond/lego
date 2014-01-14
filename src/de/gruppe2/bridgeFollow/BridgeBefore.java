@@ -2,6 +2,7 @@ package de.gruppe2.bridgeFollow;
 
 import de.gruppe2.Settings;
 import de.gruppe2.Settings.BridgeState;
+import de.gruppe2.util.CalibrateSonic;
 import lejos.robotics.subsumption.Behavior;
 
 public class BridgeBefore implements Behavior {
@@ -16,6 +17,10 @@ public class BridgeBefore implements Behavior {
 	public void action() {
 		suppressed = false;
 		
+		CalibrateSonic.calibrateVertically();
+		Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
+        Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
+        
 		while(Settings.LIGHT_SENSOR.getNormalizedLightValue() < Settings.LIGHT_BRIDGE_DEFAULT && !suppressed)
 		{
 			Settings.PILOT.forward();

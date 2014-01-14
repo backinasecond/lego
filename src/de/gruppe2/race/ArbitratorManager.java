@@ -11,10 +11,12 @@ import de.gruppe2.barcode.BarcodeReader;
 import de.gruppe2.bridgeFollow.BridgeBefore;
 import de.gruppe2.bridgeFollow.BridgeFollow;
 import de.gruppe2.bridgeFollow.BridgeStart;
+import de.gruppe2.lineFollow.LineFollow2;
 import de.gruppe2.maze.MazeWallFollowBehaviour;
 import de.gruppe2.maze.MazeWallHitBehaviour;
 import de.gruppe2.util.CalibrateSonic;
 import de.gruppe2.util.LightDetectionBehaviour;
+import de.gruppe2.util.LightThresholdBehavior;
 
 /**
  * This class manages the different arbitrators for all the different levels.
@@ -36,7 +38,7 @@ public class ArbitratorManager {
 	private final static Behavior BRIDGE_BEFORE = new BridgeBefore();
 	private final static Behavior BRIDGE_START = new BridgeStart();
 	private final static Behavior BRIDGE_FOLLOW = new BridgeFollow();
-	private final static Behavior BRIDGE_END = new LightDetectionBehaviour(Settings.LIGHT_BRIDGE_DEFAULT);
+	private final static Behavior BRIDGE_END = new LightThresholdBehavior(Settings.LIGHT_BLACK_DEFAULT);
 	private final static Behavior[] BRIDGE_BEHAVIOURS = { BRIDGE_START, BRIDGE_FOLLOW, BRIDGE_END, BRIDGE_BEFORE };
 
 	/**
@@ -46,6 +48,13 @@ public class ArbitratorManager {
 	private final static Behavior MAZE_WALL_HIT = new MazeWallHitBehaviour();
     private final static Behavior MAZE_LINE_DETECTION = new LightDetectionBehaviour(Settings.LIGHT_LINE_DEFAULT);
     private final static Behavior[] MAZE_BEHAVIOURS = { MAZE_WALL_FOLLOW, MAZE_WALL_HIT, MAZE_LINE_DETECTION };
+    
+	/**
+	 * Follow line behavior.
+	 */
+	private final static Behavior LINE_FOLLOW = new LineFollow2();
+	private final static Behavior[] LINE_BEHAVIOURS = { LINE_FOLLOW };
+
 
 	/**
 	 * Bluetooth Gate behavior.
@@ -71,18 +80,6 @@ public class ArbitratorManager {
 	 * private Behavior[] turnTableArray = { tt1, tt2, tt3, tt4, tt5, tt6, tt7 };
 	 */
 
-	/**
-	 * Follow tape behavior.
-	 */
-	/*
-	 * private Behavior t1 = new TapeFollow();
-	 * private Behavior t2 = new TapeGapFound();
-	 * private Behavior t3 = new TapeObstacleFound();
-	 * private Behavior t4 = new ReadCodes();
-	 * private Behavior t5 = new SensorHeadPosition();
-	 * // private Behavior t6 = new MotorAStall();
-	 * private Behavior[] tapeBehavior = { t1, t2, t3, t4, t5 };
-	 */
 
 	/**
 	 * End Opponent behavior.
@@ -145,6 +142,11 @@ public class ArbitratorManager {
 		case MAZE:
 			CalibrateSonic.calibrateHorizontally();
 			arbitrator = new CustomArbitrator(MAZE_BEHAVIOURS);
+			break;
+		case LINE:
+			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * Settings.TAPE_FOLLOW_SPEED);
+			Settings.PILOT.setRotateSpeed(Settings.PILOT.getRotateMaxSpeed() * Settings.TAPE_ROTATE_SPEED);
+			arbitrator = new CustomArbitrator(LINE_BEHAVIOURS);
 			break;
 /*
 		case BT_GATE:

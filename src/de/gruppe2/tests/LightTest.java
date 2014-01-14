@@ -18,11 +18,11 @@ public class LightTest {
 		
 		Settings.PILOT.setTravelSpeed(20);
 		System.out.println("Recording values");
-		Settings.PILOT.travel(40, true);
-		while(Settings.PILOT.isMoving())
+		//Settings.PILOT.travel(40, true);
+		while(Button.ENTER.isUp())
 		{
 			values.add(new Integer(Settings.LIGHT_SENSOR.getNormalizedLightValue()));
-			Delay.msDelay(5);
+			Delay.msDelay(20);
 		}
 		
 		int sum = 0;

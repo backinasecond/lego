@@ -26,7 +26,7 @@ public class CalibrateSonic {
 	public static void calibrateVertically()
 	{
 		rotateSensorUntilBlocked();
-		Settings.MOTOR_SONIC.rotate(-100, false);
+		Settings.MOTOR_SONIC.rotate(-110, false);
 		Settings.MOTOR_SONIC.resetTachoCount();
 		System.out.println("Calib vert done");
 	}
