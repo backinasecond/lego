@@ -10,6 +10,7 @@ public enum RobotState {
 	BARCODE,
 	MAZE,
 	BRIDGE,
+	LINE,
 	//END_OPPONENT,
 	END
 };
