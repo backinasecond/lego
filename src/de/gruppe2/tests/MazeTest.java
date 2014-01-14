@@ -12,36 +12,35 @@ import de.gruppe2.util.LightDetectionBehaviour;
 
 public class MazeTest implements ButtonListener {
 
+	public MazeTest() {
+		Button.ESCAPE.addButtonListener(this);
+	}
 
-        public MazeTest() {
-                Button.ESCAPE.addButtonListener(this);
-        }
+	public static void main(String[] args) throws Exception {
+		new MazeTest();
+		CalibrateSonic.calibrateHorizontally();
+		Behavior wallHit = new MazeWallHitBehaviour();
+		Behavior wallFollow = new MazeWallFollowBehaviour();
+		Behavior lineDetection = new LightDetectionBehaviour(Settings.LIGHT_LINE_DEFAULT);
 
-        public static void main(String[] args) throws Exception {
-                new MazeTest();
-                CalibrateSonic.calibrateHorizontally();
-                Behavior wallHit = new MazeWallHitBehaviour();
-                Behavior wallFollow = new MazeWallFollowBehaviour();
-                Behavior lineDetection = new LightDetectionBehaviour(Settings.LIGHT_LINE_DEFAULT);
-                
-                Behavior[] bArray = { wallFollow, wallHit, lineDetection };
+		Behavior[] bArray = { wallFollow, wallHit, lineDetection };
 
-                Arbitrator arbitrator = new Arbitrator(bArray);                
-                arbitrator.start();
-        }
+		Arbitrator arbitrator = new Arbitrator(bArray);
+		arbitrator.start();
+	}
 
-        @Override
-        public void buttonPressed(Button b) {
-                stopRunning();
-        }
+	@Override
+	public void buttonPressed(Button b) {
+		stopRunning();
+	}
 
-        @Override
-        public void buttonReleased(Button b) {
-                stopRunning();
-        }
+	@Override
+	public void buttonReleased(Button b) {
+		stopRunning();
+	}
 
-        private void stopRunning() {
-                // Stop the arbitrator, the main program and the motors.
-                System.exit(0);
-        }
+	private void stopRunning() {
+		// Stop the arbitrator, the main program and the motors.
+		System.exit(0);
+	}
 }
