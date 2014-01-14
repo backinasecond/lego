@@ -30,7 +30,6 @@ public class LineFollow2 implements Behavior {
 	// -TARGET_POWER to TARGET_POWER
 	private static float KP = SLOPE * TARGET_POWER;
 	private static float KI = 0.1f;
-	private static float KD = 100;
 
 	@Override
 	public boolean takeControl() {
@@ -42,16 +41,10 @@ public class LineFollow2 implements Behavior {
 	public void action() {
 		suppressed = false;
 
-		System.out.println("Line edge color: " + LINE_EDGE_COLOR);
-		System.out.println("Color threshold: " + COLOR_THRESHOLD);
-		System.out.println("Slope: " + SLOPE);
-		System.out.println("KP: " + KP);
-		Button.ENTER.waitForPressAndRelease();
-
-		int degreesTurnedRight = 0;
 		float integral = 0;
-		boolean isRotating = false;
-		while (!suppressed) {
+		boolean isRotatingLeft = false;
+		boolean isRotatingRight = false;
+		while (!suppressed && !lineLeft) {
 			// Get difference between wanted light value and current light
 			// value.
 			// If error is positive, the robot is on the line and should steer
@@ -60,47 +53,43 @@ public class LineFollow2 implements Behavior {
 			// steer left to get back to the edge.
 			int error = LINE_EDGE_COLOR - lightSensor.getNormalizedLightValue();
 
+			if(isRotatingLeft && lightSensor.getNormalizedLightValue() < 450) {
+				if(!isRotatingRight && Settings.PILOT.getAngleIncrement() > 150) {
+					Settings.PILOT.rotate(-340, true);
+					isRotatingRight = true;
+				} 
+				// Rotating right
+				else if(Settings.PILOT.getAngleIncrement() < -330)
+				{
+					// No line found. Adjusting robot
+					Settings.PILOT.rotate(130);
+					lineLeft = true;
+				}
+
+			}
 			// If error is negative and not in the proportional range, robot is
 			// on the line and should steer right
-			if (error < -PROPORTIONAL_RANGE) {
-				// TODO: Der Roboter befindet sich gerade nicht auf der Linie,
-				// sondern irgendwo auf der Plane. Er sollte
-				// sich nun h�chstens 90 Grad nach links drehen und schauen ob
-				// er auf dem Weg die Linie wieder findet. Wenn
-				// nicht ein Drehung nach rechts um h�chstens 180 Grad. Findet
-				// er dann auch nichts, ist er am Ende der
-				// Linie. --> Setze lineLeft auf true
-				// Settings.PILOT.rotate(90, true);
-				System.out.println("1 " + error);
-				// RConsole.println("1");
-				// Settings.PILOT.rotate(-90, true);
-				// degreesTurnedRight += 20;
-				isRotating = false;
+			else if (error < -PROPORTIONAL_RANGE) {
+				Settings.PILOT.steer(-20, -20, true);
+				isRotatingLeft = false;
 			}
 			// If error is positive and not in the proportional range, robot is
 			// not on the line and should steer left
 			else if (error > PROPORTIONAL_RANGE) {
-				System.out.println("2 " + error);
-				RConsole.println("2");
-				if (!isRotating) {
-					isRotating = true;
-					Settings.PILOT.rotate(-110, true);
-					System.out.println("------------");
-				}
-
-				if (Settings.PILOT.getAngleIncrement() > 100) {
-					Settings.PILOT.rotate(200, true);
-					System.out.println("rotating 2");
+				integral = 0;
+				RConsole.println("2 " + error);
+				if (!isRotatingLeft) {
+					isRotatingLeft = true;
+					isRotatingRight = false;
+					Settings.PILOT.travel(40);
+					Settings.PILOT.rotate(150, true);
 				}
 			}
 			// If the error is in the proportional range the robot should steer
 			// a little right and left according to the
 			// error
 			else {
-				isRotating = false;
-				System.out.println("3 " + error);
-				RConsole.println("3");
-				degreesTurnedRight = 0;
+				isRotatingLeft = false;
 				// Calculate the strength of the turn necessary to get back to
 				// the edge
 				// Turn will range from -TARGET_POWER to TARGET_POWER
@@ -110,12 +99,13 @@ public class LineFollow2 implements Behavior {
 				// line --> steer right
 				integral = (2 / 3) * integral + error;
 				float turn = KP * error + KI * integral;
+				turn *= 0.8;
 
 				// This case should never happen, but it may be good for
 				// debugging
 				if (turn > TARGET_POWER || turn < -TARGET_POWER) {
-					System.out
-							.println("Error! The Motor speed will be set negative");
+					RConsole.println("Error! The Motor speed will be set negative");
+					System.out.println("Error! Negative speed");
 					turn = TARGET_POWER;
 				}
 

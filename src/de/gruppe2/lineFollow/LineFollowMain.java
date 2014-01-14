@@ -2,6 +2,7 @@ package de.gruppe2.lineFollow;
 
 import lejos.nxt.Button;
 import lejos.nxt.LightSensor;
+import lejos.nxt.comm.RConsole;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.subsumption.Arbitrator;
 import lejos.robotics.subsumption.Behavior;
@@ -16,8 +17,8 @@ public class LineFollowMain {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Button.ENTER.waitForPressAndRelease();
-		
+
+		/*
         int lights[] = new int[300];
 
         for (int j = 0; j < lights.length; j++) {
@@ -46,7 +47,7 @@ public class LineFollowMain {
         System.out.println("min: " + min + ", max: " + max);
         light.setLow(min);
 		light.setHigh(max);
-
+		*/
 		double speed = pilot.getMaxTravelSpeed() * Settings.TAPE_FOLLOW_SPEED;
 		pilot.setTravelSpeed(speed);
 		// pilot.setTravelSpeed(pilot.getMaxTravelSpeed() * 0.4);
@@ -54,12 +55,14 @@ public class LineFollowMain {
 
 //		Settings.motorAAngle = 0;
 
-		Behavior t1 = new LineFollow();
+		Behavior t1 = new LineFollow2();
 
 		Behavior[] tapeFollowArray = { t1 };
 
+		//RConsole.open();
 		Arbitrator lineFollowArbitrator = new Arbitrator(tapeFollowArray);
 		lineFollowArbitrator.start();
+		//RConsole.close();
 	}
 
 }
