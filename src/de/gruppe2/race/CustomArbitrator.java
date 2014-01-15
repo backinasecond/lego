@@ -29,12 +29,11 @@ public class CustomArbitrator implements Runnable {
 
 	private final int NONE = -1;
 	private Behavior[] _behavior;
-	// highest priority behavior that wants control ; set by start() used by
-	// monitor
+	// highest priority behavior that wants control ; set by start() used by monitor
 	private int _highestPriority = NONE;
-	private int _active = NONE; // active behavior; set by monitor, used by
-								// start();
+	private int _active = NONE; // active behavior; set by monitor, used by start();
 	private boolean _returnWhenInactive;
+	
 	private boolean running = true; // if false, everything stops
 
 	/**

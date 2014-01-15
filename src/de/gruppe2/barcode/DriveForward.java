@@ -7,8 +7,6 @@ import lejos.robotics.subsumption.Behavior;
 /**
  * This class describes the Behavior to simple drive forward.
  * 
- * @author Team Curiosity
- * 
  */
 public class DriveForward implements Behavior {
 	private DifferentialPilot pilot;
@@ -34,7 +32,7 @@ public class DriveForward implements Behavior {
 	public void action() {
 		suppressed = false;
 
-		Settings.PILOT.setTravelSpeed(20);
+		Settings.PILOT.setTravelSpeed(120);
 		Settings.PILOT.forward();
 		
 		while (!suppressed) {
