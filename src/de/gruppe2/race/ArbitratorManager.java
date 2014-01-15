@@ -14,6 +14,9 @@ import de.gruppe2.bridgeFollow.BridgeStart;
 import de.gruppe2.lineFollow.LineFollow;
 import de.gruppe2.maze.MazeWallFollowBehaviour;
 import de.gruppe2.maze.MazeWallHitBehaviour;
+import de.gruppe2.symbol.SymbolFollow;
+import de.gruppe2.turntable.TurnTurntableBehaviour;
+import de.gruppe2.turntable.WallHitBehaviour;
 import de.gruppe2.util.CalibrateSonic;
 import de.gruppe2.util.LightDetectionBehaviour;
 import de.gruppe2.util.LightThresholdBehavior;
@@ -57,11 +60,21 @@ public class ArbitratorManager {
 	private final static Behavior[] LINE_BEHAVIOURS = { LINE_FOLLOW };
 	
 	/**
+	 * Symbol recognizer behavior.
+	 */
+	private final static Behavior SYMBOL_RECOGNIZER = new SymbolFollow();
+	private final static Behavior SYMBOL_LINE_FOLLOW = new LineFollow(RobotState.TURNTABLE);
+	private final static Behavior[] SYMBOL_BEHAVIOURS = { SYMBOL_LINE_FOLLOW, SYMBOL_RECOGNIZER };
+	
+	
+	/**
 	 * Turntable  behavior.
 	 */
     private final static Behavior TURNTABLE_DRIVE_FORWARD = new DriveForward();
-	private final static Behavior TURNTABLE_LINE_FOLLOW = new LineFollow();
-	private final static Behavior[] TURNTABLE_BEHAVIOURS = { TURNTABLE_DRIVE_FORWARD, TURNTABLE_LINE_FOLLOW };
+    private final static Behavior TURNTABLE_WALL_HIT = new WallHitBehaviour();
+    private final static Behavior TURNTABLE_TURN = new TurnTurntableBehaviour();
+    
+	private final static Behavior[] TURNTABLE_BEHAVIOURS = { TURNTABLE_TURN, TURNTABLE_DRIVE_FORWARD, TURNTABLE_WALL_HIT};
 
 
 	/**
@@ -129,17 +142,17 @@ public class ArbitratorManager {
 			startThread = false;
 			changeState(RobotState.BARCODE);
 			break;
-		case BARCODE:
-			BARCODE_READ_CODE.reset();
-			arbitrator = new CustomArbitrator(BARCODE_READ_BEHAVIOURS);
-			break;
 		case START_RACE:
 			CalibrateSonic.calibrateHorizontally();
 			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 1.0);
 	        Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
 			arbitrator = new CustomArbitrator(MAZE_BEHAVIOURS);
 			break;
-		case LINE:
+		case BARCODE:
+			BARCODE_READ_CODE.reset();
+			arbitrator = new CustomArbitrator(BARCODE_READ_BEHAVIOURS);
+			break;
+		case LINE_FOLLOWER:
 			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * Settings.TAPE_FOLLOW_SPEED);
 			Settings.PILOT.setRotateSpeed(Settings.PILOT.getRotateMaxSpeed() * Settings.TAPE_ROTATE_SPEED);
 			arbitrator = new CustomArbitrator(LINE_BEHAVIOURS);
@@ -154,7 +167,11 @@ public class ArbitratorManager {
 	        Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
 			arbitrator = new CustomArbitrator(MAZE_BEHAVIOURS);
 			break;
-		case SYMBOL:
+		case SYMBOL_RECOGNIZER:
+			arbitrator = new CustomArbitrator(SYMBOL_BEHAVIOURS);
+			break;
+		case TURNTABLE:
+			arbitrator = new CustomArbitrator(TURNTABLE_BEHAVIOURS);
 			break;
 		case SHOOTING_RANGE:
 			break;

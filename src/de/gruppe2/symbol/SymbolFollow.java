@@ -191,7 +191,7 @@ public class SymbolFollow implements Behavior {
 				}
 				
 				// Change to line follower if symbol was recognized
-				Settings.ARBITRATOR_MANAGER.changeState(RobotState.LINE);
+				Settings.ARBITRATOR_MANAGER.changeState(RobotState.TURNTABLE);
 			}
 		}
 	}
