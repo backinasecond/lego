@@ -6,6 +6,7 @@ package de.gruppe2;
 public enum RobotState {
 	// TODO: Add additional states, when needed
 	START,
+	START_RACE,
 	RELOCATE,
 	BARCODE,
 	MAZE,
