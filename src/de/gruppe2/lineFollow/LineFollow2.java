@@ -1,8 +1,10 @@
 package de.gruppe2.lineFollow;
 
+import lejos.nxt.Button;
 import lejos.nxt.LightSensor;
 import lejos.nxt.comm.RConsole;
 import lejos.robotics.subsumption.Behavior;
+import lejos.util.Delay;
 import de.gruppe2.Settings;
 
 public class LineFollow2 implements Behavior {
@@ -15,7 +17,7 @@ public class LineFollow2 implements Behavior {
 
 	private static int LINE_EDGE_COLOR = (Settings.LIGHT_LINE_DEFAULT + Settings.LIGHT_BLACK_DEFAULT) / 2;
 	private static int COLOR_THRESHOLD = Math.abs(LINE_EDGE_COLOR - Settings.LIGHT_LINE_DEFAULT) + 50;
-	private static int PROPORTIONAL_RANGE = COLOR_THRESHOLD - 20;
+	private static int PROPORTIONAL_RANGE = COLOR_THRESHOLD - 50;
 
 	// The speed of both motors, if the turn value is 0
 	private static int TARGET_POWER = 350; // (TP)
@@ -79,7 +81,7 @@ public class LineFollow2 implements Behavior {
 			// on the line and should steer right
 			else if (error < -PROPORTIONAL_RANGE) {
 				if (DEBUG) {
-					System.out.println("3");
+					//System.out.println("3");
 				}
 				Settings.PILOT.steer(-20, -20, true);
 				isRotatingLeft = false;
@@ -88,15 +90,15 @@ public class LineFollow2 implements Behavior {
 			// not on the line and should steer left
 			else if (error > PROPORTIONAL_RANGE) {
 				if (DEBUG) {
-					System.out.println("4");
+					System.out.println("4 " + lightSensor.getNormalizedLightValue());
 				}
 
 				integral = 0;
-				RConsole.println("2 " + error);
 				if (!isRotatingLeft) {
 					isRotatingLeft = true;
 					isRotatingRight = false;
-					Settings.PILOT.travel(40);
+					// Maybe uncomment this
+					//Settings.PILOT.travel(40);
 					Settings.PILOT.rotate(150, true);
 				}
 			}
@@ -105,7 +107,8 @@ public class LineFollow2 implements Behavior {
 			// error
 			else {
 				if (DEBUG) {
-					System.out.println("5");
+					//System.out.println("5");
+					System.out.println("5 " + lightSensor.getNormalizedLightValue());
 				}
 
 				isRotatingLeft = false;

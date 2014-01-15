@@ -90,8 +90,8 @@ public class Settings {
 	/**
 	 * Saved light sensor settings with sample settings
 	 */
-	public final static int LIGHT_BLACK_DEFAULT = 320; // Its black if light value is <= this value
-	public final static int LIGHT_LINE_DEFAULT = 590;
+	public final static int LIGHT_BLACK_DEFAULT = 330; // Its black if light value is <= this value
+	public final static int LIGHT_LINE_DEFAULT = 600;
 	public final static int LIGHT_BRIDGE_DEFAULT = 450;	
 	public final static int COLOR_DIFFERENCE_THRESHOLD = 100;
 	/*public static int light_black = 300;
