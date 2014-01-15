@@ -14,6 +14,7 @@ import lejos.nxt.UltrasonicSensor;
  */
 public class Settings {
 	
+	public enum Symbol { NONE, L, U, M, Z };
 	public enum BridgeState { START, ON_BRIDGE, FOLLOW_LINE, END };
 	
 	public static BridgeState BRIDGE_STATE = BridgeState.START;
@@ -102,6 +103,8 @@ public class Settings {
 	public static int light_green = 415;
 	public static int searchedColor;
 	public static int color1;*/
+	
+	public static Symbol detectedSymbol = Symbol.NONE;
 
 	/**
 	 * Relative light percents.
