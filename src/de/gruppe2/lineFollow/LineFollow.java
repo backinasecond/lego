@@ -5,6 +5,7 @@ import lejos.nxt.LightSensor;
 import lejos.nxt.comm.RConsole;
 import lejos.robotics.subsumption.Behavior;
 import lejos.util.Delay;
+import de.gruppe2.RobotState;
 import de.gruppe2.Settings;
 
 public class LineFollow implements Behavior {
@@ -40,6 +41,7 @@ public class LineFollow implements Behavior {
 	@Override
 	public void action() {
 		suppressed = false;
+		lineLeft = false;
 
 		float integral = 0;
 		boolean isRotatingLeft = false;
@@ -73,7 +75,7 @@ public class LineFollow implements Behavior {
 
 					// No line found. Adjusting robot
 					Settings.PILOT.rotate(130);
-					lineLeft = true;
+					reachedEndOfLine();
 				}
 
 			}
@@ -143,6 +145,12 @@ public class LineFollow implements Behavior {
 	@Override
 	public void suppress() {
 		suppressed = true;
+	}
+	
+	private void reachedEndOfLine()
+	{
+		Settings.ARBITRATOR_MANAGER.changeState(RobotState.BARCODE);
+		lineLeft = true;
 	}
 
 }
