@@ -105,6 +105,12 @@ public class BarcodeReader implements Behavior {
 		case 6:
 			Settings.CURRENT_LEVEL = RobotState.MAZE;
 			break;
+		case 7:
+			Settings.CURRENT_LEVEL = RobotState.SYMBOL;
+			break;
+		case 8: 
+			Settings.CURRENT_LEVEL = RobotState.SHOOTING_RANGE;
+			break;
 		default:
 			System.out.println("No known code read!");
 			switchState = false;
