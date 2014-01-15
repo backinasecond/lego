@@ -53,7 +53,7 @@ public class LineFollowMain {
 
 //		Settings.motorAAngle = 0;
 
-		Behavior t1 = new LineFollow2();
+		Behavior t1 = new LineFollow();
 
 		Behavior[] tapeFollowArray = { t1 };
 

@@ -1,11 +1,26 @@
-package de.gruppe2.turntable;
+package de.gruppe2.symbol;
+
+import java.util.ArrayList;
 
 import lejos.nxt.LightSensor;
 import lejos.nxt.comm.RConsole;
 import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.Settings;
+import de.gruppe2.Settings.Symbol;
 
 public class SymbolFollow implements Behavior {
+	
+	private final String L1 = "L";
+	private final String L2 = "R";
+	private final String U1 = "LL";
+	private final String U2 = "RR";
+	private final String Z1 = "LR";
+	private final String Z2 = "RL";
+	private final String M1 = "RLR";
+	private final String M2 = "LRL";
+	
+	private boolean rotatedMoreThan50Degree = false;
+	private String directions = "";
 
 	private static boolean DEBUG = true;
 	private boolean lineLeft = false;
@@ -15,10 +30,10 @@ public class SymbolFollow implements Behavior {
 
 	private static int LINE_EDGE_COLOR = (Settings.LIGHT_LINE_DEFAULT + Settings.LIGHT_BLACK_DEFAULT) / 2;
 	private static int COLOR_THRESHOLD = Math.abs(LINE_EDGE_COLOR - Settings.LIGHT_LINE_DEFAULT) + 50;
-	private static int PROPORTIONAL_RANGE = COLOR_THRESHOLD - 20;
+	private static int PROPORTIONAL_RANGE = COLOR_THRESHOLD - 50;
 
 	// The speed of both motors, if the turn value is 0
-	private static int TARGET_POWER = 350; // (TP)
+	private static int TARGET_POWER = 250; // (TP)
 
 	// Multiply this slope with the error and you get a value ranging from -1 to
 	// 1
@@ -39,11 +54,13 @@ public class SymbolFollow implements Behavior {
 	public void action() {
 		suppressed = false;
 
+		Settings.detectedSymbol = Symbol.NONE;
 		float integral = 0;
 		boolean isRotatingLeft = false;
 		boolean isRotatingRight = false;
 		int error;
 		float turn;
+		float angleIncrement = 0;
 
 		while (!suppressed && !lineLeft) {
 			// Get difference between wanted light value and current light
@@ -53,33 +70,42 @@ public class SymbolFollow implements Behavior {
 			// If error is negative, the robot is not on the line and should
 			// steer left to get back to the edge.
 			error = LINE_EDGE_COLOR - lightSensor.getNormalizedLightValue();
+			angleIncrement = Settings.PILOT.getAngleIncrement();
 
 			if (isRotatingLeft && lightSensor.getNormalizedLightValue() < 450) {
-				if (!isRotatingRight && Settings.PILOT.getAngleIncrement() > 150) {
-					if (DEBUG) {
-						System.out.println("1");
-					}
-
-					Settings.PILOT.rotate(-340, true);
-					isRotatingRight = true;
+				if (!isRotatingRight) {
+					if(angleIncrement > 170) {
+						if (DEBUG) {
+							System.out.println("1");
+						}
+	
+						Settings.PILOT.rotate(-420, true);
+						isRotatingRight = true;
+						rotatedMoreThan50Degree = false;
+					} else if(angleIncrement > 80) {
+						rotatedMoreThan50Degree = true;
+					} 
 				}
 				// Rotating right
-				else if (Settings.PILOT.getAngleIncrement() < -330) {
-					if (DEBUG) {
-						System.out.println("2");
+				else {
+					if (angleIncrement < -410) {
+						if (DEBUG) {
+							System.out.println("2");
+						}
+	
+						// No line found. Adjusting robot
+						Settings.PILOT.rotate(130);
+						lineLeft = true;
+					} else if(angleIncrement < -250) {
+						rotatedMoreThan50Degree = true;
 					}
-
-					// No line found. Adjusting robot
-					Settings.PILOT.rotate(130);
-					lineLeft = true;
 				}
-
 			}
 			// If error is negative and not in the proportional range, robot is
 			// on the line and should steer right
 			else if (error < -PROPORTIONAL_RANGE) {
 				if (DEBUG) {
-					System.out.println("3");
+					//System.out.println("3");
 				}
 				Settings.PILOT.steer(-20, -20, true);
 				isRotatingLeft = false;
@@ -88,16 +114,15 @@ public class SymbolFollow implements Behavior {
 			// not on the line and should steer left
 			else if (error > PROPORTIONAL_RANGE) {
 				if (DEBUG) {
-					System.out.println("4");
+					System.out.println("4 " + lightSensor.getNormalizedLightValue());
 				}
 
 				integral = 0;
-				RConsole.println("2 " + error);
 				if (!isRotatingLeft) {
 					isRotatingLeft = true;
 					isRotatingRight = false;
 					Settings.PILOT.travel(40);
-					Settings.PILOT.rotate(150, true);
+					Settings.PILOT.rotate(200, true);
 				}
 			}
 			// If the error is in the proportional range the robot should steer
@@ -105,10 +130,20 @@ public class SymbolFollow implements Behavior {
 			// error
 			else {
 				if (DEBUG) {
-					System.out.println("5");
+					//System.out.println("5");
+					System.out.println("5 " + lightSensor.getNormalizedLightValue());
 				}
+				
+				if(isRotatingRight && rotatedMoreThan50Degree) {
+					directions += "R";
+				}
+				else if(isRotatingLeft && rotatedMoreThan50Degree) {
+					directions += "L";
+				} 
 
 				isRotatingLeft = false;
+				isRotatingRight = false;
+				rotatedMoreThan50Degree = false;
 				// Calculate the strength of the turn necessary to get back to
 				// the edge
 				// Turn will range from -TARGET_POWER to TARGET_POWER
@@ -133,6 +168,26 @@ public class SymbolFollow implements Behavior {
 
 				Settings.MOTOR_LEFT.forward();
 				Settings.MOTOR_RIGHT.forward();
+
+			}
+			
+			if(lineLeft)
+			{
+				System.out.println("Left line: " + directions);
+				
+				if(directions.equals(L1) || directions.equals(L2)) {
+					System.out.println("Symbol L");
+					Settings.detectedSymbol = Symbol.L;
+				} else if(directions.equals(U1) || directions.equals(U2)) {
+					System.out.println("Symbol U");
+					Settings.detectedSymbol = Symbol.U;
+				} else if(directions.equals(Z1) || directions.equals(Z2)) {
+					System.out.println("Symbol Z");
+					Settings.detectedSymbol = Symbol.Z;
+				} else if(directions.equals(M1) || directions.equals(M2)) {
+					System.out.println("Symbol M");
+					Settings.detectedSymbol = Symbol.M;
+				}
 			}
 		}
 	}
@@ -141,5 +196,4 @@ public class SymbolFollow implements Behavior {
 	public void suppress() {
 		suppressed = true;
 	}
-
 }
