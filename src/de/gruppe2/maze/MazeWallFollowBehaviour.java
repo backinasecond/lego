@@ -39,9 +39,6 @@ public class MazeWallFollowBehaviour implements Behavior {
 	public void action() {
 		sonicTachoCount = MOTOR_SONIC.getTachoCount();
 		MOTOR_SONIC.flt();
-
-		Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.80);
-        Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
 		
 		suppressed = false;
 		
