@@ -1,10 +1,8 @@
 package de.gruppe2.lineFollow;
 
-import lejos.nxt.Button;
 import lejos.nxt.LightSensor;
 import lejos.nxt.comm.RConsole;
 import lejos.robotics.subsumption.Behavior;
-import lejos.util.Delay;
 import de.gruppe2.RobotState;
 import de.gruppe2.Settings;
 
@@ -31,6 +29,24 @@ public class LineFollow implements Behavior {
 	// -TARGET_POWER to TARGET_POWER
 	private static float KP = SLOPE * TARGET_POWER;
 	private static float KI = 0.1f;
+
+	private RobotState nextState = RobotState.BARCODE;
+
+	/**
+	 * Constructor of a LineFollow behavior. After the end of the line will be recognized, the barcode scanner starts.
+	 */
+	public LineFollow() {
+	}
+
+	/**
+	 * Constructor of a LineFollow behavior. Use this constructor to set the state that will be started after the end of
+	 * line was recognized.
+	 * 
+	 * @param nextState State that will be started after the end of line was recognized.
+	 */
+	public LineFollow(RobotState nextState) {
+		setNextState(nextState);
+	}
 
 	@Override
 	public boolean takeControl() {
@@ -83,7 +99,7 @@ public class LineFollow implements Behavior {
 			// on the line and should steer right
 			else if (error < -PROPORTIONAL_RANGE) {
 				if (DEBUG) {
-					//System.out.println("3");
+					// System.out.println("3");
 				}
 				Settings.PILOT.steer(-20, -20, true);
 				isRotatingLeft = false;
@@ -100,7 +116,7 @@ public class LineFollow implements Behavior {
 					isRotatingLeft = true;
 					isRotatingRight = false;
 					// Maybe uncomment this
-					//Settings.PILOT.travel(40);
+					// Settings.PILOT.travel(40);
 					Settings.PILOT.rotate(150, true);
 				}
 			}
@@ -109,7 +125,7 @@ public class LineFollow implements Behavior {
 			// error
 			else {
 				if (DEBUG) {
-					//System.out.println("5");
+					// System.out.println("5");
 					System.out.println("5 " + lightSensor.getNormalizedLightValue());
 				}
 
@@ -146,11 +162,19 @@ public class LineFollow implements Behavior {
 	public void suppress() {
 		suppressed = true;
 	}
-	
-	private void reachedEndOfLine()
-	{
-		Settings.ARBITRATOR_MANAGER.changeState(RobotState.BARCODE);
+
+	private void reachedEndOfLine() {
+		Settings.ARBITRATOR_MANAGER.changeState(this.nextState);
 		lineLeft = true;
+	}
+
+	/**
+	 * Set state that will be started after the end of line was recognized.
+	 * 
+	 * @param next State state that will be started after the end of line was recognized.
+	 */
+	private void setNextState(RobotState nextState) {
+		this.nextState = nextState;
 	}
 
 }

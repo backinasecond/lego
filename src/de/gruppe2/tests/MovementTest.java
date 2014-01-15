@@ -11,15 +11,15 @@ public class MovementTest {
 		
 		System.out.println("90 Grad Drehung links");
 		Button.ENTER.waitForPress();
-		pilot.rotate(90);
+		pilot.rotate(90, true);
 		
 		System.out.println("90 Grad Drehung rechts");
 		Button.ENTER.waitForPress();
-		pilot.rotate(-90);
+		pilot.rotate(-90, true);
 		
 		System.out.println("180 Grad Drehung links");
 		Button.ENTER.waitForPress();
-		pilot.rotate(180);
+		pilot.rotate(180, true);
 	}
 
 }

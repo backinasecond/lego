@@ -1,10 +1,9 @@
 package de.gruppe2.symbol;
 
-import java.util.ArrayList;
-
 import lejos.nxt.LightSensor;
 import lejos.nxt.comm.RConsole;
 import lejos.robotics.subsumption.Behavior;
+import de.gruppe2.RobotState;
 import de.gruppe2.Settings;
 import de.gruppe2.Settings.Symbol;
 
@@ -23,7 +22,7 @@ public class SymbolFollow implements Behavior {
 	private String directions = "";
 
 	private static boolean DEBUG = true;
-	private boolean lineLeft = false;
+	private boolean symbolRecognized = false;
 	private boolean suppressed = false;
 
 	static LightSensor lightSensor = Settings.LIGHT_SENSOR;
@@ -47,7 +46,7 @@ public class SymbolFollow implements Behavior {
 	@Override
 	public boolean takeControl() {
 		// Only take control if line was not left yet
-		return !lineLeft;
+		return !symbolRecognized;
 	}
 
 	@Override
@@ -62,7 +61,7 @@ public class SymbolFollow implements Behavior {
 		float turn;
 		float angleIncrement = 0;
 
-		while (!suppressed && !lineLeft) {
+		while (!suppressed && !symbolRecognized) {
 			// Get difference between wanted light value and current light
 			// value.
 			// If error is positive, the robot is on the line and should steer
@@ -95,7 +94,9 @@ public class SymbolFollow implements Behavior {
 	
 						// No line found. Adjusting robot
 						Settings.PILOT.rotate(130);
-						lineLeft = true;
+						
+						// End of symbol recognized
+						symbolRecognized = true;
 					} else if(angleIncrement < -250) {
 						rotatedMoreThan50Degree = true;
 					}
@@ -171,7 +172,7 @@ public class SymbolFollow implements Behavior {
 
 			}
 			
-			if(lineLeft)
+			if(symbolRecognized)
 			{
 				System.out.println("Left line: " + directions);
 				
@@ -188,6 +189,9 @@ public class SymbolFollow implements Behavior {
 					System.out.println("Symbol M");
 					Settings.detectedSymbol = Symbol.M;
 				}
+				
+				// Change to line follower if symbol was recognized
+				Settings.ARBITRATOR_MANAGER.changeState(RobotState.LINE);
 			}
 		}
 	}

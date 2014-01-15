@@ -25,6 +25,7 @@ public class ArbitratorManager {
 	private static CustomArbitrator arbitrator;
 	private static Thread thread;
 
+	
 	/**
 	 * Read barcode behavior (also at start)
 	 */
@@ -54,6 +55,13 @@ public class ArbitratorManager {
 	 */
 	private final static Behavior LINE_FOLLOW = new LineFollow();
 	private final static Behavior[] LINE_BEHAVIOURS = { LINE_FOLLOW };
+	
+	/**
+	 * Turntable  behavior.
+	 */
+    private final static Behavior TURNTABLE_DRIVE_FORWARD = new DriveForward();
+	private final static Behavior TURNTABLE_LINE_FOLLOW = new LineFollow();
+	private final static Behavior[] TURNTABLE_BEHAVIOURS = { TURNTABLE_DRIVE_FORWARD, TURNTABLE_LINE_FOLLOW };
 
 
 	/**

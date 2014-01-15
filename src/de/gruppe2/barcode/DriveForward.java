@@ -9,14 +9,23 @@ import lejos.robotics.subsumption.Behavior;
  * 
  */
 public class DriveForward implements Behavior {
-	private DifferentialPilot pilot;
 	private boolean suppressed = false;
+	private int travelSpeed;
 
 	/**
-	 * Constructs a new DriveForward Behavior
+	 * Constructs a new DriveForward behavior. The travel speed will be set to 120 degree per second
 	 */
 	public DriveForward() {
-		this.pilot = Settings.PILOT;
+		this.travelSpeed = 120;
+	}
+
+	/**
+	 * Constructs a new DriveForward behavior. The parameter travelSpeed will define the speed of the movement.
+	 * 
+	 * @param travelSpeed Will define the speed of the movement.
+	 */
+	public DriveForward(int travelSpeed) {
+		this.travelSpeed = travelSpeed;
 	}
 
 	/**
@@ -32,11 +41,11 @@ public class DriveForward implements Behavior {
 	public void action() {
 		suppressed = false;
 
-		Settings.PILOT.setTravelSpeed(120);
+		Settings.PILOT.setTravelSpeed(this.travelSpeed);
 		Settings.PILOT.forward();
-		
+
 		while (!suppressed) {
-			pilot.travel(5, true);
+			Settings.PILOT.travel(5, true);
 		}
 	}
 
