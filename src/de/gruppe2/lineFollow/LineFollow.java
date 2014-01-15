@@ -1,107 +1,148 @@
 package de.gruppe2.lineFollow;
 
+import lejos.nxt.Button;
 import lejos.nxt.LightSensor;
-import lejos.robotics.navigation.DifferentialPilot;
+import lejos.nxt.comm.RConsole;
 import lejos.robotics.subsumption.Behavior;
 import lejos.util.Delay;
 import de.gruppe2.Settings;
 
 public class LineFollow implements Behavior {
 
-	static DifferentialPilot pilot = Settings.PILOT;
-	static LightSensor light = Settings.LIGHT_SENSOR;
-
+	private static boolean DEBUG = true;
+	private boolean lineLeft = false;
 	private boolean suppressed = false;
 
-	/**
-	 * Light threshold.
-	 */
-	static final int blackWhiteThreshold = 450;
+	static LightSensor lightSensor = Settings.LIGHT_SENSOR;
 
-	/**
-	 * Thread sleep time.
-	 */
-	static final int sleep = 10;
+	private static int LINE_EDGE_COLOR = (Settings.LIGHT_LINE_DEFAULT + Settings.LIGHT_BLACK_DEFAULT) / 2;
+	private static int COLOR_THRESHOLD = Math.abs(LINE_EDGE_COLOR - Settings.LIGHT_LINE_DEFAULT) + 50;
+	private static int PROPORTIONAL_RANGE = COLOR_THRESHOLD - 50;
 
-	/**
-	 * Turn rate.
-	 */
-	private static int tr = 90;
+	// The speed of both motors, if the turn value is 0
+	private static int TARGET_POWER = 350; // (TP)
+
+	// Multiply this slope with the error and you get a value ranging from -1 to
+	// 1
+	private static float SLOPE = 2.0f / (2.0f * COLOR_THRESHOLD);
+
+	// Multiply this value with the error and you get a value ranging from
+	// -TARGET_POWER to TARGET_POWER
+	private static float KP = SLOPE * TARGET_POWER;
+	private static float KI = 0.1f;
 
 	@Override
 	public boolean takeControl() {
-		return true;
+		// Only take control if line was not left yet
+		return !lineLeft;
 	}
 
 	@Override
 	public void action() {
-
 		suppressed = false;
-		
-		float rotatedAngle = 0;
-		float movementIncrement = -10;
-		boolean rotateLeft = true;
-		boolean rotateRight = true;
-		boolean startAngleCount = false;
 
-		while (!suppressed) {
-			if (light.getNormalizedLightValue() > blackWhiteThreshold) {
-				// On white, turn right
-				
-				pilot.steer(-tr, -10, true);
-				rotateLeft = true;
-				rotateRight = true;
-				startAngleCount = false;
-			} else if(rotateLeft){
-				// On black, turn left
-				if(!startAngleCount) {
-					pilot.travel(50, false);
-					startAngleCount = true;
-					pilot.rotate(80, true);
-					rotatedAngle = pilot.getAngleIncrement();
+		float integral = 0;
+		boolean isRotatingLeft = false;
+		boolean isRotatingRight = false;
+		int error;
+		float turn;
+
+		while (!suppressed && !lineLeft) {
+			// Get difference between wanted light value and current light
+			// value.
+			// If error is positive, the robot is on the line and should steer
+			// right to get back to the edge.
+			// If error is negative, the robot is not on the line and should
+			// steer left to get back to the edge.
+			error = LINE_EDGE_COLOR - lightSensor.getNormalizedLightValue();
+
+			if (isRotatingLeft && lightSensor.getNormalizedLightValue() < 450) {
+				if (!isRotatingRight && Settings.PILOT.getAngleIncrement() > 150) {
+					if (DEBUG) {
+						System.out.println("1");
+					}
+
+					Settings.PILOT.rotate(-340, true);
+					isRotatingRight = true;
 				}
-						
-				if (getDifferenceAngle(rotatedAngle) > 160) {
-					pilot.rotate(-90);
-					startAngleCount = false;
-					rotateLeft = false;
+				// Rotating right
+				else if (Settings.PILOT.getAngleIncrement() < -330) {
+					if (DEBUG) {
+						System.out.println("2");
+					}
+
+					// No line found. Adjusting robot
+					Settings.PILOT.rotate(130);
+					lineLeft = true;
 				}
-			} else if(rotateRight) {
-				if(!startAngleCount) {
-					startAngleCount = true;
-					pilot.rotate(-85, true);
-					rotatedAngle = pilot.getAngleIncrement();
+
+			}
+			// If error is negative and not in the proportional range, robot is
+			// on the line and should steer right
+			else if (error < -PROPORTIONAL_RANGE) {
+				if (DEBUG) {
+					//System.out.println("3");
 				}
-				// Nothing found left for 90 degrees and still on black, turn right
-				
-				if (getDifferenceAngle(rotatedAngle) > 160) {
-					pilot.rotate(80);
-					rotateRight = false;
+				Settings.PILOT.steer(-20, -20, true);
+				isRotatingLeft = false;
+			}
+			// If error is positive and not in the proportional range, robot is
+			// not on the line and should steer left
+			else if (error > PROPORTIONAL_RANGE) {
+				if (DEBUG) {
+					System.out.println("4 " + lightSensor.getNormalizedLightValue());
 				}
-			} else {
-				// Nothing found left or right. Drive straight on.
-				
-				if(movementIncrement < 0) {
-					movementIncrement = pilot.getMovementIncrement();
-				}
-				pilot.forward();
-				if(pilot.getMovementIncrement() - movementIncrement > 100) {
-					// Line has ended. Exit.
-					System.exit(0);
+
+				integral = 0;
+				if (!isRotatingLeft) {
+					isRotatingLeft = true;
+					isRotatingRight = false;
+					// Maybe uncomment this
+					//Settings.PILOT.travel(40);
+					Settings.PILOT.rotate(150, true);
 				}
 			}
-			Delay.msDelay(sleep);
+			// If the error is in the proportional range the robot should steer
+			// a little right and left according to the
+			// error
+			else {
+				if (DEBUG) {
+					//System.out.println("5");
+					System.out.println("5 " + lightSensor.getNormalizedLightValue());
+				}
+
+				isRotatingLeft = false;
+				// Calculate the strength of the turn necessary to get back to
+				// the edge
+				// Turn will range from -TARGET_POWER to TARGET_POWER
+				// Turn is positive when the error is positive --> robot on line
+				// --> steer left
+				// Turn is negative when the error is negative --> robot not on
+				// line --> steer right
+				integral = (2 / 3) * integral + error;
+				turn = KP * error + KI * integral;
+				turn *= 0.8;
+
+				// This case should never happen, but it may be good for
+				// debugging
+				if (turn > TARGET_POWER || turn < -TARGET_POWER) {
+					RConsole.println("Error! The Motor speed will be set negative");
+					System.out.println("Error! Negative speed");
+					turn = TARGET_POWER;
+				}
+
+				Settings.MOTOR_LEFT.setSpeed(TARGET_POWER - turn);
+				Settings.MOTOR_RIGHT.setSpeed(TARGET_POWER + turn);
+
+				Settings.MOTOR_LEFT.forward();
+				Settings.MOTOR_RIGHT.forward();
+			}
 		}
-		pilot.stop();
-	}
-	
-	private int getDifferenceAngle(float currentRotatedAngle) {
-		return (int) Math.abs((int) pilot.getAngleIncrement() - currentRotatedAngle);
 	}
 
 	@Override
 	public void suppress() {
 		suppressed = true;
-
 	}
+
 }

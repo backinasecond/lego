@@ -11,7 +11,7 @@ import de.gruppe2.barcode.BarcodeReader;
 import de.gruppe2.bridgeFollow.BridgeBefore;
 import de.gruppe2.bridgeFollow.BridgeFollow;
 import de.gruppe2.bridgeFollow.BridgeStart;
-import de.gruppe2.lineFollow.LineFollow2;
+import de.gruppe2.lineFollow.LineFollow;
 import de.gruppe2.maze.MazeWallFollowBehaviour;
 import de.gruppe2.maze.MazeWallHitBehaviour;
 import de.gruppe2.util.CalibrateSonic;
@@ -52,7 +52,7 @@ public class ArbitratorManager {
 	/**
 	 * Follow line behavior.
 	 */
-	private final static Behavior LINE_FOLLOW = new LineFollow2();
+	private final static Behavior LINE_FOLLOW = new LineFollow();
 	private final static Behavior[] LINE_BEHAVIOURS = { LINE_FOLLOW };
 
 
