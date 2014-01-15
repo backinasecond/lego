@@ -126,7 +126,9 @@ public class ArbitratorManager {
 			arbitrator = new CustomArbitrator(BARCODE_READ_BEHAVIOURS);
 			break;
 		case START_RACE:
-			startThread = true;
+			CalibrateSonic.calibrateHorizontally();
+			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 1.0);
+	        Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
 			arbitrator = new CustomArbitrator(MAZE_BEHAVIOURS);
 			break;
 		case LINE:
@@ -140,6 +142,8 @@ public class ArbitratorManager {
 			break;
 		case MAZE:
 			CalibrateSonic.calibrateHorizontally();
+			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.80);
+	        Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
 			arbitrator = new CustomArbitrator(MAZE_BEHAVIOURS);
 			break;
 		case SYMBOL:
