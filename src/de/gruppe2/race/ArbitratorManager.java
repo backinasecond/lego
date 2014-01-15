@@ -125,15 +125,14 @@ public class ArbitratorManager {
 			BARCODE_READ_CODE.reset();
 			arbitrator = new CustomArbitrator(BARCODE_READ_BEHAVIOURS);
 			break;
-		case RELOCATE:
-			Motor.A.removeListener();
-			Motor.B.removeListener();
-			Motor.C.removeListener();
-			System.out.println("Relocating. Press ENTER to continue.");
-			Button.waitForAnyPress();
-			
-			startThread = false;
-			changeState(RobotState.BARCODE);
+		case START_RACE:
+			startThread = true;
+			arbitrator = new CustomArbitrator(MAZE_BEHAVIOURS);
+			break;
+		case LINE:
+			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * Settings.TAPE_FOLLOW_SPEED);
+			Settings.PILOT.setRotateSpeed(Settings.PILOT.getRotateMaxSpeed() * Settings.TAPE_ROTATE_SPEED);
+			arbitrator = new CustomArbitrator(LINE_BEHAVIOURS);
 			break;
 		case BRIDGE:
 			Settings.BRIDGE_STATE = BridgeState.START;
@@ -143,10 +142,19 @@ public class ArbitratorManager {
 			CalibrateSonic.calibrateHorizontally();
 			arbitrator = new CustomArbitrator(MAZE_BEHAVIOURS);
 			break;
-		case LINE:
-			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * Settings.TAPE_FOLLOW_SPEED);
-			Settings.PILOT.setRotateSpeed(Settings.PILOT.getRotateMaxSpeed() * Settings.TAPE_ROTATE_SPEED);
-			arbitrator = new CustomArbitrator(LINE_BEHAVIOURS);
+		case SYMBOL:
+			break;
+		case SHOOTING_RANGE:
+			break;
+		case RELOCATE:
+			Motor.A.removeListener();
+			Motor.B.removeListener();
+			Motor.C.removeListener();
+			System.out.println("Relocating. Press ENTER to continue.");
+			Button.waitForAnyPress();
+			
+			startThread = false;
+			changeState(RobotState.BARCODE);
 			break;
 /*
 		case BT_GATE:

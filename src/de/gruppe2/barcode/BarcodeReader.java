@@ -90,14 +90,35 @@ public class BarcodeReader implements Behavior {
 		// Stop roboter after code was read. Next behavior must start it again
 		Settings.PILOT.stop();
 
+		boolean switchState = true;
+		
 		switch (lineCount) {
-		case 13:
+		case 3:
+			Settings.CURRENT_LEVEL = RobotState.START_RACE;
+			break;
+		case 4:
+			Settings.CURRENT_LEVEL = RobotState.LINE;
+			break;
+		case 5:
+			Settings.CURRENT_LEVEL = RobotState.BRIDGE;
+			break;
+		case 6:
 			Settings.CURRENT_LEVEL = RobotState.MAZE;
-			Settings.ARBITRATOR_MANAGER.changeState(Settings.CURRENT_LEVEL);
+			break;
+		case 7:
+			Settings.CURRENT_LEVEL = RobotState.SYMBOL;
+			break;
+		case 8: 
+			Settings.CURRENT_LEVEL = RobotState.SHOOTING_RANGE;
 			break;
 		default:
 			System.out.println("No known code read!");
+			switchState = false;
 			break;
+		}
+		
+		if(switchState) {
+			Settings.ARBITRATOR_MANAGER.changeState(Settings.CURRENT_LEVEL);
 		}
 
 		codeReadFinished = true;

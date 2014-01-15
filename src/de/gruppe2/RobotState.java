@@ -5,12 +5,15 @@ package de.gruppe2;
  */
 public enum RobotState {
 	// TODO: Add additional states, when needed
-	START,
 	RELOCATE,
+	START,
+	START_RACE,
 	BARCODE,
-	MAZE,
-	BRIDGE,
 	LINE,
+	BRIDGE,
+	MAZE,
+	SYMBOL,
+	SHOOTING_RANGE,
 	//END_OPPONENT,
 	END
 };
