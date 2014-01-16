@@ -36,8 +36,7 @@ public class RaceTrackEnd implements Behavior {
 			} else if (dis > 38) {
 				Settings.PILOT.steer(5, 40, true);
 			}
-//			
-//			Settings.PILOT.travel(400, true);
+			
 			while(Settings.PILOT.isMoving()) {
 				if (Math.abs(Settings.LIGHT_SENSOR.getNormalizedLightValue() - Settings.LIGHT_LINE_DEFAULT) < Settings.COLOR_DIFFERENCE_THRESHOLD) {
 					Settings.ARBITRATOR_MANAGER.changeState(RobotState.LINE_FOLLOWER);
