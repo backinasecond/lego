@@ -15,14 +15,14 @@ import lejos.nxt.UltrasonicSensor;
 public class Settings {
 	
 	public enum Symbol { NONE, L, U, M, Z };
-	public enum BridgeState { START, ON_BRIDGE, FOLLOW_LINE, END };
+	public enum BridgeState { START, ON_BRIDGE, FOLLOW_LINE, BEFORE_ELEVATOR, END };
 	
 	public static BridgeState BRIDGE_STATE = BridgeState.START;
 
 	/**
 	 * ArbitratorManager to change arbitrators depending on the current level.
 	 */
-	public static RobotState CURRENT_LEVEL = RobotState.START;
+	public static RobotState CURRENT_LEVEL = RobotState.BRIDGE;
 	public static ArbitratorManager ARBITRATOR_MANAGER;
 
 	public static boolean isRunning = false;
@@ -130,6 +130,6 @@ public class Settings {
 	public final static double TAPE_FOLLOW_SPEED = 0.20;
 	public final static double TAPE_ROTATE_SPEED = 0.25;
 
-	public final static int BRIDGE_HEIGHT_THRESHOLD = 18;
+	public final static int BRIDGE_HEIGHT_THRESHOLD = 10;
 	public final static int MAZE_WALL_DISTANCE_THRESHOLD = 9;
 }
