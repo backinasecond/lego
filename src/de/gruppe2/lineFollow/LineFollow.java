@@ -8,8 +8,8 @@ import de.gruppe2.Settings;
 
 public class LineFollow implements Behavior {
 
-	private static boolean DEBUG = true;
-	private boolean lineLeft = false;
+	private static boolean DEBUG = false;
+	protected boolean lineLeft = false;
 	private boolean suppressed = false;
 
 	static LightSensor lightSensor = Settings.LIGHT_SENSOR;
@@ -29,6 +29,9 @@ public class LineFollow implements Behavior {
 	// -TARGET_POWER to TARGET_POWER
 	private static float KP = SLOPE * TARGET_POWER;
 	private static float KI = 0.1f;
+
+	private boolean isRotatingLeft = false;
+	private boolean isRotatingRight = false;
 
 	private RobotState nextState = RobotState.BARCODE;
 
@@ -56,105 +59,87 @@ public class LineFollow implements Behavior {
 
 	@Override
 	public void action() {
+		Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * Settings.TAPE_FOLLOW_SPEED);
+		Settings.PILOT.setRotateSpeed(Settings.PILOT.getRotateMaxSpeed() * Settings.TAPE_ROTATE_SPEED);
+
 		suppressed = false;
 		lineLeft = false;
 
 		float integral = 0;
-		boolean isRotatingLeft = false;
-		boolean isRotatingRight = false;
+
 		int error;
 		float turn;
 
 		while (!suppressed && !lineLeft) {
-			// Get difference between wanted light value and current light
-			// value.
-			// If error is positive, the robot is on the line and should steer
-			// right to get back to the edge.
-			// If error is negative, the robot is not on the line and should
-			// steer left to get back to the edge.
+			loopHook();
+
+			// Get difference between wanted light value and current light value.
+			// If error is positive, the robot is on the line and should steer right to get back to the edge.
+			// If error is negative, the robot is not on the line and should steer left to get back to the edge.
 			error = LINE_EDGE_COLOR - lightSensor.getNormalizedLightValue();
 
-			if (isRotatingLeft && lightSensor.getNormalizedLightValue() < 450) {
-				if (!isRotatingRight && Settings.PILOT.getAngleIncrement() > 150) {
+			if (!testLineEnd()) {
+				// If error is negative and not in the proportional range, robot is
+				// on the line and should steer right
+				if (error < -PROPORTIONAL_RANGE) {
 					if (DEBUG) {
-						System.out.println("1");
+						// System.out.println("3");
+					}
+					Settings.PILOT.steer(-20, -20, true);
+					isRotatingLeft = false;
+				}
+				// If error is positive and not in the proportional range, robot is
+				// not on the line and should steer left
+				else if (error > PROPORTIONAL_RANGE) {
+					if (DEBUG) {
+						System.out.println("4 " + lightSensor.getNormalizedLightValue());
 					}
 
-					Settings.PILOT.rotate(-340, true);
-					isRotatingRight = true;
+					integral = 0;
+					if (!isRotatingLeft) {
+						isRotatingLeft = true;
+						isRotatingRight = false;
+
+						Settings.PILOT.travel(30);
+
+						Settings.PILOT.rotate(150, true);
+					}
 				}
-				// Rotating right
-				else if (Settings.PILOT.getAngleIncrement() < -330) {
+				// If the error is in the proportional range the robot should steer
+				// a little right and left according to the
+				// error
+				else {
 					if (DEBUG) {
-						System.out.println("2");
+						// System.out.println("5");
+						System.out.println("5 " + lightSensor.getNormalizedLightValue());
 					}
 
-					// No line found. Adjusting robot
-					Settings.PILOT.rotate(120);
-					reachedEndOfLine();
+					isRotatingLeft = false;
+					// Calculate the strength of the turn necessary to get back to
+					// the edge
+					// Turn will range from -TARGET_POWER to TARGET_POWER
+					// Turn is positive when the error is positive --> robot on line
+					// --> steer left
+					// Turn is negative when the error is negative --> robot not on
+					// line --> steer right
+					integral = (2 / 3) * integral + error;
+					turn = KP * error + KI * integral;
+					turn *= 0.8;
+
+					// This case should never happen, but it may be good for
+					// debugging
+					if (turn > TARGET_POWER || turn < -TARGET_POWER) {
+						RConsole.println("Error! The Motor speed will be set negative");
+						System.out.println("Error! Negative speed");
+						turn = TARGET_POWER;
+					}
+
+					Settings.MOTOR_LEFT.setSpeed(TARGET_POWER - turn);
+					Settings.MOTOR_RIGHT.setSpeed(TARGET_POWER + turn);
+
+					Settings.MOTOR_LEFT.forward();
+					Settings.MOTOR_RIGHT.forward();
 				}
-
-			}
-			// If error is negative and not in the proportional range, robot is
-			// on the line and should steer right
-			else if (error < -PROPORTIONAL_RANGE) {
-				if (DEBUG) {
-					// System.out.println("3");
-				}
-				Settings.PILOT.steer(-20, -20, true);
-				isRotatingLeft = false;
-			}
-			// If error is positive and not in the proportional range, robot is
-			// not on the line and should steer left
-			else if (error > PROPORTIONAL_RANGE) {
-				if (DEBUG) {
-					System.out.println("4 " + lightSensor.getNormalizedLightValue());
-				}
-
-				integral = 0;
-				if (!isRotatingLeft) {
-					isRotatingLeft = true;
-					isRotatingRight = false;
-
-					Settings.PILOT.travel(30);
-
-					Settings.PILOT.rotate(150, true);
-				}
-			}
-			// If the error is in the proportional range the robot should steer
-			// a little right and left according to the
-			// error
-			else {
-				if (DEBUG) {
-					// System.out.println("5");
-					System.out.println("5 " + lightSensor.getNormalizedLightValue());
-				}
-
-				isRotatingLeft = false;
-				// Calculate the strength of the turn necessary to get back to
-				// the edge
-				// Turn will range from -TARGET_POWER to TARGET_POWER
-				// Turn is positive when the error is positive --> robot on line
-				// --> steer left
-				// Turn is negative when the error is negative --> robot not on
-				// line --> steer right
-				integral = (2 / 3) * integral + error;
-				turn = KP * error + KI * integral;
-				turn *= 0.8;
-
-				// This case should never happen, but it may be good for
-				// debugging
-				if (turn > TARGET_POWER || turn < -TARGET_POWER) {
-					RConsole.println("Error! The Motor speed will be set negative");
-					System.out.println("Error! Negative speed");
-					turn = TARGET_POWER;
-				}
-
-				Settings.MOTOR_LEFT.setSpeed(TARGET_POWER - turn);
-				Settings.MOTOR_RIGHT.setSpeed(TARGET_POWER + turn);
-
-				Settings.MOTOR_LEFT.forward();
-				Settings.MOTOR_RIGHT.forward();
 			}
 		}
 	}
@@ -164,8 +149,9 @@ public class LineFollow implements Behavior {
 		suppressed = true;
 	}
 
-	private void reachedEndOfLine() {
-		Settings.PILOT.travel(8, false); // needed to ignore the line (so it will not be counted into the barcode reading)
+	protected void reachedEndOfLine() {
+		Settings.PILOT.travel(8, false); // needed to ignore the line (so it will not be counted into the barcode
+											// reading)
 		Settings.ARBITRATOR_MANAGER.changeState(this.nextState);
 		lineLeft = true;
 	}
@@ -177,6 +163,37 @@ public class LineFollow implements Behavior {
 	 */
 	private void setNextState(RobotState nextState) {
 		this.nextState = nextState;
+	}
+
+	protected boolean testLineEnd() {
+		if (isRotatingLeft && lightSensor.getNormalizedLightValue() < 450) {
+			if (!isRotatingRight && Settings.PILOT.getAngleIncrement() > 150) {
+				if (DEBUG) {
+					System.out.println("1");
+				}
+
+				Settings.PILOT.rotate(-340, true);
+				isRotatingRight = true;
+			}
+			// Rotating right
+			else if (Settings.PILOT.getAngleIncrement() < -330) {
+				if (DEBUG) {
+					System.out.println("2");
+				}
+
+				// No line found. Adjusting robot
+				Settings.PILOT.rotate(130);
+				reachedEndOfLine();
+			}
+
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	protected void loopHook() {
+
 	}
 
 }

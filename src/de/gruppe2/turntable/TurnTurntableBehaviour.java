@@ -1,20 +1,22 @@
 package de.gruppe2.turntable;
 
+import lejos.nxt.Button;
 import lejos.robotics.subsumption.Behavior;
 
 public class TurnTurntableBehaviour implements Behavior {
 
 	@Override
 	public boolean takeControl() {
-		System.out.println("Starting turn");
+		
 		
 		return true;
 	}
 
 	@Override
 	public void action() {
-		// TODO Auto-generated method stub
+		System.out.println("Starting turning table");
 		
+		Button.waitForAnyPress();
 	}
 
 	@Override

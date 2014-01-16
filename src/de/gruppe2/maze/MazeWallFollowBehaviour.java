@@ -59,7 +59,7 @@ public class MazeWallFollowBehaviour implements Behavior {
 					Settings.PILOT.steer(-45, -30, true);
 				}
 			} else if (lastDistances[curDisIdx] >= 35) {
-				Settings.PILOT.steer(70, 90, true);
+				Settings.PILOT.steer(60, 90, true);
 				while (Settings.PILOT.isMoving() && !suppressed)
 					;
 			}

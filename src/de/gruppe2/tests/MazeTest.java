@@ -5,10 +5,10 @@ import lejos.nxt.ButtonListener;
 import lejos.robotics.subsumption.Arbitrator;
 import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.Settings;
+import de.gruppe2.maze.MazeLightDetectionBehaviour;
 import de.gruppe2.maze.MazeWallFollowBehaviour;
 import de.gruppe2.maze.MazeWallHitBehaviour;
 import de.gruppe2.util.CalibrateSonic;
-import de.gruppe2.util.LightDetectionBehaviour;
 
 public class MazeTest implements ButtonListener {
 
@@ -21,7 +21,7 @@ public class MazeTest implements ButtonListener {
 		CalibrateSonic.calibrateHorizontally();
 		Behavior wallHit = new MazeWallHitBehaviour();
 		Behavior wallFollow = new MazeWallFollowBehaviour();
-		Behavior lineDetection = new LightDetectionBehaviour(Settings.LIGHT_LINE_DEFAULT);
+		Behavior lineDetection = new MazeLightDetectionBehaviour(Settings.LIGHT_LINE_DEFAULT);
 
 		Behavior[] bArray = { wallFollow, wallHit, lineDetection };
 

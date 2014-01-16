@@ -13,18 +13,17 @@ import de.gruppe2.bridgeFollow.BridgeBeforeElevator;
 import de.gruppe2.bridgeFollow.BridgeFollow;
 import de.gruppe2.bridgeFollow.BridgeStart;
 import de.gruppe2.lineFollow.LineFollow;
+import de.gruppe2.maze.MazeLightDetectionBehaviour;
 import de.gruppe2.maze.MazeWallFollowBehaviour;
 import de.gruppe2.maze.MazeWallHitBehaviour;
 import de.gruppe2.raceTrack.RaceTrackEnd;
-import de.gruppe2.raceTrack.RaceTrackEndFindLine;
+import de.gruppe2.raceTrack.RaceTrackEndLine;
 import de.gruppe2.raceTrack.RaceTrackFollowBehaviour;
 import de.gruppe2.raceTrack.RaceTrackHitBehaviour;
 import de.gruppe2.symbol.SymbolFollow;
 import de.gruppe2.turntable.TurnTurntableBehaviour;
 import de.gruppe2.turntable.WallHitBehaviour;
 import de.gruppe2.util.CalibrateSonic;
-import de.gruppe2.util.LightDetectionBehaviour;
-import de.gruppe2.util.LightThresholdBehavior;
 
 /**
  * This class manages the different arbitrators for all the different levels.
@@ -56,7 +55,7 @@ public class ArbitratorManager {
 	 */
     private final static Behavior MAZE_WALL_FOLLOW = new MazeWallFollowBehaviour();
 	private final static Behavior MAZE_WALL_HIT = new MazeWallHitBehaviour();
-    private final static Behavior MAZE_LINE_DETECTION = new LightDetectionBehaviour(Settings.LIGHT_LINE_DEFAULT);
+    private final static Behavior MAZE_LINE_DETECTION = new MazeLightDetectionBehaviour(Settings.LIGHT_LINE_DEFAULT);
     private final static Behavior[] MAZE_BEHAVIOURS = { MAZE_WALL_FOLLOW, MAZE_WALL_HIT, MAZE_LINE_DETECTION };
 
 	/**
@@ -65,7 +64,7 @@ public class ArbitratorManager {
 	private final static Behavior RACE_TRACK_FOLLOW_BEHAVIOR = new RaceTrackFollowBehaviour(); 
 	private final static Behavior RACE_TRACK_HIT_BEHAVIOR = new RaceTrackHitBehaviour();
 	private final static Behavior RACE_TRACK_END = new RaceTrackEnd();
-	private final static Behavior RACE_TRACK_LINE_DETECTION = new RaceTrackEndFindLine();
+	private final static Behavior RACE_TRACK_LINE_DETECTION = new RaceTrackEndLine();
 	private final static Behavior[] RACE_TRACK_BEHAVIORS = { RACE_TRACK_FOLLOW_BEHAVIOR, RACE_TRACK_HIT_BEHAVIOR, RACE_TRACK_LINE_DETECTION, RACE_TRACK_END };
     
 	/**
@@ -81,6 +80,8 @@ public class ArbitratorManager {
 	private final static Behavior SYMBOL_LINE_FOLLOW = new LineFollow(RobotState.TURNTABLE);
 	private final static Behavior[] SYMBOL_BEHAVIOURS = { SYMBOL_LINE_FOLLOW, SYMBOL_RECOGNIZER };
 	
+	private final static Behavior TEST_LINE_FOLLOW = new LineFollow(RobotState.TURNTABLE);
+	private final static Behavior[] TEST_BEHAVIOURS = { SYMBOL_LINE_FOLLOW, SYMBOL_RECOGNIZER };
 	
 	/**
 	 * Turntable  behavior.
@@ -149,6 +150,11 @@ public class ArbitratorManager {
 		}
 		System.out.println(state.toString() + " mode selected");
 		
+		Settings.PILOT.setTravelSpeed(0);
+		Settings.PILOT.setRotateSpeed(0);
+		Settings.MOTOR_SONIC.stop();
+		
+		
 		// This variable is necessary to not start a new thread when the method is called recursivly
 		boolean startThread = true;
 		
@@ -163,13 +169,12 @@ public class ArbitratorManager {
 			break;
 		case RACE_TRACK:
 //			CalibrateSonic.calibrateHorizontally(); // do it manually to save time at beginning
+			// TODO: Move this to class
 			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 1.0);
 	        Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
 			arbitrator = new CustomArbitrator(RACE_TRACK_BEHAVIORS);
 			break;
 		case LINE_FOLLOWER:
-			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * Settings.TAPE_FOLLOW_SPEED);
-			Settings.PILOT.setRotateSpeed(Settings.PILOT.getRotateMaxSpeed() * Settings.TAPE_ROTATE_SPEED);
 			arbitrator = new CustomArbitrator(LINE_BEHAVIOURS);
 			break;
 		case BRIDGE:
@@ -178,6 +183,7 @@ public class ArbitratorManager {
 			break;
 		case MAZE:
 			CalibrateSonic.calibrateHorizontally();
+			// TODO: Move this to class
 			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.80);
 	        Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
 			arbitrator = new CustomArbitrator(MAZE_BEHAVIOURS);
@@ -200,6 +206,9 @@ public class ArbitratorManager {
 			
 			startThread = false;
 			changeState(RobotState.BARCODE);
+			break;
+		case TEST:
+			arbitrator = new CustomArbitrator(TEST_BEHAVIOURS);
 			break;
 /*
 		case BT_GATE:

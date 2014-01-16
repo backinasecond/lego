@@ -1,4 +1,4 @@
-package de.gruppe2.bridgeFollow;
+package de.gruppe2.tests;
 
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;
@@ -6,17 +6,21 @@ import lejos.nxt.comm.RConsole;
 import lejos.robotics.subsumption.Arbitrator;
 import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.Settings;
+import de.gruppe2.bridgeFollow.BridgeBefore;
+import de.gruppe2.bridgeFollow.BridgeBeforeElevator;
+import de.gruppe2.bridgeFollow.BridgeFollow;
+import de.gruppe2.bridgeFollow.BridgeStart;
 import de.gruppe2.util.CalibrateSonic;
 import de.gruppe2.util.LightThresholdBehavior;
 
-public class BridgeFollowMain implements ButtonListener {
+public class BridgeMain implements ButtonListener {
 
-	public BridgeFollowMain() {
+	public BridgeMain() {
 		Button.ESCAPE.addButtonListener(this);
 	}
 
 	public static void main(String[] args) throws Exception {
-		new BridgeFollowMain();
+		new BridgeMain();
 
 		Behavior b0 = new BridgeBefore();
 		Behavior b1 = new BridgeFollow();

@@ -4,8 +4,6 @@ import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.Settings;
 
 public class WallHitBehaviour implements Behavior {
-
-    private boolean suppressed = false;    
     
     /**
      * Constructs a new HitWall Behavior
@@ -27,8 +25,6 @@ public class WallHitBehaviour implements Behavior {
      */
     @Override
     public void action() {
-            suppressed = false;
-            
             Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 1);
             
             // Travel backward to get enough space for rotation
@@ -43,7 +39,6 @@ public class WallHitBehaviour implements Behavior {
      */
     @Override
     public void suppress() {
-            suppressed = true;
     }
 
 }

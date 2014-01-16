@@ -15,6 +15,7 @@ public enum RobotState {
 	SYMBOL_RECOGNIZER,
 	TURNTABLE,
 	SHOOTING_RANGE,
+	TEST,
 	//END_OPPONENT,
 	END
 };

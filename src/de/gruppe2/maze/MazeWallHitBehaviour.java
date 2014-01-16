@@ -35,7 +35,7 @@ public class MazeWallHitBehaviour implements Behavior {
                 Settings.PILOT.travel(50);
                 Settings.PILOT.rotate(50);
             } else {
-                Settings.PILOT.travel(-95);
+                Settings.PILOT.travel(-Settings.MAZE_WALL_DISTANCE_THRESHOLD * 10);
                 Settings.PILOT.rotate(-90);            	
             }
             

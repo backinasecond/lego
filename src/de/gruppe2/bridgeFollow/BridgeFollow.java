@@ -25,9 +25,6 @@ public class BridgeFollow implements Behavior {
 		suppressed = false;
 		System.out.println("drive near ground");
 		
-		double speed = Settings.PILOT.getTravelSpeed();
-		Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed());
-		
 		Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.5);
 		Settings.PILOT.forward();
 		
