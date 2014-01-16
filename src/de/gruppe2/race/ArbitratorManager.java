@@ -21,6 +21,7 @@ import de.gruppe2.raceTrack.RaceTrackEndLine;
 import de.gruppe2.raceTrack.RaceTrackFollowBehaviour;
 import de.gruppe2.raceTrack.RaceTrackHitBehaviour;
 import de.gruppe2.symbol.SymbolFollow;
+import de.gruppe2.turntable.TurnTableLineFollow;
 import de.gruppe2.turntable.TurnTurntableBehaviour;
 import de.gruppe2.turntable.TurntableRecognizer;
 import de.gruppe2.turntable.WallHitBehaviour;
@@ -84,10 +85,11 @@ public class ArbitratorManager {
 	/**
 	 * Test  behavior.
 	 */
-	private final static Behavior TEST_LINE_FOLLOW = new LineFollow(RobotState.TURNTABLE);
+	private final static Behavior TEST_LINE_FOLLOW = new TurnTableLineFollow();
+	private final static Behavior TEST_DRIVE_FORWARD = new DriveForward(320);
 	private final static Behavior TEST_WALL_HIT = new WallHitBehaviour();
 	private final static Behavior TEST_TURNTABLE_RECOGNIZE = new TurntableRecognizer();
-	private final static Behavior[] TEST_BEHAVIOURS = { TEST_LINE_FOLLOW, TEST_WALL_HIT };
+	private final static Behavior[] TEST_BEHAVIOURS = { TEST_LINE_FOLLOW, TEST_DRIVE_FORWARD };
 	
 	/**
 	 * Turntable  behavior.
