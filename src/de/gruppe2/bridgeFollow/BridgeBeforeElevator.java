@@ -15,7 +15,7 @@ public class BridgeBeforeElevator implements Behavior {
 	@Override
 	public void action() {
 		// Position robot on center before elevator
-		Settings.PILOT.travel(500);
+		Settings.PILOT.travel(50);
 		Settings.PILOT.rotate(-70);
 		Settings.PILOT.travel(130);
 		Settings.PILOT.rotate(80);
@@ -50,6 +50,7 @@ public class BridgeBeforeElevator implements Behavior {
 		}
 		
 		Settings.PILOT.travel(1000);
+		Settings.BRIDGE_STATE = BridgeState.END;
 	}
 
 	@Override

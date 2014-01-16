@@ -9,6 +9,7 @@ import de.gruppe2.Settings.BridgeState;
 import de.gruppe2.barcode.BarcodeReader;
 import de.gruppe2.barcode.DriveForward;
 import de.gruppe2.bridgeFollow.BridgeBefore;
+import de.gruppe2.bridgeFollow.BridgeBeforeElevator;
 import de.gruppe2.bridgeFollow.BridgeFollow;
 import de.gruppe2.bridgeFollow.BridgeStart;
 import de.gruppe2.lineFollow.LineFollow;
@@ -46,8 +47,9 @@ public class ArbitratorManager {
 	private final static Behavior BRIDGE_BEFORE = new BridgeBefore();
 	private final static Behavior BRIDGE_START = new BridgeStart();
 	private final static Behavior BRIDGE_FOLLOW = new BridgeFollow();
-	private final static Behavior BRIDGE_END = new LightThresholdBehavior(Settings.LIGHT_BLACK_DEFAULT);
-	private final static Behavior[] BRIDGE_BEHAVIOURS = { BRIDGE_START, BRIDGE_FOLLOW, BRIDGE_END, BRIDGE_BEFORE };
+	private final static Behavior BRIDGE_ELEVATOR = new BridgeBeforeElevator();
+	//private final static Behavior BRIDGE_END = new LightThresholdBehavior(Settings.LIGHT_BLACK_DEFAULT);
+	private final static Behavior[] BRIDGE_BEHAVIOURS = { BRIDGE_START, BRIDGE_FOLLOW, BRIDGE_ELEVATOR, BRIDGE_BEFORE };
 
 	/**
 	 * Maze behavior.
