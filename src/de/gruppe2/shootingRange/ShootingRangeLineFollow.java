@@ -1,4 +1,4 @@
-package de.gruppe2.lineFollow;
+package de.gruppe2.shootingRange;
 
 import lejos.nxt.LightSensor;
 import lejos.nxt.comm.RConsole;
@@ -6,7 +6,7 @@ import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.RobotState;
 import de.gruppe2.Settings;
 
-public class LineFollow implements Behavior {
+public class ShootingRangeLineFollow implements Behavior {
 
 	private static boolean DEBUG = false;
 	protected boolean lineLeft = false;
@@ -38,7 +38,7 @@ public class LineFollow implements Behavior {
 	/**
 	 * Constructor of a LineFollow behavior. After the end of the line will be recognized, the barcode scanner starts.
 	 */
-	public LineFollow() {
+	public ShootingRangeLineFollow() {
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class LineFollow implements Behavior {
 	 * 
 	 * @param nextState State that will be started after the end of line was recognized.
 	 */
-	public LineFollow(RobotState nextState) {
+	public ShootingRangeLineFollow(RobotState nextState) {
 		setNextState(nextState);
 	}
 
@@ -196,6 +196,10 @@ public class LineFollow implements Behavior {
 
 	protected void loopHook() {
 
+	}
+	
+	public void reset() {
+		lineLeft = false;
 	}
 
 }
