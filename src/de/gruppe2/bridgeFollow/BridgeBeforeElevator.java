@@ -1,5 +1,6 @@
 package de.gruppe2.bridgeFollow;
 
+import de.gruppe2.RobotState;
 import de.gruppe2.Settings;
 import de.gruppe2.Settings.BridgeState;
 import lejos.robotics.subsumption.Behavior;
@@ -51,6 +52,7 @@ public class BridgeBeforeElevator implements Behavior {
 		
 		Settings.PILOT.travel(1000);
 		Settings.BRIDGE_STATE = BridgeState.END;
+		Settings.ARBITRATOR_MANAGER.changeState(RobotState.BARCODE);
 	}
 
 	@Override
