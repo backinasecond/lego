@@ -1,13 +1,18 @@
-package de.gruppe2.raceTrack;
+package de.gruppe2.maze;
 
 import lejos.robotics.subsumption.Behavior;
+import de.gruppe2.RobotState;
 import de.gruppe2.Settings;
 
-public class RaceTrackEndFindLine implements Behavior {
+public class MazeLightDetectionBehaviour implements Behavior {
 
-	private int wantedLightValue = Settings.LIGHT_LINE_DEFAULT;
+	private int wantedLightValue;
 
 	private boolean suppressed = false;
+
+	public MazeLightDetectionBehaviour(int lightValue) {
+		this.wantedLightValue = lightValue;
+	}
 
 	@Override
 	public boolean takeControl() {
@@ -30,9 +35,10 @@ public class RaceTrackEndFindLine implements Behavior {
 		suppressed = false;
 
 		if (!suppressed) {
+			System.out.println("Light action");
 			switch (wantedLightValue) {
 			case Settings.LIGHT_LINE_DEFAULT:
-				Settings.RACE_TRACK_END = true;
+				Settings.ARBITRATOR_MANAGER.changeState(RobotState.BARCODE);
 			}
 		}
 	}

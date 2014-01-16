@@ -12,17 +12,17 @@ import de.gruppe2.bridgeFollow.BridgeBefore;
 import de.gruppe2.bridgeFollow.BridgeFollow;
 import de.gruppe2.bridgeFollow.BridgeStart;
 import de.gruppe2.lineFollow.LineFollow;
+import de.gruppe2.maze.MazeLightDetectionBehaviour;
 import de.gruppe2.maze.MazeWallFollowBehaviour;
 import de.gruppe2.maze.MazeWallHitBehaviour;
 import de.gruppe2.raceTrack.RaceTrackEnd;
-import de.gruppe2.raceTrack.RaceTrackEndFindLine;
+import de.gruppe2.raceTrack.RaceTrackEndLine;
 import de.gruppe2.raceTrack.RaceTrackFollowBehaviour;
 import de.gruppe2.raceTrack.RaceTrackHitBehaviour;
 import de.gruppe2.symbol.SymbolFollow;
 import de.gruppe2.turntable.TurnTurntableBehaviour;
 import de.gruppe2.turntable.WallHitBehaviour;
 import de.gruppe2.util.CalibrateSonic;
-import de.gruppe2.util.LightDetectionBehaviour;
 import de.gruppe2.util.LightThresholdBehavior;
 
 /**
@@ -54,7 +54,7 @@ public class ArbitratorManager {
 	 */
     private final static Behavior MAZE_WALL_FOLLOW = new MazeWallFollowBehaviour();
 	private final static Behavior MAZE_WALL_HIT = new MazeWallHitBehaviour();
-    private final static Behavior MAZE_LINE_DETECTION = new LightDetectionBehaviour(Settings.LIGHT_LINE_DEFAULT);
+    private final static Behavior MAZE_LINE_DETECTION = new MazeLightDetectionBehaviour(Settings.LIGHT_LINE_DEFAULT);
     private final static Behavior[] MAZE_BEHAVIOURS = { MAZE_WALL_FOLLOW, MAZE_WALL_HIT, MAZE_LINE_DETECTION };
 
 	/**
@@ -63,7 +63,7 @@ public class ArbitratorManager {
 	private final static Behavior RACE_TRACK_FOLLOW_BEHAVIOR = new RaceTrackFollowBehaviour(); 
 	private final static Behavior RACE_TRACK_HIT_BEHAVIOR = new RaceTrackHitBehaviour();
 	private final static Behavior RACE_TRACK_END = new RaceTrackEnd();
-	private final static Behavior RACE_TRACK_LINE_DETECTION = new RaceTrackEndFindLine();
+	private final static Behavior RACE_TRACK_LINE_DETECTION = new RaceTrackEndLine();
 	private final static Behavior[] RACE_TRACK_BEHAVIORS = { RACE_TRACK_FOLLOW_BEHAVIOR, RACE_TRACK_HIT_BEHAVIOR, RACE_TRACK_LINE_DETECTION, RACE_TRACK_END };
     
 	/**
