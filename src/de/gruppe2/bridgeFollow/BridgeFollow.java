@@ -10,6 +10,10 @@ import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.Settings;
 import de.gruppe2.Settings.BridgeState;
 
+/**
+ * Drive along the abyss. 
+ *
+ */
 public class BridgeFollow implements Behavior {
 	static UltrasonicSensor sonic = Settings.SONIC_SENSOR;
 	
@@ -23,7 +27,6 @@ public class BridgeFollow implements Behavior {
 	@Override
 	public void action() {
 		suppressed = false;
-		System.out.println("drive near ground");
 		
 		Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.5);
 		Settings.PILOT.forward();
@@ -33,14 +36,20 @@ public class BridgeFollow implements Behavior {
 		int lightValue = 0;
 		long startTime = 0;
 		while (!suppressed) {
+			// Save light values
 			lastLightValue = lightValue;
 			lightValue = Settings.LIGHT_SENSOR.getNormalizedLightValue();
 			
+			// If last two light values are greater 500 we reached the blue light
 			if(lightValue > 500 && lastLightValue > 500) {
 				System.out.println("stop - blue " + lightValue);
 				Settings.BRIDGE_STATE = BridgeState.BEFORE_ELEVATOR;
 				Settings.PILOT.stop();
-			} else if(Math.abs(lastLightValue - lightValue) > 30) {
+			}
+			// If the difference between the current and last light value is greater than 30
+			// we wait a short time and check if we see the bridge color. If not, we reached the
+			// the red blinking light
+			else if(Math.abs(lastLightValue - lightValue) > 30) {
 				if(startTime > 0) {
 					if((System.currentTimeMillis() - startTime) > 1500) {
 						if(lightValue > 420) {
@@ -57,6 +66,8 @@ public class BridgeFollow implements Behavior {
 					startTime = System.currentTimeMillis();
 				}
 			}
+			
+			// Align the robot along the abyss
 			if(sonic.getDistance() > Settings.BRIDGE_HEIGHT_THRESHOLD)
 			{
 				// Robot is near ground

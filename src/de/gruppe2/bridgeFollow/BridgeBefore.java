@@ -5,6 +5,9 @@ import de.gruppe2.Settings.BridgeState;
 import de.gruppe2.util.CalibrateSonic;
 import lejos.robotics.subsumption.Behavior;
 
+/**
+ * First bridge behavior. Drive straight forward until on bridge
+ */
 public class BridgeBefore implements Behavior {
 	private boolean suppressed = false;
 

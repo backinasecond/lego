@@ -130,7 +130,7 @@ public class Settings {
 	public final static double TAPE_FOLLOW_SPEED = 0.20;
 	public final static double TAPE_ROTATE_SPEED = 0.25;
 
-	public final static int BRIDGE_HEIGHT_THRESHOLD = 10;
+	public final static int BRIDGE_HEIGHT_THRESHOLD = 15;
 	public final static int MAZE_WALL_DISTANCE_THRESHOLD = 20;
 	public final static int RACE_TRACK_WALL_DISTANCE_THRESHOLD = 25;
 	

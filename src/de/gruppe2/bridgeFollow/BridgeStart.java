@@ -7,6 +7,10 @@ import lejos.nxt.UltrasonicSensor;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.subsumption.Behavior;
 
+/**
+ * Drive slightly left until robot is near the abyss. Then align it
+ * parallel to the bridge
+ */
 public class BridgeStart implements Behavior {
 	
 	static DifferentialPilot pilot = Settings.PILOT;
@@ -21,7 +25,6 @@ public class BridgeStart implements Behavior {
 	@Override
 	public void action() {
 		suppressed = false;
-		System.out.println("drive to ground");
 		
 		Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.80);
         Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
@@ -29,23 +32,20 @@ public class BridgeStart implements Behavior {
 		while (!suppressed) {
 			if(sonic.getDistance() > Settings.BRIDGE_HEIGHT_THRESHOLD)
 			{
-				// Robot is near ground
-
+				// Robot is near ground, align it
 				Settings.PILOT.rotate(-20, true);
-								while(sonic.getDistance() > Settings.BRIDGE_HEIGHT_THRESHOLD) {
+				while(sonic.getDistance() > Settings.BRIDGE_HEIGHT_THRESHOLD) {
 					Thread.yield();
 				}
 				Settings.BRIDGE_STATE = BridgeState.FOLLOW_LINE;
 				break;
 			} else {
-				// Robot is too far away from ground
+				// Robot is too far away from abyss, drive slightly to the left
 				pilot.steer(5, 10, true);
 			}
 
 			Thread.yield();
 		}
-		pilot.stop();
-		
 	}
 
 	@Override
