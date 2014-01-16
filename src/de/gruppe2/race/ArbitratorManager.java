@@ -6,8 +6,8 @@ import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.RobotState;
 import de.gruppe2.Settings;
 import de.gruppe2.Settings.BridgeState;
-import de.gruppe2.barcode.DriveForward;
 import de.gruppe2.barcode.BarcodeReader;
+import de.gruppe2.barcode.DriveForward;
 import de.gruppe2.bridgeFollow.BridgeBefore;
 import de.gruppe2.bridgeFollow.BridgeFollow;
 import de.gruppe2.bridgeFollow.BridgeStart;
@@ -18,6 +18,9 @@ import de.gruppe2.raceTrack.RaceTrackEnd;
 import de.gruppe2.raceTrack.RaceTrackEndFindLine;
 import de.gruppe2.raceTrack.RaceTrackFollowBehaviour;
 import de.gruppe2.raceTrack.RaceTrackHitBehaviour;
+import de.gruppe2.symbol.SymbolFollow;
+import de.gruppe2.turntable.TurnTurntableBehaviour;
+import de.gruppe2.turntable.WallHitBehaviour;
 import de.gruppe2.util.CalibrateSonic;
 import de.gruppe2.util.LightDetectionBehaviour;
 import de.gruppe2.util.LightThresholdBehavior;
@@ -29,6 +32,7 @@ public class ArbitratorManager {
 	private static CustomArbitrator arbitrator;
 	private static Thread thread;
 
+	
 	/**
 	 * Read barcode behavior (also at start)
 	 */
@@ -67,6 +71,23 @@ public class ArbitratorManager {
 	 */
 	private final static Behavior LINE_FOLLOW = new LineFollow();
 	private final static Behavior[] LINE_BEHAVIOURS = { LINE_FOLLOW };
+	
+	/**
+	 * Symbol recognizer behavior.
+	 */
+	private final static Behavior SYMBOL_RECOGNIZER = new SymbolFollow();
+	private final static Behavior SYMBOL_LINE_FOLLOW = new LineFollow(RobotState.TURNTABLE);
+	private final static Behavior[] SYMBOL_BEHAVIOURS = { SYMBOL_LINE_FOLLOW, SYMBOL_RECOGNIZER };
+	
+	
+	/**
+	 * Turntable  behavior.
+	 */
+    private final static Behavior TURNTABLE_DRIVE_FORWARD = new DriveForward();
+    private final static Behavior TURNTABLE_WALL_HIT = new WallHitBehaviour();
+    private final static Behavior TURNTABLE_TURN = new TurnTurntableBehaviour();
+    
+	private final static Behavior[] TURNTABLE_BEHAVIOURS = { TURNTABLE_TURN, TURNTABLE_DRIVE_FORWARD, TURNTABLE_WALL_HIT};
 
 
 	/**
@@ -144,7 +165,7 @@ public class ArbitratorManager {
 	        Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
 			arbitrator = new CustomArbitrator(RACE_TRACK_BEHAVIORS);
 			break;
-		case LINE:
+		case LINE_FOLLOWER:
 			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * Settings.TAPE_FOLLOW_SPEED);
 			Settings.PILOT.setRotateSpeed(Settings.PILOT.getRotateMaxSpeed() * Settings.TAPE_ROTATE_SPEED);
 			arbitrator = new CustomArbitrator(LINE_BEHAVIOURS);
@@ -159,7 +180,11 @@ public class ArbitratorManager {
 	        Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
 			arbitrator = new CustomArbitrator(MAZE_BEHAVIOURS);
 			break;
-		case SYMBOL:
+		case SYMBOL_RECOGNIZER:
+			arbitrator = new CustomArbitrator(SYMBOL_BEHAVIOURS);
+			break;
+		case TURNTABLE:
+			arbitrator = new CustomArbitrator(TURNTABLE_BEHAVIOURS);
 			break;
 		case SHOOTING_RANGE:
 			break;

@@ -97,7 +97,7 @@ public class BarcodeReader implements Behavior {
 			Settings.CURRENT_LEVEL = RobotState.RACE_TRACK;
 			break;
 		case 4:
-			Settings.CURRENT_LEVEL = RobotState.LINE;
+			Settings.CURRENT_LEVEL = RobotState.LINE_FOLLOWER;
 			break;
 		case 5:
 			Settings.CURRENT_LEVEL = RobotState.BRIDGE;
@@ -106,7 +106,7 @@ public class BarcodeReader implements Behavior {
 			Settings.CURRENT_LEVEL = RobotState.MAZE;
 			break;
 		case 7:
-			Settings.CURRENT_LEVEL = RobotState.SYMBOL;
+			Settings.CURRENT_LEVEL = RobotState.SYMBOL_RECOGNIZER;
 			break;
 		case 8: 
 			Settings.CURRENT_LEVEL = RobotState.SHOOTING_RANGE;

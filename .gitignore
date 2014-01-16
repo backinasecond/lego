@@ -3,3 +3,4 @@
 .classpath
 *.nxj
 *.nxd
+/src/de/gruppe2/maze/MazeWallFollowBehaviour2.java

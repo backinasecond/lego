@@ -40,7 +40,7 @@ public class RaceTrackEnd implements Behavior {
 //			Settings.PILOT.travel(400, true);
 			while(Settings.PILOT.isMoving()) {
 				if (Math.abs(Settings.LIGHT_SENSOR.getNormalizedLightValue() - Settings.LIGHT_LINE_DEFAULT) < Settings.COLOR_DIFFERENCE_THRESHOLD) {
-					Settings.ARBITRATOR_MANAGER.changeState(RobotState.LINE);
+					Settings.ARBITRATOR_MANAGER.changeState(RobotState.LINE_FOLLOWER);
 					break;
 				}
 			}
