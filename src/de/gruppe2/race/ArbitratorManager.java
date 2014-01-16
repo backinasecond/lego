@@ -24,7 +24,6 @@ import de.gruppe2.symbol.SymbolFollow;
 import de.gruppe2.turntable.TurnTurntableBehaviour;
 import de.gruppe2.turntable.WallHitBehaviour;
 import de.gruppe2.util.CalibrateSonic;
-import de.gruppe2.util.LightThresholdBehavior;
 
 /**
  * This class manages the different arbitrators for all the different levels.
@@ -81,6 +80,8 @@ public class ArbitratorManager {
 	private final static Behavior SYMBOL_LINE_FOLLOW = new LineFollow(RobotState.TURNTABLE);
 	private final static Behavior[] SYMBOL_BEHAVIOURS = { SYMBOL_LINE_FOLLOW, SYMBOL_RECOGNIZER };
 	
+	private final static Behavior TEST_LINE_FOLLOW = new LineFollow(RobotState.TURNTABLE);
+	private final static Behavior[] TEST_BEHAVIOURS = { SYMBOL_LINE_FOLLOW, SYMBOL_RECOGNIZER };
 	
 	/**
 	 * Turntable  behavior.
@@ -200,6 +201,9 @@ public class ArbitratorManager {
 			
 			startThread = false;
 			changeState(RobotState.BARCODE);
+			break;
+		case TEST:
+			arbitrator = new CustomArbitrator(TEST_BEHAVIOURS);
 			break;
 /*
 		case BT_GATE:
