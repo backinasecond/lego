@@ -23,6 +23,7 @@ public class BridgeFollow implements Behavior {
 	@Override
 	public void action() {
 		suppressed = false;
+		System.out.println("drive near ground");
 		
 		Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.5);
 		Settings.PILOT.forward();
