@@ -46,7 +46,7 @@ public class BridgeBeforeElevator implements Behavior {
 			else cntBlue = 0;
 			Delay.msDelay(40);
 		}
-		Delay.msDelay(2000);
+		//Delay.msDelay(2000);
 		
 		// Elevator is up. Now drive a slight right curve forward until
 		// 1. the touch sensor is pressed or
@@ -54,7 +54,7 @@ public class BridgeBeforeElevator implements Behavior {
 		System.out.println("go");
 		long startTime = System.currentTimeMillis();
 		Settings.PILOT.forward();
-		Settings.PILOT.steer(-11);
+		Settings.PILOT.steer(9);
 		while(!Settings.TOUCH_L.isPressed() && System.currentTimeMillis() - startTime < 5000) {
 			Thread.yield();
 		}
@@ -62,8 +62,8 @@ public class BridgeBeforeElevator implements Behavior {
 
 		Settings.PILOT.travel(-60);
 		
-		// Rotate slightly to the left 
-		Settings.PILOT.rotate(30);
+		// Rotate slightly to the right
+		Settings.PILOT.rotate(-15);
 		
 		// Now wait until elevator is down
 		startTime = System.currentTimeMillis();
@@ -90,6 +90,7 @@ public class BridgeBeforeElevator implements Behavior {
 			Settings.PILOT.rotate(-20);
 			System.out.println("near ground: " + Settings.SONIC_SENSOR.getDistance());
 		} else {
+			Settings.PILOT.rotate(-17);
 			System.out.println("far away: " + Settings.SONIC_SENSOR.getDistance());
 		}
 	}
