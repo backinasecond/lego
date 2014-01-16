@@ -80,7 +80,7 @@ public class BarcodeReader implements Behavior {
 			}
 			// If at least one line was detected and it was not on line for
 			// 10 cm, stop reading
-			else if (lineCount != 0 && !onLine && Settings.PILOT.getMovementIncrement() > 100) {
+			else if (lineCount != 0 && !onLine && Settings.PILOT.getMovementIncrement() > 60) {
 				LCD.clear();
 				System.out.println("CodeNumber: " + lineCount);
 				counting = false;
