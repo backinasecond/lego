@@ -32,7 +32,10 @@ public class Settings {
 	public static boolean raceStarted = false;
 	// defines if the robot is currently running or not
 	public static boolean isRunning = false;
-*/
+	*/
+	
+	public final static int COLOR_TURNTABLE = 395;
+	public static String TURNTABLE_BRICK_NAME = "MainGate";
 	
 	/**
 	 * General settings for the robot.
