@@ -31,7 +31,7 @@ public class TurnTurntableBehaviour implements Behavior {
 		turnControl.sendSymbol(Settings.detectedSymbol);
 		
 		Settings.PILOT.travel(-100, false);
-		Settings.PILOT.rotate(-180, false);
+		Settings.PILOT.rotate(-170, false);
 		
 		Delay.msDelay(7000);
 		
