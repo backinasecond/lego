@@ -94,7 +94,7 @@ public class BarcodeReader implements Behavior {
 		
 		switch (lineCount) {
 		case 3:
-			Settings.CURRENT_LEVEL = RobotState.START_RACE;
+			Settings.CURRENT_LEVEL = RobotState.RACE_TRACK;
 			break;
 		case 4:
 			Settings.CURRENT_LEVEL = RobotState.LINE;

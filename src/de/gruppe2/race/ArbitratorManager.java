@@ -125,7 +125,7 @@ public class ArbitratorManager {
 			BARCODE_READ_CODE.reset();
 			arbitrator = new CustomArbitrator(BARCODE_READ_BEHAVIOURS);
 			break;
-		case START_RACE:
+		case RACE_TRACK:
 			CalibrateSonic.calibrateHorizontally();
 			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 1.0);
 	        Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);

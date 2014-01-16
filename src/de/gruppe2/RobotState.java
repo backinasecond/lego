@@ -7,7 +7,7 @@ public enum RobotState {
 	// TODO: Add additional states, when needed
 	RELOCATE,
 	START,
-	START_RACE,
+	RACE_TRACK,
 	BARCODE,
 	LINE,
 	BRIDGE,
