@@ -42,7 +42,7 @@ public class BridgeBeforeElevator implements Behavior {
 			Thread.yield();
 		}
 		Settings.PILOT.stop();
-		Settings.PILOT.travel(-120);
+		Settings.PILOT.travel(-100);
 		
 		long startTime = System.currentTimeMillis();
 		while(System.currentTimeMillis() - startTime < 12000) {

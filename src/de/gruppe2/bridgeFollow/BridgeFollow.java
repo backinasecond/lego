@@ -24,9 +24,6 @@ public class BridgeFollow implements Behavior {
 	public void action() {
 		suppressed = false;
 		
-		double speed = Settings.PILOT.getTravelSpeed();
-		Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed());
-		
 		Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.5);
 		Settings.PILOT.forward();
 		
