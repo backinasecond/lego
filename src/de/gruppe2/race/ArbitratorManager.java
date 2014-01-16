@@ -160,7 +160,7 @@ public class ArbitratorManager {
 			arbitrator = new CustomArbitrator(BARCODE_READ_BEHAVIOURS);
 			break;
 		case RACE_TRACK:
-			CalibrateSonic.calibrateHorizontally();
+//			CalibrateSonic.calibrateHorizontally(); // do it manually to save time at beginning
 			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 1.0);
 	        Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
 			arbitrator = new CustomArbitrator(RACE_TRACK_BEHAVIORS);
