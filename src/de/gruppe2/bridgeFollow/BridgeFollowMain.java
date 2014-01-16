@@ -2,6 +2,7 @@ package de.gruppe2.bridgeFollow;
 
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;
+import lejos.nxt.comm.RConsole;
 import lejos.robotics.subsumption.Arbitrator;
 import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.Settings;
@@ -20,12 +21,15 @@ public class BridgeFollowMain implements ButtonListener {
 		Behavior b0 = new BridgeBefore();
 		Behavior b1 = new BridgeFollow();
 		Behavior b2 = new BridgeStart();
-		Behavior b3 = new LightThresholdBehavior(430);
+		Behavior b3 = new BridgeBeforeElevator();
 
 		Behavior[] behaviors = { b1, b2, b3, b0 };
 
+		//RConsole.open();
+		Button.waitForAnyPress();
 		Arbitrator arbitrator = new Arbitrator(behaviors);
 		arbitrator.start();
+		//RConsole.close();
 	}
 
 	@Override

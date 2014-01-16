@@ -11,11 +11,11 @@ public class ReadColorTest {
 
 	public static void main(String[] args) {
 		System.out.println("Lichtsensor Test");
-		System.out.println("Drücke Enter");
+		System.out.println("Drï¿½cke Enter");
 		Button.ENTER.waitForPressAndRelease();
 
 		while (true) {
-			Delay.msDelay(500);
+			Delay.msDelay(200);
 			System.out.println(light.getNormalizedLightValue());
 		}
 	}

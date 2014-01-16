@@ -2,6 +2,7 @@ package de.gruppe2.bridgeFollow;
 
 import de.gruppe2.Settings;
 import de.gruppe2.Settings.BridgeState;
+import de.gruppe2.util.CalibrateSonic;
 import lejos.nxt.UltrasonicSensor;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.subsumption.Behavior;
@@ -28,7 +29,11 @@ public class BridgeStart implements Behavior {
 			if(sonic.getDistance() > Settings.BRIDGE_HEIGHT_THRESHOLD)
 			{
 				// Robot is near ground
-				pilot.steer(-120, -30, false);
+
+				Settings.PILOT.rotate(-20, true);
+								while(sonic.getDistance() > Settings.BRIDGE_HEIGHT_THRESHOLD) {
+					Thread.yield();
+				}
 				Settings.BRIDGE_STATE = BridgeState.FOLLOW_LINE;
 				break;
 			} else {
