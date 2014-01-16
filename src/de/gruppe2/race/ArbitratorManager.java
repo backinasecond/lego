@@ -14,6 +14,10 @@ import de.gruppe2.bridgeFollow.BridgeStart;
 import de.gruppe2.lineFollow.LineFollow;
 import de.gruppe2.maze.MazeWallFollowBehaviour;
 import de.gruppe2.maze.MazeWallHitBehaviour;
+import de.gruppe2.raceTrack.RaceTrackEnd;
+import de.gruppe2.raceTrack.RaceTrackEndFindLine;
+import de.gruppe2.raceTrack.RaceTrackFollowBehaviour;
+import de.gruppe2.raceTrack.RaceTrackHitBehaviour;
 import de.gruppe2.util.CalibrateSonic;
 import de.gruppe2.util.LightDetectionBehaviour;
 import de.gruppe2.util.LightThresholdBehavior;
@@ -31,7 +35,7 @@ public class ArbitratorManager {
 	private final static Behavior BARCODE_DRIVE_FORWARD = new DriveForward();
 	private final static BarcodeReader BARCODE_READ_CODE = new BarcodeReader();
 	private final static Behavior[] BARCODE_READ_BEHAVIOURS = { BARCODE_DRIVE_FORWARD, BARCODE_READ_CODE };
-
+	
 	/**
 	 * Bridge behavior.
 	 */
@@ -48,6 +52,15 @@ public class ArbitratorManager {
 	private final static Behavior MAZE_WALL_HIT = new MazeWallHitBehaviour();
     private final static Behavior MAZE_LINE_DETECTION = new LightDetectionBehaviour(Settings.LIGHT_LINE_DEFAULT);
     private final static Behavior[] MAZE_BEHAVIOURS = { MAZE_WALL_FOLLOW, MAZE_WALL_HIT, MAZE_LINE_DETECTION };
+
+	/**
+	 * Race track behavior.
+	 */
+	private final static Behavior RACE_TRACK_FOLLOW_BEHAVIOR = new RaceTrackFollowBehaviour(); 
+	private final static Behavior RACE_TRACK_HIT_BEHAVIOR = new RaceTrackHitBehaviour();
+	private final static Behavior RACE_TRACK_END = new RaceTrackEnd();
+	private final static Behavior RACE_TRACK_LINE_DETECTION = new RaceTrackEndFindLine();
+	private final static Behavior[] RACE_TRACK_BEHAVIORS = { RACE_TRACK_FOLLOW_BEHAVIOR, RACE_TRACK_HIT_BEHAVIOR, RACE_TRACK_LINE_DETECTION, RACE_TRACK_END };
     
 	/**
 	 * Follow line behavior.
@@ -129,7 +142,7 @@ public class ArbitratorManager {
 			CalibrateSonic.calibrateHorizontally();
 			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 1.0);
 	        Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
-			arbitrator = new CustomArbitrator(MAZE_BEHAVIOURS);
+			arbitrator = new CustomArbitrator(RACE_TRACK_BEHAVIORS);
 			break;
 		case LINE:
 			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * Settings.TAPE_FOLLOW_SPEED);

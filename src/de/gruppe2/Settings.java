@@ -132,4 +132,7 @@ public class Settings {
 
 	public final static int BRIDGE_HEIGHT_THRESHOLD = 18;
 	public final static int MAZE_WALL_DISTANCE_THRESHOLD = 9;
+	public final static int RACE_TRACK_WALL_DISTANCE_THRESHOLD = 25;
+	
+	public static boolean RACE_TRACK_END = false;
 }
