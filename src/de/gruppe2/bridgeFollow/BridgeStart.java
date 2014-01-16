@@ -21,8 +21,9 @@ public class BridgeStart implements Behavior {
 	@Override
 	public void action() {
 		suppressed = false;
+		System.out.println("drive to ground");
 		
-		Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.60);
+		Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.80);
         Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
 		
 		while (!suppressed) {
