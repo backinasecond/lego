@@ -50,15 +50,15 @@ public class MazeWallFollowBehaviour implements Behavior {
 				MOTOR_SONIC.rotateTo(0, true);
 				sonicTachoCount = MOTOR_SONIC.getTachoCount();
 			} else if (lastDistances[curDisIdx] < 6) {
-				Settings.PILOT.steer(-100, -15, true);
+				Settings.PILOT.steer(-30, -15, true);
 			} else if (lastDistances[curDisIdx] <= Settings.MAZE_WALL_DISTANCE_THRESHOLD) {
 				Settings.PILOT.steer(-20, -10, true);
-			} else if (lastDistances[curDisIdx] > Settings.MAZE_WALL_DISTANCE_THRESHOLD && lastDistances[curDisIdx] < 35) {
+			} else if (lastDistances[curDisIdx] > Settings.MAZE_WALL_DISTANCE_THRESHOLD && lastDistances[curDisIdx] < 40) {
 				Settings.PILOT.steer(20, 15, true);
 				if (lastDistances[curDisIdx] < lastDistances[(curDisIdx + 1) % lastDistances.length]) {
 					Settings.PILOT.steer(-45, -30, true);
 				}
-			} else if (lastDistances[curDisIdx] >= 35) {
+			} else if (lastDistances[curDisIdx] >= 40) {
 				Settings.PILOT.steer(70, 90, true);
 				while (Settings.PILOT.isMoving() && !suppressed)
 					;
