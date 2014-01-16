@@ -150,6 +150,11 @@ public class ArbitratorManager {
 		}
 		System.out.println(state.toString() + " mode selected");
 		
+		Settings.PILOT.setTravelSpeed(0);
+		Settings.PILOT.setRotateSpeed(0);
+		Settings.MOTOR_SONIC.stop();
+		
+		
 		// This variable is necessary to not start a new thread when the method is called recursivly
 		boolean startThread = true;
 		
@@ -164,13 +169,12 @@ public class ArbitratorManager {
 			break;
 		case RACE_TRACK:
 //			CalibrateSonic.calibrateHorizontally(); // do it manually to save time at beginning
+			// TODO: Move this to class
 			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 1.0);
 	        Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
 			arbitrator = new CustomArbitrator(RACE_TRACK_BEHAVIORS);
 			break;
 		case LINE_FOLLOWER:
-			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * Settings.TAPE_FOLLOW_SPEED);
-			Settings.PILOT.setRotateSpeed(Settings.PILOT.getRotateMaxSpeed() * Settings.TAPE_ROTATE_SPEED);
 			arbitrator = new CustomArbitrator(LINE_BEHAVIOURS);
 			break;
 		case BRIDGE:
@@ -179,6 +183,7 @@ public class ArbitratorManager {
 			break;
 		case MAZE:
 			CalibrateSonic.calibrateHorizontally();
+			// TODO: Move this to class
 			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 0.80);
 	        Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
 			arbitrator = new CustomArbitrator(MAZE_BEHAVIOURS);
