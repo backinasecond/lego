@@ -21,7 +21,7 @@ public class LineFollow implements Behavior {
 	private static int PROPORTIONAL_RANGE = COLOR_THRESHOLD - 50;
 
 	// The speed of both motors, if the turn value is 0
-	private static int TARGET_POWER = 350; // (TP)
+	private static int TARGET_POWER = 320; // (TP)
 
 	// Multiply this slope with the error and you get a value ranging from -1 to
 	// 1
@@ -74,7 +74,7 @@ public class LineFollow implements Behavior {
 					}
 
 					// No line found. Adjusting robot
-					Settings.PILOT.rotate(130);
+					Settings.PILOT.rotate(120);
 					reachedEndOfLine();
 				}
 
@@ -99,8 +99,7 @@ public class LineFollow implements Behavior {
 				if (!isRotatingLeft) {
 					isRotatingLeft = true;
 					isRotatingRight = false;
-					// Maybe uncomment this
-					//Settings.PILOT.travel(40);
+					Settings.PILOT.travel(30);
 					Settings.PILOT.rotate(150, true);
 				}
 			}
