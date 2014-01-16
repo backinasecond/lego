@@ -22,6 +22,7 @@ import de.gruppe2.raceTrack.RaceTrackFollowBehaviour;
 import de.gruppe2.raceTrack.RaceTrackHitBehaviour;
 import de.gruppe2.symbol.SymbolFollow;
 import de.gruppe2.turntable.TurnTurntableBehaviour;
+import de.gruppe2.turntable.TurntableRecognizer;
 import de.gruppe2.turntable.WallHitBehaviour;
 import de.gruppe2.util.CalibrateSonic;
 
@@ -80,17 +81,19 @@ public class ArbitratorManager {
 	private final static Behavior SYMBOL_LINE_FOLLOW = new LineFollow(RobotState.TURNTABLE);
 	private final static Behavior[] SYMBOL_BEHAVIOURS = { SYMBOL_LINE_FOLLOW, SYMBOL_RECOGNIZER };
 	
+	/**
+	 * Test  behavior.
+	 */
 	private final static Behavior TEST_LINE_FOLLOW = new LineFollow(RobotState.TURNTABLE);
-	private final static Behavior[] TEST_BEHAVIOURS = { SYMBOL_LINE_FOLLOW, SYMBOL_RECOGNIZER };
+	private final static Behavior TEST_WALL_HIT = new WallHitBehaviour();
+	private final static Behavior TEST_TURNTABLE_RECOGNIZE = new TurntableRecognizer();
+	private final static Behavior[] TEST_BEHAVIOURS = { TEST_LINE_FOLLOW, TEST_WALL_HIT };
 	
 	/**
 	 * Turntable  behavior.
 	 */
-    private final static Behavior TURNTABLE_DRIVE_FORWARD = new DriveForward();
-    private final static Behavior TURNTABLE_WALL_HIT = new WallHitBehaviour();
     private final static Behavior TURNTABLE_TURN = new TurnTurntableBehaviour();
-    
-	private final static Behavior[] TURNTABLE_BEHAVIOURS = { TURNTABLE_TURN, TURNTABLE_DRIVE_FORWARD, TURNTABLE_WALL_HIT};
+	private final static Behavior[] TURNTABLE_BEHAVIOURS = { TURNTABLE_TURN};
 
 
 	/**
@@ -154,7 +157,6 @@ public class ArbitratorManager {
 		Settings.PILOT.setRotateSpeed(0);
 		Settings.MOTOR_SONIC.stop();
 		
-		
 		// This variable is necessary to not start a new thread when the method is called recursivly
 		boolean startThread = true;
 		
@@ -210,6 +212,7 @@ public class ArbitratorManager {
 		case TEST:
 			arbitrator = new CustomArbitrator(TEST_BEHAVIOURS);
 			break;
+			
 /*
 		case BT_GATE:
 			pilot.setTravelSpeed(pilot.getMaxTravelSpeed() / 2);
