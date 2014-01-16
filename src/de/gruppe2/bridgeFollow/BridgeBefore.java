@@ -26,6 +26,7 @@ public class BridgeBefore implements Behavior {
 			Settings.PILOT.forward();
 			Thread.yield();
 		}
+		Settings.PILOT.stop();
 		
 		if(Settings.LIGHT_SENSOR.getNormalizedLightValue() > Settings.LIGHT_BRIDGE_DEFAULT)
 		{

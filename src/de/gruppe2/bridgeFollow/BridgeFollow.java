@@ -65,14 +65,14 @@ public class BridgeFollow implements Behavior {
 				// Robot is near ground
 				if(steer > 0) steer = -15;
 				steer -= 1;
-				if(steer < -30) steer = -30;
+				if(steer < -25) steer = -25;
 				
 			} else {
 				// Robot is minimal away from ground
 				if(steer < 0) steer = 15;
 				steer += 1;
 				
-				if(steer > 30) steer = 30;
+				if(steer > 20) steer = 20;
 			}
 			
 			Settings.PILOT.steer(steer);
