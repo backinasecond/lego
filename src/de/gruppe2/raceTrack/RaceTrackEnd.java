@@ -26,9 +26,9 @@ public class RaceTrackEnd implements Behavior {
 			System.out.println("dis " + dis);
 			Settings.PILOT.travel(400, false);
 			if (dis < 25) {
-				Settings.PILOT.steer(-20, -50, true);
+				Settings.PILOT.steer(-30, -50, true);
 			} else if (dis < 38) {
-				Settings.PILOT.steer(-10, -40, true);
+				Settings.PILOT.steer(-15, -40, true);
 			} else if (dis == 38) {
 				Settings.PILOT.travel(30);
 			} else if (dis > 48) {

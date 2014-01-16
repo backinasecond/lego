@@ -90,7 +90,7 @@ public class LineFollow implements Behavior {
 					}
 
 					// No line found. Adjusting robot
-					Settings.PILOT.rotate(125);
+					Settings.PILOT.rotate(120);
 					reachedEndOfLine();
 				}
 
@@ -164,7 +164,7 @@ public class LineFollow implements Behavior {
 	}
 
 	private void reachedEndOfLine() {
-		Settings.PILOT.travel(5, false); // needed to ignore the line (so it will not be counted into the barcode reading)
+		Settings.PILOT.travel(8, false); // needed to ignore the line (so it will not be counted into the barcode reading)
 		Settings.ARBITRATOR_MANAGER.changeState(this.nextState);
 		lineLeft = true;
 	}
