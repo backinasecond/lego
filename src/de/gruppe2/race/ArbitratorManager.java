@@ -183,6 +183,7 @@ public class ArbitratorManager {
 			arbitrator = new CustomArbitrator(MAZE_BEHAVIOURS);
 			break;
 		case SYMBOL_RECOGNIZER:
+			Settings.PILOT.setRotateSpeed(Settings.PILOT.getRotateMaxSpeed() * Settings.TAPE_ROTATE_SPEED);
 			arbitrator = new CustomArbitrator(SYMBOL_BEHAVIOURS);
 			break;
 		case TURNTABLE:
