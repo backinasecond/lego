@@ -4,28 +4,38 @@ import de.gruppe2.Settings;
 import de.gruppe2.Settings.Symbol;
 import lejos.nxt.Button;
 import lejos.robotics.subsumption.Behavior;
+import lejos.util.Delay;
 
 public class TurnTurntableBehaviour implements Behavior {
 
+	boolean tableTurned = false;
+	
 	@Override
 	public boolean takeControl() {
-		return true;
+		return !tableTurned;
 	}
 
 	@Override
 	public void action() {
-		TurnTableControl turntableControl = new TurnTableControl();
+		Settings.PILOT.setTravelSpeed(120);		
+		Settings.PILOT.setRotateSpeed(100);
 		
+		
+		
+		TurnTableControl turnControl = new TurnTableControl();
+		while (!turnControl.connectToTurntable()) {}
+		
+		// TODO: DELETE NEXT LINE
 		Settings.detectedSymbol = Symbol.L;
 		
-		while (!turntableControl.connectToTurntable()) {
-			
-		}
+		turnControl.sendSymbol(Settings.detectedSymbol);
 		
-        turntableControl.sendSymbol(Settings.detectedSymbol);
+		Settings.PILOT.travel(-100, false);
+		Settings.PILOT.rotate(-180, false);
 		
-        System.out.println("Drücke Knopf");
-		Button.waitForAnyPress();
+		Delay.msDelay(7000);
+		
+		tableTurned = true;
 	}
 
 	@Override

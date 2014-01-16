@@ -6,13 +6,10 @@ import de.gruppe2.Settings;
 
 public class WallHitBehaviour implements Behavior {
 
-	private int sonicTachoCount;
-
 	/**
 	 * Constructs a new HitWall Behavior
 	 */
 	public WallHitBehaviour() {
-		sonicTachoCount = Settings.MOTOR_SONIC.getTachoCount();
 	}
 
 	/**
@@ -20,11 +17,7 @@ public class WallHitBehaviour implements Behavior {
 	 */
 	@Override
 	public boolean takeControl() {
-		Settings.MOTOR_SONIC.flt();
-		
-		System.out.println(Math.abs(sonicTachoCount - Settings.MOTOR_SONIC.getTachoCount()));
-
-		return Math.abs(sonicTachoCount - Settings.MOTOR_SONIC.getTachoCount()) > 1;
+		return Settings.TOUCH_L.isPressed();
 	}
 
 	/**
@@ -34,8 +27,6 @@ public class WallHitBehaviour implements Behavior {
 	@Override
 	public void action() {
 		Settings.PILOT.stop();
-
-		Settings.PILOT.rotate(-220);
 
 		Settings.ARBITRATOR_MANAGER.changeState(RobotState.TURNTABLE);
 	}

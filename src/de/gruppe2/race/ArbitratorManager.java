@@ -23,7 +23,6 @@ import de.gruppe2.raceTrack.RaceTrackHitBehaviour;
 import de.gruppe2.symbol.SymbolFollow;
 import de.gruppe2.turntable.TurnTableLineFollow;
 import de.gruppe2.turntable.TurnTurntableBehaviour;
-import de.gruppe2.turntable.TurntableRecognizer;
 import de.gruppe2.turntable.WallHitBehaviour;
 import de.gruppe2.util.CalibrateSonic;
 
@@ -88,14 +87,14 @@ public class ArbitratorManager {
 	private final static Behavior TEST_LINE_FOLLOW = new TurnTableLineFollow();
 	private final static Behavior TEST_DRIVE_FORWARD = new DriveForward(320);
 	private final static Behavior TEST_WALL_HIT = new WallHitBehaviour();
-	private final static Behavior TEST_TURNTABLE_RECOGNIZE = new TurntableRecognizer();
-	private final static Behavior[] TEST_BEHAVIOURS = { TEST_LINE_FOLLOW, TEST_DRIVE_FORWARD };
+	private final static Behavior[] TEST_BEHAVIOURS = { TEST_DRIVE_FORWARD, TEST_LINE_FOLLOW, TEST_WALL_HIT};
 	
 	/**
 	 * Turntable  behavior.
 	 */
+	private final static Behavior TURNTABLE_DRIVE_FORWARD = new DriveForward(320);
     private final static Behavior TURNTABLE_TURN = new TurnTurntableBehaviour();
-	private final static Behavior[] TURNTABLE_BEHAVIOURS = { TURNTABLE_TURN};
+	private final static Behavior[] TURNTABLE_BEHAVIOURS = { TURNTABLE_DRIVE_FORWARD, TURNTABLE_TURN};
 
 
 	/**
