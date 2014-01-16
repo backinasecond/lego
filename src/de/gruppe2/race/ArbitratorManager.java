@@ -25,6 +25,7 @@ import de.gruppe2.turntable.TurnTableLineFollow;
 import de.gruppe2.turntable.TurnTurntableBehaviour;
 import de.gruppe2.turntable.WallHitBehaviour;
 import de.gruppe2.util.CalibrateSonic;
+import de.gruppe2.util.FindLineBehavior;
 
 /**
  * This class manages the different arbitrators for all the different levels.
@@ -72,14 +73,16 @@ public class ArbitratorManager {
 	 * Follow line behavior.
 	 */
 	private final static Behavior LINE_FOLLOW = new LineFollow();
-	private final static Behavior[] LINE_BEHAVIOURS = { LINE_FOLLOW };
+	private final static FindLineBehavior LINE_FIND_LINE = new FindLineBehavior();
+	private final static Behavior[] LINE_BEHAVIOURS = { LINE_FOLLOW, LINE_FIND_LINE };
 	
 	/**
 	 * Symbol recognizer behavior.
 	 */
 	private final static Behavior SYMBOL_RECOGNIZER = new SymbolFollow();
 	private final static Behavior SYMBOL_LINE_FOLLOW = new LineFollow(RobotState.TURNTABLE);
-	private final static Behavior[] SYMBOL_BEHAVIOURS = { SYMBOL_LINE_FOLLOW, SYMBOL_RECOGNIZER };
+	private final static FindLineBehavior SYMBOL_FIND_LINE = new FindLineBehavior();
+	private final static Behavior[] SYMBOL_BEHAVIOURS = { SYMBOL_LINE_FOLLOW, SYMBOL_RECOGNIZER, SYMBOL_FIND_LINE };
 	
 	/**
 	 * Test  behavior.
@@ -178,6 +181,7 @@ public class ArbitratorManager {
 			arbitrator = new CustomArbitrator(RACE_TRACK_BEHAVIORS);
 			break;
 		case LINE_FOLLOWER:
+			LINE_FIND_LINE.reset();
 			arbitrator = new CustomArbitrator(LINE_BEHAVIOURS);
 			break;
 		case BRIDGE:
@@ -192,6 +196,7 @@ public class ArbitratorManager {
 			arbitrator = new CustomArbitrator(MAZE_BEHAVIOURS);
 			break;
 		case SYMBOL_RECOGNIZER:
+			SYMBOL_FIND_LINE.reset();
 			Settings.PILOT.setRotateSpeed(Settings.PILOT.getRotateMaxSpeed() * Settings.TAPE_ROTATE_SPEED);
 			arbitrator = new CustomArbitrator(SYMBOL_BEHAVIOURS);
 			break;
