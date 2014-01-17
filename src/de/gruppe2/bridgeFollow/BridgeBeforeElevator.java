@@ -9,6 +9,8 @@ import lejos.util.Delay;
 
 public class BridgeBeforeElevator implements Behavior {
 	
+	private final static int BLUE_COLOR = 505;
+	
 	private boolean suppressed = false;
 
 	@Override
@@ -24,12 +26,12 @@ public class BridgeBeforeElevator implements Behavior {
 
 		int cntNotBlue;
 		// Wait until no blue color occurs, then elevator is down.
-		boolean isBlue = Settings.LIGHT_SENSOR.getNormalizedLightValue() > 500;
+		boolean isBlue = Settings.LIGHT_SENSOR.getNormalizedLightValue() > BLUE_COLOR;
 		if(isBlue) {
 			System.out.println("Wait for blue 1");
 			cntNotBlue = 0;
 			while(cntNotBlue < 10) {
-				isBlue = Settings.LIGHT_SENSOR.getNormalizedLightValue() > 500;
+				isBlue = Settings.LIGHT_SENSOR.getNormalizedLightValue() > BLUE_COLOR;
 				if(isBlue) cntNotBlue = 0;
 				else cntNotBlue++;
 				Delay.msDelay(40);
@@ -41,7 +43,7 @@ public class BridgeBeforeElevator implements Behavior {
 		int cntBlue = 0;
 		Delay.msDelay(3000);
 		while(cntBlue < 10) {
-			isBlue = Settings.LIGHT_SENSOR.getNormalizedLightValue() > 500;
+			isBlue = Settings.LIGHT_SENSOR.getNormalizedLightValue() > BLUE_COLOR;
 			if(isBlue) cntBlue++;
 			else cntBlue = 0;
 			Delay.msDelay(40);
@@ -53,8 +55,7 @@ public class BridgeBeforeElevator implements Behavior {
 		// 2. we drove more than 60 cm
 		System.out.println("go");
 		long startTime = System.currentTimeMillis();
-		Settings.PILOT.forward();
-		Settings.PILOT.steer(9);
+		Settings.PILOT.steer(13);
 		while(!Settings.TOUCH_L.isPressed() && System.currentTimeMillis() - startTime < 5000) {
 			Thread.yield();
 		}
@@ -63,7 +64,7 @@ public class BridgeBeforeElevator implements Behavior {
 		Settings.PILOT.travel(-60);
 		
 		// Rotate slightly to the right
-		Settings.PILOT.rotate(-15);
+		Settings.PILOT.rotate(-5);
 		
 		// Now wait until elevator is down
 		startTime = System.currentTimeMillis();
@@ -83,14 +84,14 @@ public class BridgeBeforeElevator implements Behavior {
 	}
 
 	private void alignRobotBeforeElevator() {
-		Settings.PILOT.travel(30);
+		Settings.PILOT.travel(150);
 		
 		if(Settings.SONIC_SENSOR.getDistance() > Settings.BRIDGE_HEIGHT_THRESHOLD) {
 			// Robot is not parallel to the abyss, rotate it slightly
-			Settings.PILOT.rotate(-20);
+			Settings.PILOT.rotate(-28);
 			System.out.println("near ground: " + Settings.SONIC_SENSOR.getDistance());
 		} else {
-			Settings.PILOT.rotate(-17);
+			Settings.PILOT.rotate(-20);
 			System.out.println("far away: " + Settings.SONIC_SENSOR.getDistance());
 		}
 	}

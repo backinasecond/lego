@@ -41,7 +41,7 @@ public class BridgeFollow implements Behavior {
 			lightValue = Settings.LIGHT_SENSOR.getNormalizedLightValue();
 			
 			// If last two light values are greater 500 we reached the blue light
-			if(lightValue > 500 && lastLightValue > 500) {
+			if(lightValue > 505 && lastLightValue > 505) {
 				System.out.println("stop - blue " + lightValue);
 				Settings.BRIDGE_STATE = BridgeState.BEFORE_ELEVATOR;
 				Settings.PILOT.stop();
@@ -71,13 +71,13 @@ public class BridgeFollow implements Behavior {
 			if(sonic.getDistance() > Settings.BRIDGE_HEIGHT_THRESHOLD)
 			{
 				// Robot is near ground
-				if(steer > 0) steer = -15;
-				steer -= 1;
+				if(steer >= 0) steer = -5;
+				steer -= 2;
 				if(steer < -25) steer = -25;
 				
 			} else {
 				// Robot is minimal away from ground
-				if(steer < 0) steer = 15;
+				if(steer <= 0) steer = 15;
 				steer += 1;
 				
 				if(steer > 20) steer = 20;

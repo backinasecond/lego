@@ -21,8 +21,12 @@ public class BridgeBefore implements Behavior {
 		suppressed = false;
 		
 		CalibrateSonic.calibrateVertically();
+		
 		Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * 1.00);
         Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
+        
+		// Steer slightly right to correct line end behavior
+		Settings.PILOT.rotate(-12, false);
         
 		while(Settings.LIGHT_SENSOR.getNormalizedLightValue() < Settings.LIGHT_BRIDGE_DEFAULT && !suppressed)
 		{

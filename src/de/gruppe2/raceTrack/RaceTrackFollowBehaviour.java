@@ -59,7 +59,7 @@ public class RaceTrackFollowBehaviour implements Behavior {
 					Settings.PILOT.steer(-45, -30, true);
 				}
 			} else if (lastDistances[curDisIdx] >= 70) {
-				Settings.PILOT.steer(40, 90, true);
+				Settings.PILOT.steer(60, 90, true);
 //				while (Settings.PILOT.isMoving() && !suppressed)
 //					;
 			}

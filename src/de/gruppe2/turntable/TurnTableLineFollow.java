@@ -12,7 +12,7 @@ public class TurnTableLineFollow implements Behavior {
 	private boolean rotatedMoreThan50Degree = false;
 	private String directions = "";
 
-	private static boolean DEBUG = true;
+	private static boolean DEBUG = false;
 	private boolean symbolRecognized = false;
 	private boolean suppressed = false;
 
@@ -126,9 +126,8 @@ public class TurnTableLineFollow implements Behavior {
 					// Wait for some time and the drive straight forward until 
 					// touch sensor is pressed
 					if(System.currentTimeMillis() - startTime > 7000) {
-						if (DEBUG) {
-							System.out.println("wait for pressed");
-						}
+						System.out.println("Follow 7 seconds");
+						
 						finished = true;
 					}
 				}
