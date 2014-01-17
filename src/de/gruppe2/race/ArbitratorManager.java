@@ -108,7 +108,7 @@ public class ArbitratorManager {
 	 */
 	private final static ShootingRangeHandler SHOOTING_RANGE_HANDLER = new ShootingRangeHandler();
 	private final static ShootingRangeLineFollow SHOOTING_RANGE_LINE = new ShootingRangeLineFollow(null);
-	private final static ShootingRangeLineFollow SHOOTING_RANGE_LINE_2 = new ShootingRangeLineFollow(null);
+	private final static ShootingRangeLineFollow SHOOTING_RANGE_LINE_2 = new ShootingRangeLineFollow(RobotState.BARCODE);
 	private final static FindLineBehavior SHOOTING_RANGE_FIND_LINE = new FindLineBehavior();
 	private final static FindLineBehavior SHOOTING_RANGE_FIND_LINE_2 = new FindLineBehavior();
 	private final static Behavior[] SHOOTING_RANGE_BEHAVIORS = {SHOOTING_RANGE_LINE_2, SHOOTING_RANGE_FIND_LINE_2, SHOOTING_RANGE_HANDLER, SHOOTING_RANGE_LINE, SHOOTING_RANGE_FIND_LINE};

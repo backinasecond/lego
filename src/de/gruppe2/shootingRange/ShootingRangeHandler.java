@@ -11,6 +11,7 @@ public class ShootingRangeHandler implements Behavior, ShootingRangeListener {
 	private boolean connected = false;
 	private boolean success = false;
 	private boolean alreadyShot = false;
+	private int angle;
 
 	public ShootingRangeHandler() {
 		this.src = new ShootingRangeControl(this); 
@@ -27,12 +28,12 @@ public class ShootingRangeHandler implements Behavior, ShootingRangeListener {
 
 		orientate();
 
-		System.out.println("TRY TO CONNECT");
 		while (!connected) {
+			System.out.println("TRY TO CONNECT");
 			connected = src.connect();
+			System.out.println(connected);
 		}
 
-		System.out.println(connected);
 		
 		if (connected && !alreadyShot) {
 			alreadyShot = true;
@@ -43,11 +44,16 @@ public class ShootingRangeHandler implements Behavior, ShootingRangeListener {
 	private void shoot() {
 		int dis = Settings.SONIC_SENSOR.getDistance();
 		System.out.println(dis);
-		if (dis  > 50) {
-			src.shoot(90);
+		if (dis > 70) {
+			angle=100;
+		} else if (dis  > 60) {
+			angle=95;
+		} else if (dis > 50){
+			angle=85;
 		} else {
-			src.shoot(60);
+			angle=75;
 		}
+		src.shoot(angle);
 	}
 
 	private void orientate() {
@@ -61,7 +67,7 @@ public class ShootingRangeHandler implements Behavior, ShootingRangeListener {
 					break;
 				}
 			}
-			Settings.PILOT.rotate(-90, false);
+			Settings.PILOT.rotate(-100, false);
 		}
 	}
 	
@@ -74,7 +80,7 @@ public class ShootingRangeHandler implements Behavior, ShootingRangeListener {
 	public void shootSuccess() {
 		success = true;
 		System.out.println("SHOOT SUCCESS");
-		Settings.PILOT.rotate(180);
+		Settings.PILOT.rotate(210);
 		Settings.PILOT.travel(100);
 		src.disconnect();
 	}
@@ -82,6 +88,7 @@ public class ShootingRangeHandler implements Behavior, ShootingRangeListener {
 	@Override
 	public void shootFail() {
 		System.out.println("SHOOT FAIL");
+		angle+=10;
 		shoot();
 	}
 
@@ -93,6 +100,7 @@ public class ShootingRangeHandler implements Behavior, ShootingRangeListener {
 	@Override
 	public void error(String message) {
 		System.out.println("FUCK");
+		src.disconnect();
 	}
 	
 	public void reset() {
