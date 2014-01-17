@@ -12,6 +12,7 @@ import de.gruppe2.bridgeFollow.BridgeBefore;
 import de.gruppe2.bridgeFollow.BridgeBeforeElevator;
 import de.gruppe2.bridgeFollow.BridgeFollow;
 import de.gruppe2.bridgeFollow.BridgeStart;
+import de.gruppe2.endopponent.EndOpponent;
 import de.gruppe2.lineFollow.LineFollow;
 import de.gruppe2.maze.MazeLightDetectionBehaviour;
 import de.gruppe2.maze.MazeWallFollowBehaviour;
@@ -29,7 +30,6 @@ import de.gruppe2.turntable.WallHitBehaviour;
 import de.gruppe2.util.CalibrateSonic;
 import de.gruppe2.util.FindLineBehavior;
 import de.gruppe2.util.SteerForward;
-import endopponent.EndOpponent;
 
 /**
  * This class manages the different arbitrators for all the different levels.

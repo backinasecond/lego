@@ -1,4 +1,4 @@
-package endopponent;
+package de.gruppe2.endopponent;
 
 import de.gruppe2.RobotState;
 import de.gruppe2.Settings;
