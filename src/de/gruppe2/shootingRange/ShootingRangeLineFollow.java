@@ -71,7 +71,6 @@ public class ShootingRangeLineFollow implements Behavior {
 		float turn;
 
 		while (!suppressed && !lineLeft) {
-			loopHook();
 
 			// Get difference between wanted light value and current light value.
 			// If error is positive, the robot is on the line and should steer right to get back to the edge.
@@ -169,7 +168,7 @@ public class ShootingRangeLineFollow implements Behavior {
 
 	protected boolean testLineEnd() {
 		if (isRotatingLeft && lightSensor.getNormalizedLightValue() < 450) {
-			if (!isRotatingRight && Settings.PILOT.getAngleIncrement() > 150) {
+			if (!isRotatingRight && Settings.PILOT.getAngleIncrement() > 140) {
 				if (DEBUG) {
 					System.out.println("1");
 				}
@@ -181,10 +180,6 @@ public class ShootingRangeLineFollow implements Behavior {
 		} else {
 			return false;
 		}
-	}
-
-	protected void loopHook() {
-
 	}
 	
 	public void reset() {

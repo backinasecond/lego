@@ -12,6 +12,7 @@ public class ShootingRangeHandler implements Behavior, ShootingRangeListener {
 	private boolean success = false;
 	private boolean alreadyShot = false;
 	private int angle;
+	private int dis;
 
 	public ShootingRangeHandler() {
 		this.src = new ShootingRangeControl(this); 
@@ -37,21 +38,27 @@ public class ShootingRangeHandler implements Behavior, ShootingRangeListener {
 		
 		if (connected && !alreadyShot) {
 			alreadyShot = true;
+			int tmp = 0;
+			for (int i = 0; i < 5; i++) {
+				tmp += Settings.SONIC_SENSOR.getDistance();
+			}
+			dis = tmp / 5;
 			shoot();
 		}
 	}
 	
 	private void shoot() {
-		int dis = Settings.SONIC_SENSOR.getDistance();
 		System.out.println(dis);
-		if (dis > 70) {
-			angle=100;
-		} else if (dis  > 60) {
+		if (dis > 60) {
+			angle=110;
+		} else if (dis  > 50) {
+			angle=105;
+		} else if (dis > 40){
 			angle=95;
-		} else if (dis > 50){
-			angle=85;
+		} else if (dis > 30) {
+			angle=90;
 		} else {
-			angle=75;
+			angle=80;
 		}
 		src.shoot(angle);
 	}
@@ -67,7 +74,7 @@ public class ShootingRangeHandler implements Behavior, ShootingRangeListener {
 					break;
 				}
 			}
-			Settings.PILOT.rotate(-100, false);
+			Settings.PILOT.rotate(-110, false);
 		}
 	}
 	
@@ -80,7 +87,7 @@ public class ShootingRangeHandler implements Behavior, ShootingRangeListener {
 	public void shootSuccess() {
 		success = true;
 		System.out.println("SHOOT SUCCESS");
-		Settings.PILOT.rotate(210);
+		Settings.PILOT.rotate(195);
 		Settings.PILOT.travel(100);
 		src.disconnect();
 	}
