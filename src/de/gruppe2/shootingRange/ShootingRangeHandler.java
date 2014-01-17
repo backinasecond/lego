@@ -2,6 +2,7 @@ package de.gruppe2.shootingRange;
 
 import lejos.robotics.subsumption.Behavior;
 import de.gruppe2.Settings;
+import de.gruppe2.util.CalibrateSonic;
 
 public class ShootingRangeHandler implements Behavior, ShootingRangeListener {
 
@@ -13,11 +14,12 @@ public class ShootingRangeHandler implements Behavior, ShootingRangeListener {
 	private boolean alreadyShot = false;
 	private int angle;
 	private int dis;
+	private int shot = 0;
 
 	public ShootingRangeHandler() {
-		this.src = new ShootingRangeControl(this); 
+		this.src = new ShootingRangeControl(this);
 	}
-	
+
 	@Override
 	public boolean takeControl() {
 		return !success;
@@ -35,7 +37,6 @@ public class ShootingRangeHandler implements Behavior, ShootingRangeListener {
 			System.out.println(connected);
 		}
 
-		
 		if (connected && !alreadyShot) {
 			alreadyShot = true;
 			int tmp = 0;
@@ -46,19 +47,21 @@ public class ShootingRangeHandler implements Behavior, ShootingRangeListener {
 			shoot();
 		}
 	}
-	
+
 	private void shoot() {
 		System.out.println(dis);
 		if (dis > 60) {
-			angle=110;
-		} else if (dis  > 50) {
-			angle=105;
-		} else if (dis > 40){
-			angle=100;
+			angle = 125;
+		} else if (dis > 50) {
+			angle = 105;
+		} else if (dis > 40) {
+			angle = 95;
+		} else if (dis > 35) {
+			angle = 90;
 		} else if (dis > 30) {
-			angle=90;
+			angle = 85;
 		} else {
-			angle=80;
+			angle = 80;
 		}
 		src.shoot(angle);
 	}
@@ -75,9 +78,10 @@ public class ShootingRangeHandler implements Behavior, ShootingRangeListener {
 				}
 			}
 			Settings.PILOT.rotate(-90, false);
+			Settings.PILOT.travel(-110, false);
 		}
 	}
-	
+
 	@Override
 	public void suppress() {
 		suppressed = true;
@@ -87,16 +91,22 @@ public class ShootingRangeHandler implements Behavior, ShootingRangeListener {
 	public void shootSuccess() {
 		success = true;
 		System.out.println("SHOOT SUCCESS");
-		Settings.PILOT.rotate(195);
-		Settings.PILOT.travel(100);
+		getOut();
 		src.disconnect();
 	}
 
 	@Override
 	public void shootFail() {
 		System.out.println("SHOOT FAIL");
-		angle+=10;
-		shoot();
+		shot++;
+		if (shot == 2) {
+			success = true;
+			getOut();
+			src.disconnect();
+		} else {
+			angle += 15;
+			src.shoot(angle);
+		}
 	}
 
 	@Override
@@ -109,11 +119,18 @@ public class ShootingRangeHandler implements Behavior, ShootingRangeListener {
 		System.out.println("FUCK");
 		src.disconnect();
 	}
-	
+
 	public void reset() {
 		connected = false;
 		orientationLineFound = false;
 		success = false;
 		alreadyShot = false;
+		shot = 0;
+	}
+
+	private void getOut() {
+		CalibrateSonic.calibrateVertically();
+		Settings.PILOT.rotate(200);
+		Settings.PILOT.travel(100);
 	}
 }

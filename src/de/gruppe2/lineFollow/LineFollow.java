@@ -19,11 +19,11 @@ public class LineFollow implements Behavior {
 	private static int PROPORTIONAL_RANGE = COLOR_THRESHOLD - 50;
 
 	// The speed of both motors, if the turn value is 0
-	private static int TARGET_POWER = 520; // (TP)
+	private static int TARGET_POWER = 320; // (TP)
 
 	// Multiply this slope with the error and you get a value ranging from -1 to
 	// 1
-	private static float SLOPE = 2.0f / (2.0f * COLOR_THRESHOLD) * 3f;
+	private static float SLOPE = 2.0f / (2.0f * COLOR_THRESHOLD);
 
 	// Multiply this value with the error and you get a value ranging from
 	// -TARGET_POWER to TARGET_POWER
