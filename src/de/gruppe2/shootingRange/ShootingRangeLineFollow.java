@@ -173,7 +173,7 @@ public class ShootingRangeLineFollow implements Behavior {
 					System.out.println("1");
 				}
 
-				Settings.PILOT.rotate(-150, true);
+				Settings.PILOT.rotate(-100, false);
 				reachedEndOfLine();
 			}
 			return true;

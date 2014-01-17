@@ -54,7 +54,7 @@ public class ShootingRangeHandler implements Behavior, ShootingRangeListener {
 		} else if (dis  > 50) {
 			angle=105;
 		} else if (dis > 40){
-			angle=95;
+			angle=100;
 		} else if (dis > 30) {
 			angle=90;
 		} else {
@@ -74,7 +74,7 @@ public class ShootingRangeHandler implements Behavior, ShootingRangeListener {
 					break;
 				}
 			}
-			Settings.PILOT.rotate(-110, false);
+			Settings.PILOT.rotate(-90, false);
 		}
 	}
 	
