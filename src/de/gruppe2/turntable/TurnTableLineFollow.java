@@ -54,10 +54,11 @@ public class TurnTableLineFollow implements Behavior {
 		long startTime = 0;
 		finished = false;
 
+		Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed() * Settings.TAPE_FOLLOW_SPEED);
 		Settings.PILOT.setRotateSpeed(Settings.PILOT.getRotateMaxSpeed() * Settings.TAPE_ROTATE_SPEED);
-		Settings.PILOT.setTravelSpeed(Settings.PILOT.getRotateMaxSpeed() * 0.8);
 		
 		while (!suppressed && !finished) {
+			System.out.println("turntableline");
 			// Get difference between wanted light value and current light
 			// value.
 			// If error is positive, the robot is on the line and should steer

@@ -93,7 +93,7 @@ public class SymbolFollow implements Behavior {
 						}
 	
 						// No line found. Adjusting robot
-						Settings.PILOT.rotate(240);
+						Settings.PILOT.rotate(175);
 						
 						// End of symbol recognized
 						symbolRecognized = true;

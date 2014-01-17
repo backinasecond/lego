@@ -184,7 +184,7 @@ public class LineFollow implements Behavior {
 				}
 
 				// No line found. Adjusting robot
-				Settings.PILOT.rotate(120);
+				Settings.PILOT.rotate(128);
 				reachedEndOfLine();
 			}
 
