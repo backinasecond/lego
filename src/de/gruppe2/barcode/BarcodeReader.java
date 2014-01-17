@@ -111,8 +111,11 @@ public class BarcodeReader implements Behavior {
 		case 8: 
 			Settings.CURRENT_LEVEL = RobotState.SHOOTING_RANGE;
 			break;
+		case 9:
+			Settings.CURRENT_LEVEL = RobotState.END_OPPONENT;
+			break;
 		default:
-			System.out.println("No known code read!");
+			System.out.println("No known barcode read!");
 			switchState = false;
 			break;
 		}

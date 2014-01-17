@@ -16,6 +16,6 @@ public enum RobotState {
 	TURNTABLE,
 	SHOOTING_RANGE,
 	TEST,
-	//END_OPPONENT,
+	END_OPPONENT,
 	END
 };

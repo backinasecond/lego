@@ -27,6 +27,7 @@ import de.gruppe2.turntable.WallHitBehaviour;
 import de.gruppe2.util.CalibrateSonic;
 import de.gruppe2.util.FindLineBehavior;
 import de.gruppe2.util.SteerForward;
+import endopponent.EndOpponent;
 
 /**
  * This class manages the different arbitrators for all the different levels.
@@ -102,38 +103,12 @@ public class ArbitratorManager {
 
 
 	/**
-	 * Bluetooth Gate behavior.
-	 */
-	/*
-	 * private Behavior bt1 = new LabyrinthGate();
-	 * private Behavior bt2 = new ReadCodes();
-	 * private Behavior bt3 = new SensorHeadPosition();
-	 * private Behavior[] btgateBehavior = { bt1, bt2, bt3 };
-	 */
-
-	/**
-	 * Turntable behavior.
-	 */
-	/*
-	 * private Behavior tt1 = new TapeFollow();
-	 * private Behavior tt2 = new TurntablePark();
-	 * private Behavior tt3 = new TurntableRotate();
-	 * private Behavior tt4 = new TurntableConnect();
-	 * private Behavior tt5 = new TurntableBegin();
-	 * private Behavior tt6 = new ReadCodes();
-	 * private Behavior tt7 = new SensorHeadPosition();
-	 * private Behavior[] turnTableArray = { tt1, tt2, tt3, tt4, tt5, tt6, tt7 };
-	 */
-
-
-	/**
 	 * End Opponent behavior.
 	 */
-	/*
-	 * private Behavior e1 = new RaceEnd();
-	 * private Behavior e2 = new SensorHeadPosition();
-	 * private Behavior[] endBehavior = { e1, e2 };
-	 */
+	 private final static Behavior END_OPPONENT_START = new EndOpponent();
+	 //private final static Behavior END_OPPONENT_MAZE = new Ma;
+	 private final static Behavior[] END_BEHAVIOURS = { END_OPPONENT_START };
+	 
 
 	/**
 	 * Instantiate an {@code ArbitratorManager}
@@ -215,6 +190,9 @@ public class ArbitratorManager {
 			
 			startThread = false;
 			changeState(RobotState.BARCODE);
+			break;
+		case END_OPPONENT:
+			arbitrator = new CustomArbitrator(END_BEHAVIOURS);
 			break;
 		case TEST:
 			arbitrator = new CustomArbitrator(TEST_BEHAVIOURS);
