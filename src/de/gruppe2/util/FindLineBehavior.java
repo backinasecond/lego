@@ -18,7 +18,9 @@ public class FindLineBehavior implements Behavior{
 		suppressed = false;
 		
 		Settings.PILOT.setTravelSpeed(120);
-		Settings.PILOT.forward();
+		
+		Settings.PILOT.steer(-20);
+		
 		while(!suppressed && Settings.PILOT.isMoving()) {
 			if (Math.abs(Settings.LIGHT_SENSOR.getNormalizedLightValue() - Settings.LIGHT_LINE_DEFAULT) < Settings.COLOR_DIFFERENCE_THRESHOLD) {
 				lineFound = true;

@@ -80,20 +80,27 @@ public class ArbitratorManager {
 	private final static Behavior[] LINE_BEHAVIOURS = { LINE_FOLLOW, LINE_FIND_LINE };
 	
 	/**
-	 * Symbol recognizer behavior.
+	 * Drive to symbol behavior
 	 */
-	private final static Behavior SYMBOL_RECOGNIZER = new SymbolFollow();
-	private final static Behavior SYMBOL_LINE_FOLLOW = new LineFollow(RobotState.TURNTABLE);
-	private final static FindLineBehavior SYMBOL_FIND_LINE = new FindLineBehavior();
-	private final static Behavior[] SYMBOL_BEHAVIOURS = { SYMBOL_LINE_FOLLOW, SYMBOL_RECOGNIZER, SYMBOL_FIND_LINE };
+	private final static Behavior TO_SYMBOL_FIND_LINE = new FindLineBehavior();
+	private final static Behavior TO_SYMBOL_LINE_FOLLOW = new LineFollow(RobotState.SYMBOL_RECOGNIZER);
+	private final static Behavior[] TO_SYMBOL_BEHAVIOURS = { TO_SYMBOL_LINE_FOLLOW, TO_SYMBOL_FIND_LINE };
+	
 	
 	/**
-	 * Test  behavior.
+	 * Symbol recognizer behavior.
 	 */
-	private final static Behavior TEST_LINE_FOLLOW = new TurnTableLineFollow();
-	private final static Behavior TEST_DRIVE_FORWARD = new DriveForward(320);
-	private final static Behavior TEST_WALL_HIT = new WallHitBehaviour();
-	private final static Behavior[] TEST_BEHAVIOURS = { TEST_DRIVE_FORWARD, TEST_LINE_FOLLOW, TEST_WALL_HIT};
+	private final static FindLineBehavior SYMBOL_FIND_LINE = new FindLineBehavior();
+	private final static Behavior SYMBOL_RECOGNIZER = new SymbolFollow();
+	private final static Behavior[] SYMBOL_BEHAVIOURS = { SYMBOL_RECOGNIZER, SYMBOL_FIND_LINE };
+	
+	/**
+	 * Drive to turntable  behavior.
+	 */
+	private final static Behavior TO_TURNTABLE_LINE_FOLLOW = new TurnTableLineFollow();
+	private final static FindLineBehavior TO_TURNTABLE_FIND_LINE = new FindLineBehavior();
+	private final static Behavior TO_TURNTABLE_WALL_HIT = new WallHitBehaviour();
+	private final static Behavior[] TO_TURNTABLE_BEHAVIOURS = { TO_TURNTABLE_LINE_FOLLOW, TO_TURNTABLE_FIND_LINE, TO_TURNTABLE_WALL_HIT};
 	
 	/**
 	 * Turntable  behavior.
@@ -176,10 +183,16 @@ public class ArbitratorManager {
 	        Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
 			arbitrator = new CustomArbitrator(MAZE_BEHAVIOURS);
 			break;
+		case TO_SYMBOL:
+			arbitrator = new CustomArbitrator(TO_SYMBOL_BEHAVIOURS);
+			break;
 		case SYMBOL_RECOGNIZER:
 			SYMBOL_FIND_LINE.reset();
 			Settings.PILOT.setRotateSpeed(Settings.PILOT.getRotateMaxSpeed() * Settings.TAPE_ROTATE_SPEED);
 			arbitrator = new CustomArbitrator(SYMBOL_BEHAVIOURS);
+			break;
+		case TO_TURNTABLE:
+			arbitrator = new CustomArbitrator(TO_TURNTABLE_BEHAVIOURS);
 			break;
 		case TURNTABLE:
 			arbitrator = new CustomArbitrator(TURNTABLE_BEHAVIOURS);
@@ -202,9 +215,6 @@ public class ArbitratorManager {
 			
 			startThread = false;
 			changeState(RobotState.BARCODE);
-			break;
-		case TEST:
-			arbitrator = new CustomArbitrator(TEST_BEHAVIOURS);
 			break;
 		default:
 			System.out.println("No valid arbitrator selected!");
