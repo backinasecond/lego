@@ -30,6 +30,9 @@ public class EndOpponent implements Behavior {
 			Thread.yield();
 		}
 		
+		Settings.PILOT.rotate(-90);
+		
+		
 		Settings.ARBITRATOR_MANAGER.changeState(RobotState.MAZE);		
 	}
 

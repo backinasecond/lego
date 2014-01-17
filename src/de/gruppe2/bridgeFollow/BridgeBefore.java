@@ -26,7 +26,7 @@ public class BridgeBefore implements Behavior {
         Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
         
 		// Steer slightly right to correct line end behavior
-		Settings.PILOT.rotate(-12, false);
+		Settings.PILOT.rotate(-14, false);
         
 		while(Settings.LIGHT_SENSOR.getNormalizedLightValue() < Settings.LIGHT_BRIDGE_DEFAULT && !suppressed)
 		{
