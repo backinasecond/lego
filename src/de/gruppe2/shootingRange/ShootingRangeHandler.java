@@ -130,7 +130,7 @@ public class ShootingRangeHandler implements Behavior, ShootingRangeListener {
 
 	private void getOut() {
 		CalibrateSonic.calibrateVertically();
-		Settings.PILOT.rotate(200);
+		Settings.PILOT.rotate(205);
 		Settings.PILOT.travel(100);
 	}
 }
