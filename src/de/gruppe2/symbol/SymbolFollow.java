@@ -21,7 +21,7 @@ public class SymbolFollow implements Behavior {
 	private boolean rotatedMoreThan50Degree = false;
 	private String directions = "";
 
-	private static boolean DEBUG = true;
+	private static boolean DEBUG = false;
 	private boolean symbolRecognized = false;
 	private boolean suppressed = false;
 
@@ -81,7 +81,7 @@ public class SymbolFollow implements Behavior {
 						Settings.PILOT.rotate(-420, true);
 						isRotatingRight = true;
 						rotatedMoreThan50Degree = false;
-					} else if(angleIncrement > 80) {
+					} else if(angleIncrement > 60) {
 						rotatedMoreThan50Degree = true;
 					} 
 				}
@@ -93,7 +93,7 @@ public class SymbolFollow implements Behavior {
 						}
 	
 						// No line found. Adjusting robot
-						Settings.PILOT.rotate(130);
+						Settings.PILOT.rotate(120);
 						
 						// End of symbol recognized
 						symbolRecognized = true;
@@ -132,7 +132,7 @@ public class SymbolFollow implements Behavior {
 			else {
 				if (DEBUG) {
 					//System.out.println("5");
-					System.out.println("5 " + lightSensor.getNormalizedLightValue());
+					//System.out.println("5 " + lightSensor.getNormalizedLightValue());
 				}
 				
 				if(isRotatingRight && rotatedMoreThan50Degree) {
@@ -191,7 +191,7 @@ public class SymbolFollow implements Behavior {
 				}
 				
 				// Change to line follower if symbol was recognized
-				Settings.ARBITRATOR_MANAGER.changeState(RobotState.TURNTABLE);
+				Settings.ARBITRATOR_MANAGER.changeState(RobotState.TO_TURNTABLE);
 			}
 		}
 	}

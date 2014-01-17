@@ -20,6 +20,8 @@ import de.gruppe2.raceTrack.RaceTrackEnd;
 import de.gruppe2.raceTrack.RaceTrackEndLine;
 import de.gruppe2.raceTrack.RaceTrackFollowBehaviour;
 import de.gruppe2.raceTrack.RaceTrackHitBehaviour;
+import de.gruppe2.shootingRange.ShootingRangeHandler;
+import de.gruppe2.shootingRange.ShootingRangeLineFollow;
 import de.gruppe2.symbol.SymbolFollow;
 import de.gruppe2.turntable.TurnTableLineFollow;
 import de.gruppe2.turntable.TurnTurntableBehaviour;
@@ -79,20 +81,27 @@ public class ArbitratorManager {
 	private final static Behavior[] LINE_BEHAVIOURS = { LINE_FOLLOW, LINE_FIND_LINE };
 	
 	/**
-	 * Symbol recognizer behavior.
+	 * Drive to symbol behavior
 	 */
-	private final static Behavior SYMBOL_RECOGNIZER = new SymbolFollow();
-	private final static Behavior SYMBOL_LINE_FOLLOW = new LineFollow(RobotState.TURNTABLE);
-	private final static FindLineBehavior SYMBOL_FIND_LINE = new FindLineBehavior();
-	private final static Behavior[] SYMBOL_BEHAVIOURS = { SYMBOL_LINE_FOLLOW, SYMBOL_RECOGNIZER, SYMBOL_FIND_LINE };
+	private final static Behavior TO_SYMBOL_FIND_LINE = new FindLineBehavior();
+	private final static Behavior TO_SYMBOL_LINE_FOLLOW = new LineFollow(RobotState.SYMBOL_RECOGNIZER);
+	private final static Behavior[] TO_SYMBOL_BEHAVIOURS = { TO_SYMBOL_LINE_FOLLOW, TO_SYMBOL_FIND_LINE };
+	
 	
 	/**
-	 * Test  behavior.
+	 * Symbol recognizer behavior.
 	 */
-	private final static Behavior TEST_LINE_FOLLOW = new TurnTableLineFollow();
-	private final static Behavior TEST_DRIVE_FORWARD = new DriveForward(320);
-	private final static Behavior TEST_WALL_HIT = new WallHitBehaviour();
-	private final static Behavior[] TEST_BEHAVIOURS = { TEST_DRIVE_FORWARD, TEST_LINE_FOLLOW, TEST_WALL_HIT};
+	private final static FindLineBehavior SYMBOL_FIND_LINE = new FindLineBehavior();
+	private final static Behavior SYMBOL_RECOGNIZER = new SymbolFollow();
+	private final static Behavior[] SYMBOL_BEHAVIOURS = { SYMBOL_RECOGNIZER, SYMBOL_FIND_LINE };
+	
+	/**
+	 * Drive to turntable  behavior.
+	 */
+	private final static Behavior TO_TURNTABLE_LINE_FOLLOW = new TurnTableLineFollow();
+	private final static FindLineBehavior TO_TURNTABLE_FIND_LINE = new FindLineBehavior();
+	private final static Behavior TO_TURNTABLE_WALL_HIT = new WallHitBehaviour();
+	private final static Behavior[] TO_TURNTABLE_BEHAVIOURS = { TO_TURNTABLE_LINE_FOLLOW, TO_TURNTABLE_FIND_LINE, TO_TURNTABLE_WALL_HIT};
 	
 	/**
 	 * Turntable  behavior.
@@ -101,14 +110,23 @@ public class ArbitratorManager {
     private final static Behavior TURNTABLE_TURN = new TurnTurntableBehaviour();
 	private final static Behavior[] TURNTABLE_BEHAVIOURS = { TURNTABLE_STEER_FORWARD, TURNTABLE_TURN};
 
-
 	/**
 	 * End Opponent behavior.
 	 */
 	 private final static Behavior END_OPPONENT_START = new EndOpponent();
-	 //private final static Behavior END_OPPONENT_MAZE = new Ma;
 	 private final static Behavior[] END_BEHAVIOURS = { END_OPPONENT_START };
-	 
+	
+	/**
+	 * ShootingRange Behavior.
+	 */
+	private final static ShootingRangeHandler SHOOTING_RANGE_HANDLER = new ShootingRangeHandler();
+	private final static ShootingRangeLineFollow SHOOTING_RANGE_LINE = new ShootingRangeLineFollow(null);
+	private final static ShootingRangeLineFollow SHOOTING_RANGE_LINE_2 = new ShootingRangeLineFollow(RobotState.BARCODE);
+	private final static FindLineBehavior SHOOTING_RANGE_FIND_LINE = new FindLineBehavior();
+	private final static FindLineBehavior SHOOTING_RANGE_FIND_LINE_2 = new FindLineBehavior();
+	private final static Behavior[] SHOOTING_RANGE_BEHAVIORS = {SHOOTING_RANGE_LINE_2, SHOOTING_RANGE_FIND_LINE_2, SHOOTING_RANGE_HANDLER, SHOOTING_RANGE_LINE, SHOOTING_RANGE_FIND_LINE};
+//	private final static Behavior[] SHOOTING_RANGE_BEHAVIORS = {SHOOTING_RANGE};
+	
 
 	/**
 	 * Instantiate an {@code ArbitratorManager}
@@ -171,15 +189,28 @@ public class ArbitratorManager {
 	        Settings.PILOT.setRotateSpeed(Settings.PILOT.getMaxRotateSpeed() / 5);
 			arbitrator = new CustomArbitrator(MAZE_BEHAVIOURS);
 			break;
+		case TO_SYMBOL:
+			arbitrator = new CustomArbitrator(TO_SYMBOL_BEHAVIOURS);
+			break;
 		case SYMBOL_RECOGNIZER:
 			SYMBOL_FIND_LINE.reset();
 			Settings.PILOT.setRotateSpeed(Settings.PILOT.getRotateMaxSpeed() * Settings.TAPE_ROTATE_SPEED);
 			arbitrator = new CustomArbitrator(SYMBOL_BEHAVIOURS);
 			break;
+		case TO_TURNTABLE:
+			arbitrator = new CustomArbitrator(TO_TURNTABLE_BEHAVIOURS);
+			break;
 		case TURNTABLE:
 			arbitrator = new CustomArbitrator(TURNTABLE_BEHAVIOURS);
 			break;
 		case SHOOTING_RANGE:
+			SHOOTING_RANGE_FIND_LINE.reset();
+			SHOOTING_RANGE_FIND_LINE_2.reset();
+			SHOOTING_RANGE_LINE.reset();
+			SHOOTING_RANGE_LINE_2.reset();
+			SHOOTING_RANGE_HANDLER.reset();
+			CalibrateSonic.calibrateHorizontally();
+			arbitrator = new CustomArbitrator(SHOOTING_RANGE_BEHAVIORS);
 			break;
 		case RELOCATE:
 			Motor.A.removeListener();
@@ -194,45 +225,6 @@ public class ArbitratorManager {
 		case END_OPPONENT:
 			arbitrator = new CustomArbitrator(END_BEHAVIOURS);
 			break;
-		case TEST:
-			arbitrator = new CustomArbitrator(TEST_BEHAVIOURS);
-			break;
-			
-/*
-		case BT_GATE:
-			pilot.setTravelSpeed(pilot.getMaxTravelSpeed() / 2);
-			pilot.setRotateSpeed(pilot.getMaxRotateSpeed() / 4);
-			Motor.A.setSpeed(Motor.A.getMaxSpeed() / 5);
-			Settings.motorAAngle = Settings.SENSOR_FRONT;
-
-			this.arbitrator = new CustomArbitrator(this.btgateBehavior);
-			break;
-		case TURNTABLE:
-			Settings.bluetooth = false;
-			Settings.readState = false;
-			Settings.motorAAngle = Settings.SENSOR_FRONT;
-
-			this.arbitrator = new CustomArbitrator(this.turnTableArray);
-			break;
-		case LINE_OBSTACLE:
-			double speed = pilot.getMaxTravelSpeed() * Settings.tapeFollowSpeed;
-			pilot.setTravelSpeed(speed);
-			pilot.setRotateSpeed(pilot.getRotateMaxSpeed());
-			Settings.motorAAngle = Settings.SENSOR_FRONT;
-
-			pilot.rotate(-30);
-			pilot.travel(30, false);
-
-			this.arbitrator = new CustomArbitrator(this.tapeBehavior);
-			break;
-		case END_OPPONENT:
-			Settings.PILOT.setTravelSpeed(Settings.PILOT.getMaxTravelSpeed());
-			pilot.setRotateSpeed(pilot.getMaxRotateSpeed() / 4);
-			Motor.A.setSpeed(Motor.A.getMaxSpeed() / 5);
-			Settings.motorAAngle = Settings.SENSOR_FRONT;
-			this.arbitrator = new CustomArbitrator(this.endBehavior);
-			break;
-			*/
 		default:
 			System.out.println("No valid arbitrator selected!");
 			break;

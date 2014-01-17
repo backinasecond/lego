@@ -25,9 +25,6 @@ public class TurnTurntableBehaviour implements Behavior {
 		TurnTableControl turnControl = new TurnTableControl();
 		while (!turnControl.connectToTurntable()) {}
 		
-		// TODO: DELETE NEXT LINE
-		Settings.detectedSymbol = Symbol.L;
-		
 		turnControl.sendSymbol(Settings.detectedSymbol);
 		
 		Settings.PILOT.travel(-100, false);
