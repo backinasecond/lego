@@ -174,20 +174,9 @@ public class ShootingRangeLineFollow implements Behavior {
 					System.out.println("1");
 				}
 
-				Settings.PILOT.rotate(-340, true);
-				isRotatingRight = true;
-			}
-			// Rotating right
-			else if (Settings.PILOT.getAngleIncrement() < -330) {
-				if (DEBUG) {
-					System.out.println("2");
-				}
-
-				// No line found. Adjusting robot
-				Settings.PILOT.rotate(120);
+				Settings.PILOT.rotate(-150, true);
 				reachedEndOfLine();
 			}
-
 			return true;
 		} else {
 			return false;
